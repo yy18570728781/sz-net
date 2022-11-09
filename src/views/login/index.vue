@@ -98,6 +98,7 @@ export default {
         // userCode: "13611111111",
         // password: "q12345678",
         prefix:'+60',
+        dassd:'+60',
       },
       loginRules: {
         userCode: [
