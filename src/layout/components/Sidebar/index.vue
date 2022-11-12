@@ -12,7 +12,7 @@
         :collapse-transition="false"
         mode="vertical"
       >
-      //这里一定要注意修改为 permission_routes
+      <!-- //这里一定要注意修改为 permission_routes -->
         <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
@@ -53,4 +53,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+/deep/.el-scrollbar{
+  height: 95% !important;
+}
+</style>
 

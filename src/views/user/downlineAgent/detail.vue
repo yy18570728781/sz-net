@@ -349,6 +349,7 @@ export default {
         this.PageSize=val
         // 注意：在改变每页显示的条数时，要将页码显示到第一页
         this.currentPage=1
+        this.getTemList()
     },
     //显示第几页
     handleCurrentChange(val) {
@@ -369,6 +370,7 @@ export default {
         this.PageSize1=val
         // 注意：在改变每页显示的条数时，要将页码显示到第一页
         this.currentPage1=1
+        this.getTemList1()
     },
     //显示第几页
     handleCurrentChange1(val) {
@@ -421,7 +423,7 @@ export default {
             this.count = { playerProfitBonus,turnoverBonus,profitBonus, turnover,winLose,wallet,playerProfit,profit}
             this.count.firstColumn = '总计' 
             this.getTemList()
-
+            this.totalCount = res.data.length
             this.listLoading = false;
           })
           .catch((err) => {
@@ -465,8 +467,9 @@ export default {
             turnover = Number(turnover).toFixed(2)
             this.count1 = { agentTurnoverBonus,turnoverBonus,agentProfitBonus, profitBonus,agentProfit,winLose,wallet,profit,turnover}
             this.count.firstColumn = '总计' 
+            
             this.getTemList1()
-
+            this.totalCount1 = res.data.length
             this.listLoading = false;
           })
           .catch((err) => {

@@ -41,7 +41,7 @@
 
     <el-table
       v-loading="listLoading"
-      :data="pointList"
+      :data="temList"
       element-loading-text="Loading"
       border
       fit
@@ -83,6 +83,16 @@
       >
       </el-table-column>
     </el-table>
+    <div class="page">
+      <el-pagination 
+        @size-change="handleSizeChange" 
+        @current-change="handleCurrentChange" 
+        :current-page="currentPage" 
+        :page-sizes="pageSizes" 
+        :page-size="PageSize" layout="total, sizes, prev, pager, next, jumper" 
+        :total="totalCount">
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
@@ -99,7 +109,21 @@ export default {
         fromDate: new Date(Date.now() - (24 * 60 * 60 * 1000 * 30)), //必填
         toDate: new Date(),//必填
       },
+      // 分页
+      // 总数据
       pointList: [],
+      // 展示数据
+      temList:[],
+      // 默认显示第几页
+      currentPage:1,
+      // 总条数，根据接口获取数据长度(注意：这里不能为空)
+      totalCount:1,
+      // 个数选择器（可修改）
+      pageSizes:[5,10,20,30],
+      // 默认每页显示的条数（可修改）
+      PageSize:10,
+
+      count:{},//总计
     };
   },
   created() {
@@ -109,6 +133,27 @@ export default {
   components: {},
   
   methods:{
+    //每页显示的条数
+    handleSizeChange(val) {
+        // 改变每页显示的条数 
+        this.PageSize=val
+        // 注意：在改变每页显示的条数时，要将页码显示到第一页
+        this.currentPage=1
+        this.getTemList()
+    },
+    //显示第几页
+    handleCurrentChange(val) {
+      console.log(val,'val');
+        //改变默认的页数
+        this.currentPage=val
+        this.getTemList()
+        console.log(this.currentPage,'this.curpage');
+    },
+    getTemList(){
+      this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+      this.temList.push(this.count)
+    },
+
     getList() {
       this.listLoading = true;
       const { userCode, userName, fromDate, toDate } = this.searchFrom;
@@ -116,6 +161,8 @@ export default {
           (res) => {
             console.log(res);
             this.pointList = res.data;
+            this.getTemList()
+            this.totalCount = res.data.length
             this.listLoading = false;
           }
         );

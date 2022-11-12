@@ -7,16 +7,19 @@
       <el-form-item label="名字:">
         <el-input v-model="userInfo.userName" disabled></el-input>
       </el-form-item>
-      <el-form-item label="邀请码:">
+      <!-- <el-form-item label="邀请码:">
         <el-input v-model="userInfo.inviteCode" disabled></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="信用额度:">
         <el-input v-model="userInfo.creditLimit" disabled></el-input>
       </el-form-item>
-      <el-form-item label="流水佣金 %:">
+      <el-form-item label="球网流水提成 %">
+        <el-input v-model="userInfo.turnoverRebateFb" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="流水提成 %:">
         <el-input v-model="userInfo.turnoverRebate" disabled></el-input>
       </el-form-item>
-      <el-form-item label="盈利佣金 %:">
+      <el-form-item label="利润提成 %:">
         <el-input v-model="userInfo.profitRebate" disabled></el-input>
       </el-form-item>
       <el-form-item label="类别:">

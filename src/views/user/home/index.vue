@@ -41,8 +41,8 @@
         prop="downlineCategory"
       >
         <template slot-scope="scope">
-          <span v-if="scope.row.gnuserId">{{scope.row.downlineCategory}}</span>
-          <span v-else >总计</span>
+          <span v-if="scope.row.downlineCategory">{{scope.row.downlineCategory}}</span>
+          <span v-else style="font-size: 20px;font-weight: bold;">总计</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -73,6 +73,12 @@
       >
       </el-table-column>
       <el-table-column
+        label="转积分"
+        align="center"
+        prop="transfer"
+      >
+      </el-table-column>
+      <el-table-column
         label="输赢"
         align="center"
         prop="winLose"
@@ -87,7 +93,7 @@
       </el-table-column>
       
     </el-table>
-    <div class="page">
+    <!-- <div class="page">
       <el-pagination 
         @size-change="handleSizeChange" 
         @current-change="handleCurrentChange" 
@@ -96,7 +102,7 @@
         :page-size="PageSize" layout="total, sizes, prev, pager, next, jumper" 
         :total="totalCount">
       </el-pagination>
-    </div>
+    </div> -->
     <!-- 总结明细 -->
     <!-- <Detail ref="detail" @changeDetDialog="changeDetDialog" :DetDialog="DetDialog"  :fromDate="searchFrom.fromDate" :toDate="searchFrom.toDate" :DetailFrom="DetailFrom"></Detail> -->
   </div>
@@ -173,6 +179,7 @@ export default {
         this.PageSize=val
         // 注意：在改变每页显示的条数时，要将页码显示到第一页
         this.currentPage=1
+        this.getTemList()
     },
     //显示第几页
     handleCurrentChange(val) {
@@ -206,6 +213,7 @@ export default {
             let downlineBobus = 0;
             let bonus = 0;
             let wallet = 0;
+            let transfer = 0;
             let winLose = 0;
             let profit = 0;
             this.pointList.forEach(item=>{
@@ -213,6 +221,7 @@ export default {
               downlineBobus += Number(item.downlineBobus)
               bonus += Number(item.bonus)
               wallet += Number(item.wallet)
+              transfer += Number(item.transfer)
               winLose += Number(item.winLose)
               profit += Number(item.profit)
             })
@@ -220,9 +229,10 @@ export default {
             downlineBobus = Number(downlineBobus).toFixed(2)
             bonus = Number(bonus).toFixed(2)
             wallet = Number(wallet).toFixed(2)
+            transfer = Number(transfer).toFixed(2)
             winLose = Number(winLose).toFixed(2)
             profit = Number(profit).toFixed(2)
-            this.count = { turnover,downlineBobus,bonus,wallet,winLose,profit}
+            this.count = { turnover,downlineBobus,bonus,wallet,transfer,winLose,profit}
             this.count.firstColumn = '总计' 
             this.getTemList()
 
@@ -253,6 +263,7 @@ export default {
   }
   .el-input__inner{
     width: 250px !important;
+    
   }
 }
 </style>

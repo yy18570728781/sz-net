@@ -205,22 +205,6 @@ export default {
   },
   methods: {
 
-    //每页显示的条数
-    handleSizeChange(val) {
-        // 改变每页显示的条数 
-        this.PageSize=val
-        // 注意：在改变每页显示的条数时，要将页码显示到第一页
-        this.currentPage=1
-    },
-    //显示第几页
-    handleCurrentChange(val) {
-      console.log(val,'val');
-        //改变默认的页数
-        this.currentPage=val
-        this.getTemList()
-        console.log(this.currentPage,'this.curpage');
-    },
-
     changeShow(row){
       console.log(row);
       this.gametxnId = row.gametxnId
@@ -230,10 +214,29 @@ export default {
     changeDetDialog(val){
       this.DetDialog = val
     },
+
+    //每页显示的条数
+    handleSizeChange(val) {
+        // 改变每页显示的条数 
+        this.PageSize=val
+        // 注意：在改变每页显示的条数时，要将页码显示到第一页
+        this.currentPage=1
+        this.getTemList()
+        console.log(val,'条数');
+    },
+    //显示第几页
+    handleCurrentChange(val) {
+      console.log(val,'val');
+        //改变默认的页数
+        this.currentPage=val
+        this.getTemList()
+        console.log(this.currentPage,'this.curpage');
+    },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
       this.temList.push(this.count)
     },
+    
     getList() {
       let index1 = this.searchFrom.showDate.indexOf(" - ")
       this.searchFrom.fromDate = this.searchFrom.showDate.substring(0,index1);

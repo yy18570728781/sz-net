@@ -190,7 +190,7 @@ export const asyncRoutes = [
       name: 'home',
       component: () => import('@/views/user/home/index'),
       meta: {
-        title: '主页',
+        title: '总结 Profit',
         icon: 'home',
         roles: ["user"]
       }
@@ -253,20 +253,20 @@ export const asyncRoutes = [
       }
     }]
   },
-  {
-    path: '/user/editDownline',
-    component: Layout,
-    children: [{
-      path: 'index',
-      name: 'editDownline',
-      component: () => import('@/views/user/editDownline/index'),
-      meta: {
-        title: '编辑下线信息',
-        icon: 'edit',
-        roles: ["user"]
-      }
-    }]
-  },
+  // {
+  //   path: '/user/editDownline',
+  //   component: Layout,
+  //   children: [{
+  //     path: 'index',
+  //     name: 'editDownline',
+  //     component: () => import('@/views/user/editDownline/index'),
+  //     meta: {
+  //       title: '编辑下线信息',
+  //       icon: 'edit',
+  //       roles: ["user"]
+  //     }
+  //   }]
+  // },
   {
     path: '/user/downlineAgent',
     component: Layout,
