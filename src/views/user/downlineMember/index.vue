@@ -32,7 +32,7 @@
       > 
         <template slot-scope="scope">
           <el-button v-if="scope.row.gnuserId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
-          <span v-else >总计</span>
+          <span v-else style="font-size:20px;font-weight: bold;">总计</span>
         </template>
         
        </el-table-column>
@@ -208,7 +208,11 @@ export default {
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.push(this.count)
+      
+      this.$nextTick(()=>{
+         this.temList.unshift(this.count)
+      })
+      console.log(this.temList);
     },
 
     getList() {

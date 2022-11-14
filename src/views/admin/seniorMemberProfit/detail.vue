@@ -361,7 +361,7 @@ export default {
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.push(this.count)
+      this.temList.unshift(this.count)
     },
   // --------------------------------------------------
     //每页显示的条数
@@ -382,7 +382,7 @@ export default {
     },
     getTemList1(){
       this.temList1 =  this.agencypList.slice((this.currentPage1-1)*this.PageSize1,this.currentPage1*this.PageSize1)
-      this.temList1.push(this.count1)
+      this.temList1.unshift(this.count1)
     },
 
     getList(gnuserId,fromDate,toDate) {

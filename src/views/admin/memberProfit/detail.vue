@@ -191,7 +191,7 @@ export default {
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.push(this.count)
+      this.temList.unshift(this.count)
     },
 
     getList(gnuserId,fromDate,toDate) {
