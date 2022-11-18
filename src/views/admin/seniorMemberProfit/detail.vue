@@ -27,7 +27,7 @@
 
           <template slot-scope="scope">
             <span v-if="scope.row.userCode">{{scope.row.userCode}} </span>
-            <span v-else style="fpnt-size:20px">总计</span>
+            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
           </template>
 
         </el-table-column>
@@ -143,7 +143,7 @@
       >
         <template slot-scope="scope">
           <span v-if="scope.row.userCode">{{scope.row.userCode}} </span>
-          <span v-else style="fpnt-size:20px">总计</span>
+          <span v-else style="font-size:20px;font-weight: bold;">总计</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -393,7 +393,7 @@ export default {
           .then((res) => {
             console.log(res,'会员总结');
             this.memberList = res.data;
-
+            this.totalCount = res.data.length;
             let playerProfitBonus = 0;
             let turnoverBonus = 0;
             let profitBonus = 0;
@@ -435,7 +435,7 @@ export default {
           .then((res) => {
             console.log(res,'代理总结');
             this.agencypList = res.data;
-
+            this.totalCount1 = res.data.length;
             let agentTurnoverBonus = 0;
             let turnoverBonus = 0;
             let agentProfitBonus = 0;

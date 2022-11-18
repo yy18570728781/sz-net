@@ -3,7 +3,7 @@
     <div class="flex-box">
 
       <div class="item">
-        <el-select class="select" v-model="searchFrom.showDate" placeholder="Please select time" @change="getList">
+        <el-select class="select" v-model="searchFrom.showDate" placeholder="Please select time" @change="selectChange">
           <el-option
             v-for="item in dataList"
             :key="item.showDate"
@@ -12,12 +12,25 @@
           />
         </el-select>
       </div>
-      
+       <div class="item">
+        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+      </div>
     </div>
 
     <el-table
       v-loading="listLoading"
-      :data="temList"
+      :data="temList.filter(
+        (data) =>
+          !search ||
+          data.userCode.toLowerCase().includes(search.toLowerCase()) ||
+          data.userName.toLowerCase().includes(search.toLowerCase()) ||
+          data.turnover.toLowerCase().includes(search.toLowerCase()) ||
+          data.agentTurnoverBonus.toLowerCase().includes(search.toLowerCase()) ||
+          data.agentProfitBonus.toLowerCase().includes(search.toLowerCase()) ||
+          data.wallet.toLowerCase().includes(search.toLowerCase()) ||
+          data.agentProfit.toLowerCase().includes(search.toLowerCase()) ||
+          data.profit.toLowerCase().includes(search.toLowerCase()) 
+      )"
       element-loading-text="Loading"
       border
       fit
@@ -29,10 +42,11 @@
         label="操作"
         align="center"
         prop=""
+        sortable
       > 
         <template slot-scope="scope">
           <el-button v-if="scope.row.gnuserId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
-          <span v-else style="fpnt-size:20px">总计</span>
+          <span v-else style="font-size:20px;font-weight: bold;">总计</span>
         </template>
         
        </el-table-column>
@@ -64,6 +78,7 @@
         align="center"
         prop=""
         sort-by=""
+        sortable
       >
 
         <el-table-column
@@ -85,10 +100,11 @@
 
       </el-table-column>
       <el-table-column
-        label="提成"
+        label="我的提成"
         align="center"
         prop=""
         sort-by=""
+        sortable
       >
 
         <el-table-column
@@ -135,7 +151,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="总结"
+        label="我的总结"
         align="center"
         prop="profit"
         sort-by="profit"
@@ -144,6 +160,7 @@
       </el-table-column>
       
     </el-table>
+    
     <div class="page">
       <el-pagination 
         @size-change="handleSizeChange" 
@@ -153,6 +170,10 @@
         :page-size="PageSize" layout="total, sizes, prev, pager, next, jumper" 
         :total="totalCount">
       </el-pagination>
+    </div>
+    <div>
+      <p>**代理总结 = 输赢 + 会员流水提成 + 代理提成 + 钱包 + 积分转移</p>
+      <p>**我的总结 = 代理总结+ 我的提成</p>
     </div>
     <!-- 总结明细 -->
     <Detail ref="detail" @changeDetDialog="changeDetDialog" :DetDialog="DetDialog"  :fromDate="searchFrom.fromDate" :toDate="searchFrom.toDate" :DetailFrom="DetailFrom"></Detail>
@@ -168,6 +189,7 @@ export default {
     return {
       // listLoading:true,
       listLoading: false,
+      search:'',
       searchFrom: {
         userInfo:JSON.parse(localStorage.getItem('userInfo')),
         fromDate: '', //必填
@@ -205,6 +227,8 @@ export default {
       if(res.code == 0){
         this.dataList = res.data;
         this.searchFrom.showDate = this.dataList[0].showDate
+        this.searchFrom.fromDate = this.dataList[0].fromDate
+        this.searchFrom.toDate = this.dataList[0].toDate
         
         console.log(this.dataList,'dfg');
         this.getList()
@@ -213,6 +237,15 @@ export default {
     
   },
   methods: {
+    selectChange(value){
+      let proNum = this.dataList.findIndex((item, index) =>{
+        return item.showDate == value
+      })
+      console.log(proNum);
+      this.searchFrom.fromDate = this.dataList[proNum].fromDate
+      this.searchFrom.toDate = this.dataList[proNum].toDate
+      this.getList()
+    },
     changeShow(row){
       console.log(row);
       this.gnuserId = row.gnuserId
@@ -245,9 +278,6 @@ export default {
     },
 
     getList() {
-      let index1 = this.searchFrom.showDate.indexOf(" - ")
-      this.searchFrom.fromDate = this.searchFrom.showDate.substring(0,index1);
-      this.searchFrom.toDate = this.searchFrom.showDate.substring(Number(index1) + 3);
 
       if (this.searchFrom.fromDate && this.searchFrom.toDate) {
         this.listLoading = true;
@@ -258,7 +288,8 @@ export default {
             console.log(res,'下线代理总结');
             this.pointList = res.data;
             // this.pointList = [{gnuserId:'12121'}];
-
+             let userCode = 0;
+            let userName = 0;
             let turnover = 0;
             let agentTurnoverBonus = 0;
             let agentProfitBonus = 0;
@@ -269,6 +300,8 @@ export default {
             let agentProfit = 0;
             let profit = 0;
             this.pointList.forEach(item=>{
+              userCode += Number(item.userCode)
+              userName += Number(item.userName)
               turnover += Number(item.turnover)
               agentTurnoverBonus += Number(item.agentTurnoverBonus)
               agentProfitBonus += Number(item.agentProfitBonus)
@@ -279,6 +312,8 @@ export default {
               agentProfit += Number(item.agentProfit)
               profit += Number(item.profit)
             })
+            userCode = Number(userCode).toFixed(2)
+            userName = Number(userName).toFixed(2)
             turnover = Number(turnover).toFixed(2)
             agentTurnoverBonus = Number(agentTurnoverBonus).toFixed(2)
             agentProfitBonus = Number(agentProfitBonus).toFixed(2)
@@ -288,7 +323,7 @@ export default {
             winLose = Number(winLose).toFixed(2)
             agentProfit = Number(agentProfit).toFixed(2)
             profit = Number(profit).toFixed(2)
-            this.count = { turnover,agentTurnoverBonus,agentProfitBonus,turnoverBonus, wallet,winLose,agentProfit,profit}
+            this.count = {userCode,userName, turnover,agentTurnoverBonus,agentProfitBonus,turnoverBonus, wallet,winLose,agentProfit,profit}
             this.count.firstColumn = '总计' 
             this.getTemList()
 
@@ -306,9 +341,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
 .flex-box {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   .item {
     margin-right: 10px;
     margin-top: 10px;

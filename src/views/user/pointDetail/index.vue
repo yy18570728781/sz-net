@@ -35,7 +35,7 @@
         </el-date-picker>
       </div>
       <div class="item">
-        <el-button type="primary" @click="getList">搜索</el-button>
+        <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
       </div>
     </div>
 
@@ -74,6 +74,14 @@
       >
       </el-table-column>
       <el-table-column
+        label="备注"
+        align="center"
+        prop="remarks"
+        sort-by="remarks"
+        sortable
+      >
+      </el-table-column>
+      <el-table-column
         class-name="status-col"
         label="时间"
         align="center"
@@ -102,6 +110,7 @@ export default {
   data() {
     return {
       // listLoading:true,
+      butLoading: false,
       listLoading: false,
       searchFrom: {
         userCode: "", //下线 ID
@@ -156,9 +165,12 @@ export default {
 
     getList() {
       this.listLoading = true;
+      this.butLoading = true;
       const { userCode, userName, fromDate, toDate } = this.searchFrom;
         downlineTopupTxn({ userCode, userName, fromDate, toDate }).then(
+          
           (res) => {
+            this.butLoading = false
             console.log(res);
             this.pointList = res.data;
             this.getTemList()

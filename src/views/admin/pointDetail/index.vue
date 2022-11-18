@@ -37,11 +37,24 @@
       <div class="item">
         <el-button type="primary" @click="getList">搜索</el-button>
       </div>
+      <div class="item item1">
+        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+      </div>
     </div>
 
     <el-table
       v-loading="listLoading"
-      :data="memberList"
+      :data="
+        temList.filter(
+          (data) =>
+            !search ||
+            data.userCode.toLowerCase().includes(search.toLowerCase()) ||
+            data.topup.toLowerCase().includes(search.toLowerCase()) ||
+            data.createdByName.toLowerCase().includes(search.toLowerCase()) ||
+            data.remarks.toLowerCase().includes(search.toLowerCase()) ||
+            data.userName.toLowerCase().includes(search.toLowerCase()) 
+        )
+      "
       element-loading-text="Loading"
       border
       fit
@@ -74,6 +87,14 @@
       >
       </el-table-column>
       <el-table-column
+        label="备注"
+        align="center"
+        prop="remarks"
+        sort-by="remarks"
+        sortable
+      >
+      </el-table-column>
+      <el-table-column
         class-name="status-col"
         label="创建者"
         align="center"
@@ -92,6 +113,16 @@
       >
       </el-table-column>
     </el-table>
+    <div class="page">
+      <el-pagination 
+        @size-change="handleSizeChange" 
+        @current-change="handleCurrentChange" 
+        :current-page="currentPage" 
+        :page-sizes="pageSizes" 
+        :page-size="PageSize" layout="total, sizes, prev, pager, next, jumper" 
+        :total="totalCount">
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
@@ -103,11 +134,27 @@ export default {
       searchFrom: {
         userCode: "",
         userName: "",
-        fromDate: new Date(Date.now() - (24 * 60 * 60 * 1000 * 30)),
+        fromDate: new Date(new Date().setHours(0, 0, 0, 0)),
         toDate: new Date(),
       },
-      memberList: [],
+      // memberList: [],
       listLoading: false,
+      search:'',
+      // 分页
+      // 总数据
+      memberList: [],
+      // 展示数据
+      temList:[],
+      // 默认显示第几页
+      currentPage:1,
+      // 总条数，根据接口获取数据长度(注意：这里不能为空)
+      totalCount:1,
+      // 个数选择器（可修改）
+      pageSizes:[5,10,20,30],
+      // 默认每页显示的条数（可修改）
+      PageSize:10,
+
+      count:{},//总计
     };
   },
   created() {
@@ -142,6 +189,32 @@ export default {
         `${nowDate.year}-${nowDate.month}-${nowDate.day}`
       ]
     },
+
+    //每页显示的条数
+    handleSizeChange(val) {
+        // 改变每页显示的条数 
+        this.PageSize=val
+        // 注意：在改变每页显示的条数时，要将页码显示到第一页
+        this.currentPage=1
+        this.getTemList()
+    },
+    //显示第几页
+    handleCurrentChange(val) {
+      console.log(val,'val');
+        //改变默认的页数
+        this.currentPage=val
+        this.getTemList()
+        console.log(this.currentPage,'this.curpage');
+    },
+    getTemList(){
+      this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+      
+      // this.$nextTick(()=>{
+      //    this.temList.unshift(this.count)
+      // })
+      // console.log(this.temList);
+    },
+
     // 获取数据
     getList() {
       if (this.searchFrom.fromDate && this.searchFrom.toDate) {
@@ -151,6 +224,8 @@ export default {
         downlineTopupTxn({ userCode, userName, fromDate, toDate })
           .then((res) => {
             this.memberList = res.data;
+            this.totalCount = res.data.length
+            this.getTemList()
             this.listLoading = false;
           })
           .catch((err) => {
@@ -169,8 +244,12 @@ export default {
   .flex-box
     display: flex
     flex-wrap: wrap
+    position: relative
     .item
       margin-right: 10px
       margin-top: 10px
       margin-bottom: 10px
+    .item1
+      position: absolute
+      right:0
 </style>

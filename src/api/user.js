@@ -159,3 +159,21 @@ export function getMemberProfit(params) {
     params
   })
 }
+
+// 下线会员总结明细 游戏2
+export function getMemberTxnFB(params) {
+  return request({
+    url: '/WebC/api/GetMemberTxnFB',
+    method: 'get',
+    params
+  })
+}
+
+// 下线会员总结明细 积分转移
+export function getMemberTransferTxn(params) {
+  return request({
+    url: '/WebC/api/GetMemberTransferTxn',
+    method: 'get',
+    params
+  })
+}

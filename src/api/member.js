@@ -90,7 +90,7 @@ export function getDrlGame(params) {
   })
 }
 
-// 牛牛游戏总结
+// 游戏总结
 export function getGameTxnSum(params) {
   return request({
     url: '/WebC/api/GetGameTxnSum',
@@ -99,10 +99,36 @@ export function getGameTxnSum(params) {
   })
 }
 
+
 // 游戏明细
-export function getMemberTxn(params) {
+export function getGameTxn(params) {
   return request({
-    url: '/WebC/api/GetMemberTxn',
+    url: '/WebC/api/GetGameTxn',
+    method: 'get',
+    params
+  })
+}
+
+// 积分转移明细-游戏下拉
+export function getTransferGame(params) {
+  return request({
+    url: '/WebC/api/DrlPointTransferGame',
+    method: 'get',
+    params
+  })
+}
+// 积分转移明细
+export function getTransferTxn(params) {
+  return request({
+    url: '/WebC/api/TransferTxn',
+    method: 'get',
+    params
+  })
+}
+// 公司利润
+export function getCompanyAccount(params) {
+  return request({
+    url: '/WebC/api/GetCompanyAccount',
     method: 'get',
     params
   })

@@ -30,13 +30,13 @@
         </el-input>
       </div>
       <div class="item">
-        <el-button type="primary" @click="getList">搜索</el-button>
+        <el-button type="primary" @click="getList"  v-loading.fullscreen.lock="butLoading">搜索</el-button>
       </div>
     </div>
 
     <el-table
       v-loading="listLoading"
-      :data="memberList"
+      :data="temList"
       element-loading-text="Loading"
       border
       fit
@@ -62,7 +62,7 @@
         sortable
       >
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         class-name="status-col"
         label="邀请码"
         align="center"
@@ -70,7 +70,7 @@
         sort-by="inviteCode"
         sortable
       >
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         class-name="status-col"
         label="信用额度"
@@ -82,7 +82,7 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="流水佣金%"
+        label="流水提成%"
         align="center"
         prop="turnoverRebate"
         sort-by="turnoverRebate"
@@ -91,7 +91,16 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="盈利佣金%"
+        label="球网流水提成%"
+        align="center"
+        prop="turnoverRebateFb"
+        sort-by="turnoverRebateFb"
+        sortable
+      >
+      </el-table-column>
+      <el-table-column
+        class-name="status-col"
+        label="利润提成%"
         align="center"
         prop="profitRebate"
         sort-by="profitRebate"
@@ -128,6 +137,16 @@
       >
       </el-table-column>
     </el-table>
+    <div class="page">
+      <el-pagination 
+        @size-change="handleSizeChange" 
+        @current-change="handleCurrentChange" 
+        :current-page="currentPage" 
+        :page-sizes="pageSizes" 
+        :page-size="PageSize" layout="total, sizes, prev, pager, next, jumper" 
+        :total="totalCount">
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
@@ -142,9 +161,26 @@ export default {
         uplineCode: "",
         uplineName: "",
       },
-      memberList: [],
       listLoading: false,
       search: "",
+
+      butLoading:false,
+
+      // 分页
+      // 总数据
+      memberList: [],
+      // 展示数据
+      temList:[],
+      // 默认显示第几页
+      currentPage:1,
+      // 总条数，根据接口获取数据长度(注意：这里不能为空)
+      totalCount:1,
+      // 个数选择器（可修改）
+      pageSizes:[5,10,20,30],
+      // 默认每页显示的条数（可修改）
+      PageSize:10,
+
+      count:{},//总计
     };
   },
   created() {
@@ -152,6 +188,31 @@ export default {
   },
   components: {},
   methods: {
+    //每页显示的条数
+    handleSizeChange(val) {
+        // 改变每页显示的条数 
+        this.PageSize=val
+        // 注意：在改变每页显示的条数时，要将页码显示到第一页
+        this.currentPage=1
+        this.getTemList()
+    },
+    //显示第几页
+    handleCurrentChange(val) {
+      console.log(val,'val');
+        //改变默认的页数
+        this.currentPage=val
+        this.getTemList()
+        console.log(this.currentPage,'this.curpage');
+    },
+    getTemList(){
+      this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+      
+      // this.$nextTick(()=>{
+      //    this.temList.unshift(this.count)
+      // })
+      // console.log(this.temList);
+    },
+
     getList() {
       this.listLoading = true;
       const { userCode, userName, uplineCode, uplineName } = this.searchFrom;
@@ -160,6 +221,8 @@ export default {
         .then((res) => {
           console.log(res);
           this.memberList = res.data;
+          this.totalCount = res.data.length
+          this.getTemList()
           this.listLoading = false;
         })
         .catch((err) => {

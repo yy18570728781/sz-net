@@ -35,7 +35,7 @@
         </el-date-picker>
       </div>
       <div class="item">
-        <el-button type="primary" @click="getList">搜索</el-button>
+        <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
       </div>
     </div>
 
@@ -102,6 +102,7 @@ export default {
   data() {
     return {
       // listLoading:true,
+      butLoading: false,
       listLoading: false,
       searchFrom: {
         userCode: "", //下线 ID
@@ -151,12 +152,15 @@ export default {
     },
 
     getList() {
+       this.butLoading = true;
       if (this.searchFrom.fromDate && this.searchFrom.toDate) {
         this.listLoading = true;
+       
 
         const { userCode, userName, fromDate, toDate } = this.searchFrom;
         downlineCreditTxn({ userCode, userName, fromDate, toDate })
           .then((res) => {
+             this.butLoading = false;
             this.pointList = res.data;
             this.getTemList()
             this.totalCount = res.data.length

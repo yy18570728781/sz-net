@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <div class="dashboard-text">你好{{ userName }}</div>
   </div>
 </template>
 
@@ -9,10 +9,19 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "Dashboard",
+  data(){
+    return{
+      userName:'',
+    }
+  },
   computed: {
     ...mapGetters(["name"]),
   },
-  created() {},
+  created() {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    console.log(userInfo);
+    this.userName = userInfo.userName
+  },
 };
 </script>
 

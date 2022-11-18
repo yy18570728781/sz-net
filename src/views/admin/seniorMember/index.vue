@@ -30,20 +30,22 @@
         label="会员 ID"
         align="center"
         sortable
-        prop="gnuserId"
-        sort-by="gnuserId"
+        prop="userCode"
+        sort-by="userCode"
       >
       </el-table-column>
       <el-table-column label="会员名" align="center" sortable prop="userName">
       </el-table-column>
-      <el-table-column
+      <el-table-column label="备注名" align="center" sortable prop="userRemark">
+      </el-table-column>
+      <!-- <el-table-column
         label="邀请码"
         align="center"
         sortable
         prop="inviteCode"
         sort-by="inviteCode"
       >
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         class-name="status-col"
         label="信用额度"
@@ -55,7 +57,7 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="流水佣金%"
+        label="流水提成%"
         align="center"
         sortable
         prop="turnoverRebate"
@@ -64,7 +66,16 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="盈利佣金%"
+        label="球网流水提成%"
+        align="center"
+        sortable
+        prop="turnoverRebateFb"
+        sort-by="turnoverRebateFb"
+      >
+      </el-table-column>
+      <el-table-column
+        class-name="status-col"
+        label="利润提成%"
         align="center"
         sortable
         prop="profitRebate"
@@ -81,10 +92,20 @@
       >
       </el-table-column>
       <el-table-column
+        class-name="status-col"
+        label="代理网登录"
+        align="center"
+        sortable
+        prop="loginInd"
+        sort-by="loginInd"
+      >
+      </el-table-column>
+      <el-table-column
         align="center"
         label="操作"
         min-width="200px"
         fixed="right"
+        sortable
       >
         <template slot-scope="scope">
           <el-button
@@ -93,6 +114,7 @@
             circle
             :disabled="scope.row.robotInd !== 'N'"
             @click="openEdit(scope.row.gnuserId)"
+            
           ></el-button>
           <el-button
             type="primary"
@@ -118,22 +140,40 @@
       @close="closeEdit"
     >
       <el-form :model="currentMember">
-        <el-form-item label="流水佣金 %" :label-width="formLabelWidth">
+        <el-form-item label="备注名" :label-width="formLabelWidth">
+          <el-input
+            v-model="currentMember.userRemark"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="流水提成%" :label-width="formLabelWidth">
           <el-input
             v-model="currentMember.turnoverRebate"
             autocomplete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item label="盈利佣金 %" :label-width="formLabelWidth">
+        <el-form-item label="利润提成%" :label-width="formLabelWidth">
           <el-input
             v-model="currentMember.profitRebate"
             autocomplete="off"
           ></el-input>
         </el-form-item>
+        <el-form-item label="球网流水提成%" :label-width="formLabelWidth">
+          <el-input
+            v-model="currentMember.turnoverRebateFb"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="代理网登录" :label-width="formLabelWidth">
+          <template>
+            <el-radio v-model="currentMember.loginInd" label="Yes">Yes</el-radio>
+            <el-radio v-model="currentMember.loginInd" label="No">No</el-radio>
+          </template>
+        </el-form-item>
+        
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="closeEdit">取 消</el-button>
-        <el-button type="primary" @click="editMember">确 定</el-button>
+        <el-button type="primary" @click="editMember" v-loading.fullscreen.lock="butLoading">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 增加信用 -->
@@ -149,7 +189,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="closeAddCredit">取 消</el-button>
-        <el-button type="primary" @click="addCredit">确 定</el-button>
+        <el-button type="primary" @click="addCredit" v-loading.fullscreen.lock="butLoading">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 降低信用 -->
@@ -165,7 +205,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="closeMinusCredit">取 消</el-button>
-        <el-button type="primary" @click="minusCredit">确 定</el-button>
+        <el-button type="primary" @click="minusCredit" v-loading.fullscreen.lock="butLoading">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -197,6 +237,8 @@ export default {
       credit: "",
       currentMember: {},
       listLoading: false,
+
+      butLoading:false,
 
       dialogFormVisible: false,
       dialogFormVisibleAdd: false,
@@ -235,24 +277,31 @@ export default {
       this.memberByID(id);
     },
     editMember() {
+      this.butLoading = true
       if (
         /^([0-9]{1,2}$)|(^[0-9]{1,2}\.[0-9]{1,2}$)|100$/.test(
           this.currentMember.turnoverRebate
         ) &&
         /^([0-9]{1,2}$)|(^[0-9]{1,2}\.[0-9]{1,2}$)|100$/.test(
           this.currentMember.profitRebate
+        ) &&
+        /^([0-9]{1,2}$)|(^[0-9]{1,2}\.[0-9]{1,2}$)|100$/.test(
+          this.currentMember.turnoverRebateFb
         )
       ) {
-        const { gnuserId, turnoverRebate, profitRebate } = this.currentMember;
-        UpdateSeniorRebate({ gnuserId, turnoverRebate, profitRebate })
+        const { userRemark,turnoverRebateFb,loginInd,gnuserId, turnoverRebate, profitRebate } = this.currentMember;
+        UpdateSeniorRebate({ userRemark,turnoverRebateFb,loginInd,gnuserId, turnoverRebate, profitRebate })
           .then((res) => {
             console.log(res);
-            if (res.code == 0) {
+            if (res.data.status == 'Success' && res.data.remark == '') {
               this.$message({ type: "success", message: "编辑成功" });
+              this.closeEdit();
+              this.butLoading = false
             } else {
-              this.$message({ type: "error", message: "编辑失败" });
+              this.$message({ type: "error", message: res.data.remark || "编辑失败" });
+              this.butLoading = false
             }
-            this.closeEdit();
+            
           })
           .catch((err) => {
             console.log(err);
@@ -260,7 +309,7 @@ export default {
       } else {
         this.$message({
           type: "info",
-          message: "流水佣金与盈利佣金皆为0到100之间最多允许包含2位小数",
+          message: "流水提成、利润提成和球网利润提成皆为0到100之间最多允许包含2位小数",
         });
       }
     },
@@ -275,18 +324,22 @@ export default {
       this.memberByID(id);
     },
     addCredit() {
+      this.butLoading = true
       const { gnuserId } = this.currentMember;
       addSeniorCredit({
         gnuserId,
         credit: this.credit,
       })
         .then((res) => {
-          if (res.code == 0) {
+          if (res.data.status == 'Success' && res.data.remark == '') {
             this.$message({ type: "success", message: "增加信用成功" });
+            this.closeAddCredit();
+            
           } else {
-            this.$message({ type: "info", message: "增加信用失败" });
+            this.$message({ type: "info", message: res.data.remark ||"增加信用失败" });
           }
-          this.closeAddCredit();
+          this.butLoading = false
+          
         })
         .catch((err) => {
           console.log(err);
@@ -304,18 +357,21 @@ export default {
       this.memberByID(id);
     },
     minusCredit() {
+      this.butLoading = true
       const { gnuserId } = this.currentMember;
       minusSeniorCredit({
         gnuserId,
         credit: this.credit,
       })
         .then((res) => {
-          this.closeMinusCredit();
-          if (res.code == 0) {
+          
+          if (res.data.status == "Success" && res.data.remark == '') {
             this.$message({ type: "success", message: "降低信用成功" });
+            this.closeMinusCredit();
           } else {
-            this.$message({ type: "info", message: "降低信用失败" });
+            this.$message({ type: "info", message: res.data.remark ||"降低信用失败" });
           }
+          this.butLoading = false
           this.fetchData();
         })
         .catch((err) => {
@@ -333,6 +389,7 @@ export default {
 <style lang="sass" scoped>
 .flex-box
   display: flex
+  justify-content: end
   .item
     margin-right: 10px
     margin-top: 10px

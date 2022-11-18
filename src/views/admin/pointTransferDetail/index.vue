@@ -1,0 +1,282 @@
+<template>
+  <div class="userCredit app-container">
+    <div class="flex-box">
+
+      <div class="item">
+        <el-select class="select" v-model="searchFrom.showDate" placeholder="Please select time" @change="selectChange">
+          <el-option
+            v-for="item in dataList"
+            :key="item.showDate"
+            :label="item.showDate"
+            :value="item.showDate"
+          />
+        </el-select>
+      </div>
+
+      <div class="item">
+        <el-select  v-model="searchFrom.gameCode"  placeholder="Please select type " >
+          <el-option
+            v-for="item in gameList"  
+            :key="item.code"
+            :label="item.description"
+            :value="item.code"
+          />
+        </el-select>
+      </div>
+      <div class="item">
+        <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
+      </div>
+      
+    </div>
+    <div>
+      <el-table
+        v-loading="listLoading"  
+        :data="pointList"
+        element-loading-text="Loading"
+        border
+        fit
+        highlight-current-row
+        ref="filterTable"
+        :default-sort="{ prop: 'userName', order: 'descending' }"
+      >
+        <el-table-column
+          label="会员ID"
+          align="center"
+          prop="userCode"
+          sortable
+        >
+          <template slot-scope="scope">
+            <span v-if="scope.row.userCode">{{scope.row.userCode}}</span>
+            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="会员名 "
+          align="center"
+          prop="userName"
+          sort-by="userName"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="积分"
+          align="center"
+          prop="point"
+          sortable
+        >
+        </el-table-column>
+
+        <el-table-column
+          label="备注"
+          align="center"
+          prop="remarks"
+          sortable
+        >
+        </el-table-column>
+
+        <el-table-column
+          label="时间"
+          align="center"
+          prop="createdDate"
+          sortable
+        >
+        </el-table-column>
+        
+      </el-table>
+    </div>
+  </div>
+</template>
+<script>
+import { getTransferGame  , getDrlWeek , getTransferTxn} from "@/api/member";
+export default {
+  name: "userCredit",
+  components:{},
+  data() {
+    return {
+      // listLoading:true,
+      listLoading: false,
+      searchFrom: {
+        userInfo:JSON.parse(localStorage.getItem('userInfo')),
+        fromDate: '', //必填
+        toDate: '',//必填
+        showDate:'',
+        userType:'',
+      },
+      DetailFrom:{},
+      dataList:[],//星期列表
+      nowGame:'',
+      gameList:[],//游戏类型列表
+      // [{"code":"G01","description":"牛牛"},{"code":"G02","description":"球网"},{"code":"G03","description":"ETH"},{"code":"G04","description":"麻将"}]
+      
+
+      DetDialog:false,//明细开关
+      gametxnId:'',//明细gametxnId
+      gameCode:'',//明细gameCode
+
+      butLoading:false,
+
+      // 分页
+      // 总数据
+      pointList: [],
+      // 展示数据
+      temList:[],
+      // 默认显示第几页
+      currentPage:1,
+      // 总条数，根据接口获取数据长度(注意：这里不能为空)
+      totalCount:1,
+      // 个数选择器（可修改）
+      pageSizes:[5,10,20,30],
+      // 默认每页显示的条数（可修改）
+      PageSize:10,
+
+      count:{},//总计
+      
+    };
+  },
+  async created(){
+    
+    
+
+    let  userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    this.userInfo = userInfo
+    
+    getTransferGame()
+    .then((res) => {
+      if(res.code == 0){
+        this.gameList = res.data;
+        console.log(this.gameList,'gameList');
+        this.searchFrom.gameCode = this.gameList[0].code
+        
+        console.log(res,'游戏类型列表');
+        // this.getList()
+        getDrlWeek()
+        .then((res) => {
+          if(res.code == 0){
+            this.dataList = res.data;
+            this.searchFrom.showDate = this.dataList[0].showDate
+            this.searchFrom.fromDate = this.dataList[0].fromDate
+            this.searchFrom.toDate = this.dataList[0].toDate
+            
+            console.log(this.dataList,'时间列表');
+            this.getList()
+          }
+          
+        })
+      }
+    })
+    
+    
+  },
+  mounted(){
+  },
+  methods: {
+    selectChange(value){
+      let proNum = this.dataList.findIndex((item, index) =>{
+        return item.showDate == value
+      })
+      console.log(proNum);
+      this.searchFrom.fromDate = this.dataList[proNum].fromDate
+      this.searchFrom.toDate = this.dataList[proNum].toDate
+      // this.getList()
+    },
+
+    changeShow(row){
+      console.log(row);
+      this.gametxnId = row.gametxnId
+      this.gameCode = row.gameCode
+      this.DetDialog = true
+      this.$refs.detail.getList(this.gametxnId,this.gameCode,this.searchFrom.fromDate,this.searchFrom.toDate,this.nowGame)
+    },
+    changeDetDialog(val){
+      this.DetDialog = val
+    },
+
+    //每页显示的条数
+    handleSizeChange(val) {
+        // 改变每页显示的条数 
+        this.PageSize=val
+        // 注意：在改变每页显示的条数时，要将页码显示到第一页
+        this.currentPage=1
+        this.getTemList()
+        console.log(val,'条数');
+    },
+    //显示第几页
+    handleCurrentChange(val) {
+      console.log(val,'val');
+        //改变默认的页数
+        this.currentPage=val
+        this.getTemList()
+        console.log(this.currentPage,'this.curpage');
+    },
+    getTemList(){
+      this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+      // this.temList.push(this.count)
+      this.pointList.unshift(this.count)
+    },
+    
+    getList(){
+      this.nowGame = this.searchFrom.gameCode
+      this.butLoading = true
+      let _this = this
+
+      if (this.searchFrom.fromDate && this.searchFrom.toDate) {
+        this.listLoading = true;
+
+        const { fromDate, toDate , gameCode } = this.searchFrom;
+        
+        getTransferTxn({ gameCode, fromDate, toDate })
+          .then(async(res) => {
+            this.butLoading = false
+            console.log(res,'游戏');
+            this.pointList = res.data;
+
+            let point = 0;
+            this.pointList.forEach(item=>{
+              point += Number(item.point)
+            })
+            point = Number(point).toFixed(2)
+            this.count = { point}
+            // this.count.firstColumn = '总计' 
+            await this.getTemList()
+            this.totalCount = res.data.length
+            
+            this.listLoading = false;
+          })
+          
+      } else {
+        this.$message({ type: "info", message: "Please select time" }); 
+      }
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+.numDiv{
+  width: 100%;
+  display: flex;
+  div{
+    flex: 1;
+    width: 100%;
+    padding: 12px 0;
+    text-align: center;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    color: #606266;
+  }
+}
+.flex-box {
+  display: flex;
+  flex-wrap: wrap;
+  .item {
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .el-select{
+    width: 250px !important;
+  }
+  .el-input__inner{
+    width: 250px !important;
+  }
+}
+</style>

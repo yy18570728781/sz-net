@@ -3,7 +3,7 @@
     <div class="flex-box">
 
       <div class="item">
-        <el-select class="select" v-model="searchFrom.showDate" placeholder="Please select time" @change="getList">
+        <el-select class="select" v-model="searchFrom.showDate" placeholder="Please select time" @change="selectChange">
           <el-option
             v-for="item in dataList"
             :key="item.showDate"
@@ -12,12 +12,21 @@
           />
         </el-select>
       </div>
-      
+      <div class="item">
+        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+      </div>
     </div>
 
     <el-table
       v-loading="listLoading"
-      :data="temList"
+      :data="
+        temList.filter(
+          (data) =>
+            !search ||
+            data.userCode.toLowerCase().includes(search.toLowerCase()) ||
+            data.userName.toLowerCase().includes(search.toLowerCase()) 
+        )
+      "
       element-loading-text="Loading"
       border
       fit
@@ -29,6 +38,7 @@
         label="操作"
         align="center"
         prop=""
+        sortable
       > 
         <template slot-scope="scope">
           <el-button v-if="scope.row.gnuserId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
@@ -48,6 +58,14 @@
         label="会员名"
         align="center"
         prop="userName"
+        sortable
+      >
+      </el-table-column>
+      <el-table-column
+        label="备注名"
+        align="center"
+        prop="userRemark"
+        sortable
       >
       </el-table-column>
 
@@ -55,18 +73,20 @@
         label="流水"
         align="center"
         prop="turnover"
+        sortable
       >
       </el-table-column>
 
 
       <el-table-column
-        label="玩家利润提成"
+        label="会员提成"
         align="center"
         prop="playerProfitBonus"
+        sortable
       >
       </el-table-column>
       <el-table-column
-        label="流水提成"
+        label="我的流水提成"
         align="center"
         prop="turnoverBonus"
         sort-by="turnoverBonus"
@@ -74,7 +94,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="利润提成"
+        label="我的利润提成"
         align="center"
         prop="profitBonus"
         sort-by="profitBonus"
@@ -91,21 +111,32 @@
       >
       </el-table-column>
       <el-table-column
+        label="积分转移"
+        align="center"
+        prop="transfer"
+        sort-by="transfer"
+        sortable
+      >
+      </el-table-column>
+      <el-table-column
         label="输赢"
         align="center"
         prop="winLose"
+        sortable
       >
       </el-table-column>
       <el-table-column
-        label="玩家总结"
+        label="会员总结"
         align="center"
         prop="playerProfit"
+        sortable
       >
       </el-table-column>
       <el-table-column
-        label="总结"
+        label="我的总结"
         align="center"
         prop="profit"
+        sortable
       >
       </el-table-column>
       
@@ -119,6 +150,10 @@
         :page-size="PageSize" layout="total, sizes, prev, pager, next, jumper" 
         :total="totalCount">
       </el-pagination>
+    </div>
+    <div>
+      <p>**玩家总结 = 输赢 + 会员流水提成 + 钱包 + 积分转移</p>
+      <p>**我的总结 = 玩家总结 + 我的流水提成 + 我的利润提成</p>
     </div>
     <!-- 总结明细 -->
     <Detail ref="detail" @changeDetDialog="changeDetDialog" :DetDialog="DetDialog"  :fromDate="searchFrom.fromDate" :toDate="searchFrom.toDate" :DetailFrom="DetailFrom"></Detail>
@@ -134,6 +169,7 @@ export default {
     return {
       // listLoading:true,
       listLoading: false,
+      search:'',
       searchFrom: {
         userInfo:JSON.parse(localStorage.getItem('userInfo')),
         fromDate: '', //必填
@@ -172,6 +208,8 @@ export default {
       if(res.code == 0){
         this.dataList = res.data;
         this.searchFrom.showDate = this.dataList[0].showDate
+        this.searchFrom.fromDate = this.dataList[0].fromDate
+        this.searchFrom.toDate = this.dataList[0].toDate
         
         console.log(this.dataList,'时间列表');
         this.getList()
@@ -180,6 +218,15 @@ export default {
     
   },
   methods: {
+    selectChange(value){
+      let proNum = this.dataList.findIndex((item, index) =>{
+        return item.showDate == value
+      })
+      console.log(proNum);
+      this.searchFrom.fromDate = this.dataList[proNum].fromDate
+      this.searchFrom.toDate = this.dataList[proNum].toDate
+      this.getList()
+    },
     changeShow(row){
       console.log(row);
       this.gnuserId = row.gnuserId
@@ -216,9 +263,6 @@ export default {
     },
 
     getList() {
-      let index1 = this.searchFrom.showDate.indexOf(" - ")
-      this.searchFrom.fromDate = this.searchFrom.showDate.substring(0,index1);
-      this.searchFrom.toDate = this.searchFrom.showDate.substring(Number(index1) + 3);
 
       if (this.searchFrom.fromDate && this.searchFrom.toDate) {
         this.listLoading = true;
@@ -228,35 +272,45 @@ export default {
           .then((res) => {
             console.log(res,'下线会员总结');
             this.pointList = res.data;
+            this.totalCount = res.data.length
             // this.pointList = [{gnuserId:'12121'}];
 
+            let userCode = 0;
+            let userName = 0;
             let turnover = 0;
             let playerProfitBonus = 0;
             let playerProfit = 0;
             let turnoverBonus = 0;
             let profitBonus = 0;
             let wallet = 0;
+            let transfer = 0;
             let winLose = 0;
             let profit = 0;
             this.pointList.forEach(item=>{
+              userCode += Number(item.userCode)
+              userName += Number(item.userName)
               turnover += Number(item.turnover)
               playerProfitBonus += Number(item.playerProfitBonus)
               playerProfit += Number(item.playerProfit)
               turnoverBonus += Number(item.turnoverBonus)
               profitBonus += Number(item.profitBonus)
               wallet += Number(item.wallet)
+              transfer += Number(item.transfer)
               winLose += Number(item.winLose)
               profit += Number(item.profit)
             })
+            userCode = Number(userCode).toFixed(2)
+            userName = Number(userName).toFixed(2)
             turnover = Number(turnover).toFixed(2)
             playerProfitBonus = Number(playerProfitBonus).toFixed(2)
             playerProfit = Number(playerProfit).toFixed(2)
             turnoverBonus = Number(turnoverBonus).toFixed(2)
             profitBonus = Number(profitBonus).toFixed(2)
             wallet = Number(wallet).toFixed(2)
+            transfer = Number(transfer).toFixed(2)
             winLose = Number(winLose).toFixed(2)
             profit = Number(profit).toFixed(2)
-            this.count = { turnover,playerProfitBonus,playerProfit,turnoverBonus, profitBonus,wallet,winLose,profit}
+            this.count = {userCode,userName, turnover,playerProfitBonus,playerProfit,turnoverBonus, profitBonus,wallet,transfer,winLose,profit}
             this.count.firstColumn = '总计' 
             this.getTemList()
 
@@ -277,6 +331,8 @@ export default {
 .flex-box {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
+  
   .item {
     margin-right: 10px;
     margin-top: 10px;

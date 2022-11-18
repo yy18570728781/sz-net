@@ -70,7 +70,7 @@ export const asyncRoutes = [
       meta: {
         title: '会员',
         icon: 'hy',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -90,7 +90,7 @@ export const asyncRoutes = [
         meta: {
           title: '高级会员',
           icon: 'suser',
-          roles: ["admin", "staff",]
+          roles: ["admin", "staff","user"]
         }
       },
 
@@ -107,7 +107,7 @@ export const asyncRoutes = [
       meta: {
         title: '上下分明细',
         icon: 'point',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -121,7 +121,7 @@ export const asyncRoutes = [
       meta: {
         title: '信用额度明细',
         icon: 'credit',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -135,7 +135,7 @@ export const asyncRoutes = [
       meta: {
         title: '机器人',
         icon: 'credit',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -149,7 +149,7 @@ export const asyncRoutes = [
       meta: {
         title: '会员总结',
         icon: 'zj',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -161,9 +161,9 @@ export const asyncRoutes = [
       name: 'seniorMemberProfit',
       component: () => import('@/views/admin/seniorMemberProfit/index'),
       meta: {
-        title: '高级会员总结',
+        title: '代理总结',
         icon: 'zj',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -177,7 +177,35 @@ export const asyncRoutes = [
       meta: {
         title: '游戏',
         icon: 'game',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
+      }
+    }]
+  },
+  {
+    path: '/admin/pointTransferDetail',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'pointTransferDetail',
+      component: () => import('@/views/admin/pointTransferDetail/index'),
+      meta: {
+        title: '积分转移明细',
+        icon: 'pointTransferDetail',
+        roles: ["admin","staff","user"]
+      }
+    }]
+  },
+  {
+    path: '/admin/companyProfit',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'companyProfit',
+      component: () => import('@/views/admin/companyProfit/index'),
+      meta: {
+        title: '公司利润',
+        icon: 'companyProfit',
+        roles: ["admin","staff","user"]
       }
     }]
   },

@@ -143,7 +143,7 @@
     </div>
 
     <!-- 更多信息 -->
-    <el-dialog title="收货地址" :visible.sync="dialogMoreVisible" width="40%">
+    <el-dialog title="上下分" :visible.sync="dialogMoreVisible" width="40%">
       <el-form label-position="left" label-width="120px">
 
         <el-form-item label="下线名:">

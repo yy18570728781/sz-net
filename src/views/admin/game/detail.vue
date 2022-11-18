@@ -1,89 +1,386 @@
 <template>
   
-  <el-dialog title="总结明细" :visible="DetDialog_" center width="98%"  @close="closeEdit">
-    <el-table
-      v-loading="listLoading"
-      :data="temList"
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row
-      ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
-    >
+  <el-dialog title="总结明细" :visible="DetDialog_" center width="95%"  @close="closeEdit">
+    <!-- 牛牛 -->
+    <div v-if="nowGame == 'G01' ">
+      <el-table
+        v-loading="listLoading"
+        :data="temList"
+        element-loading-text="Loading"
+        border
+        fit
+        highlight-current-row
+        ref="filterTable"
+        :default-sort="{ prop: 'userName', order: 'descending' }"
+      >
 
-      <el-table-column
-        label="会员名"
-        align="center"
-        prop="playerName"
-      >
-        <template slot-scope="scope">
-          <span v-if="scope.row.playerName">{{scope.row.playerName}} </span>
-          <span v-else style="fpnt-size:20px">总计</span>
-        </template>
-      </el-table-column>
+        <el-table-column
+          label="会员名"
+          align="center"
+          prop="playerName"
+          sortable
+        >
+          <template slot-scope="scope">
+            <span v-if="scope.row.playerName">{{scope.row.playerName}} </span>
+            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+          </template>
+        </el-table-column>
 
-      <el-table-column
-        label="类型"
-        align="center"
-        prop="betType"
-      >
-      </el-table-column>
+        <el-table-column
+          label="类型"
+          align="center"
+          prop="betType"
+          sortable
+        >
+        </el-table-column>
 
-      <el-table-column
-        label="下注"
-        align="center"
-        prop="bet"
-      >
-      </el-table-column>
+        <el-table-column
+          label="下注"
+          align="center"
+          prop="bet"
+          sortable
+        >
+        </el-table-column>
 
-      <el-table-column
-        label="包点数"
-        align="center"
-        prop="packetPoint"
-      >
-      </el-table-column>
+        <el-table-column
+          label="包点数"
+          align="center"
+          prop="packetPoint"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="包名称"
+          align="center"
+          prop="packetType"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="倍数"
+          align="center"
+          prop="multiply"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="结果"
+          align="center"
+          prop="status"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="输赢"
+          align="center"
+          prop="winLose"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="上庄费"
+          align="center"
+          prop="hostFee"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="服务费"
+          align="center"
+          prop="serviceFee"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="带包费"
+          align="center"
+          prop="packetFee"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="赢抽水"
+          align="center"
+          prop="winFee"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="总输赢"
+          align="center"
+          prop="totalWinLose"
+          sortable
+        >
+        </el-table-column>
 
-      <el-table-column
-        label="流水"
-        align="center"
-        prop="turnover"
-        sort-by="turnover"
-        sortable
+        <el-table-column
+          label="流水"
+          align="center"
+          prop="turnover"
+          sort-by="turnover"
+          sortable
+        >
+        </el-table-column>
+          
+      </el-table>
+      <div class="page">
+        <el-pagination 
+          @size-change="handleSizeChange" 
+          @current-change="handleCurrentChange" 
+          :current-page="currentPage" 
+          :page-sizes="pageSizes" 
+          :page-size="PageSize" layout="total, sizes, prev, pager, next, jumper" 
+          :total="totalCount">
+        </el-pagination>
+      </div>
+    </div>
+    <!-- 球网 -->
+    <div v-if="nowGame == 'G02' ">
+      <el-table
+        v-loading="listLoading"
+        :data="temList"
+        element-loading-text="Loading"
+        border
+        fit
+        highlight-current-row
+        ref="filterTable"
+        :default-sort="{ prop: 'userName', order: 'descending' }"
       >
-      </el-table-column>
-      
-      <el-table-column
-        label="输赢"
-        align="center"
-        prop="winLose"
-      >
-      </el-table-column>
 
-      <el-table-column
-        label="时间"
-        align="center"
-        prop="time"
-        sort-by="time"
-        sortable
+        <el-table-column
+          label="会员名"
+          align="center"
+          prop="playerName"
+          sortable
+        >
+          <template slot-scope="scope">
+            <span v-if="scope.row.playerName">{{scope.row.playerName}} </span>
+            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          label="类型"
+          align="center"
+          prop="betType"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="球队"
+          align="center"
+          prop="team"
+          sortable
+        >
+        </el-table-column>
+
+        <el-table-column
+          label="下注"
+          align="center"
+          prop="bet"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="赔率"
+          align="center"
+          prop="odds"
+          sortable
+        >
+        </el-table-column>
+
+        <el-table-column
+          label="结果"
+          align="center"
+          prop="status"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="输赢"
+          align="center"
+          prop="winLose"
+          sortable
+        >
+        </el-table-column>
+
+        <el-table-column
+          label="流水"
+          align="center"
+          prop="turnover"
+          sort-by="turnover"
+          sortable
+        >
+        </el-table-column>
+          
+      </el-table>
+      <div class="page">
+        <el-pagination 
+          @size-change="handleSizeChange" 
+          @current-change="handleCurrentChange" 
+          :current-page="currentPage" 
+          :page-sizes="pageSizes" 
+          :page-size="PageSize" layout="total, sizes, prev, pager, next, jumper" 
+          :total="totalCount">
+        </el-pagination>
+      </div>
+    </div>
+    <!-- ETH -->
+    <div v-if="nowGame == 'G03' ">
+      <el-table
+        v-loading="listLoading"
+        :data="temList"
+        element-loading-text="Loading"
+        border
+        fit
+        highlight-current-row
+        ref="filterTable"
+        :default-sort="{ prop: 'userName', order: 'descending' }"
       >
-      </el-table-column>
-        
-    </el-table>
-    <div class="page">
-      <el-pagination 
-        @size-change="handleSizeChange" 
-        @current-change="handleCurrentChange" 
-        :current-page="currentPage" 
-        :page-sizes="pageSizes" 
-        :page-size="PageSize" layout="total, sizes, prev, pager, next, jumper" 
-        :total="totalCount">
-      </el-pagination>
+
+        <el-table-column
+          label="会员名"
+          align="center"
+          prop="playerName"
+          sortable
+        >
+          <template slot-scope="scope">
+            <span v-if="scope.row.playerName">{{scope.row.playerName}} </span>
+            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          label="类型"
+          align="center"
+          prop="betType"
+          sortable
+        >
+        </el-table-column>
+
+        <el-table-column
+          label="下注"
+          align="center"
+          prop="bet"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="赔率"
+          align="center"
+          prop="odds"
+          sortable
+        >
+        </el-table-column>
+
+        <el-table-column
+          label="结果"
+          align="center"
+          prop="status"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="输赢"
+          align="center"
+          prop="winLose"
+          sortable
+        >
+        </el-table-column>
+
+        <el-table-column
+          label="流水"
+          align="center"
+          prop="turnover"
+          sort-by="turnover"
+          sortable
+        >
+        </el-table-column>
+          
+      </el-table>
+      <div class="page">
+        <el-pagination 
+          @size-change="handleSizeChange" 
+          @current-change="handleCurrentChange" 
+          :current-page="currentPage" 
+          :page-sizes="pageSizes" 
+          :page-size="PageSize" layout="total, sizes, prev, pager, next, jumper" 
+          :total="totalCount">
+        </el-pagination>
+      </div>
+    </div>
+    <!-- 麻将 -->
+    <div v-if="nowGame == 'G04' ">
+      <el-table
+        v-loading="listLoading"
+        :data="temList"
+        element-loading-text="Loading"
+        border
+        fit
+        highlight-current-row
+        ref="filterTable"
+        :default-sort="{ prop: 'userName', order: 'descending' }"
+      >
+
+        <el-table-column
+          label="会员名"
+          align="center"
+          prop="playerName"
+          sortable
+        >
+          <template slot-scope="scope">
+            <span v-if="scope.row.playerName">{{scope.row.playerName}} </span>
+            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          label="结果"
+          align="center"
+          prop="status"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="赢抽水"
+          align="center"
+          prop="water"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          label="输赢"
+          align="center"
+          prop="winLose"
+          sortable
+        >
+        </el-table-column>
+
+        <el-table-column
+          label="流水"
+          align="center"
+          prop="turnover"
+          sort-by="turnover"
+          sortable
+        >
+        </el-table-column>
+          
+      </el-table>
+      <div class="page">
+        <el-pagination 
+          @size-change="handleSizeChange" 
+          @current-change="handleCurrentChange" 
+          :current-page="currentPage" 
+          :page-sizes="pageSizes" 
+          :page-size="PageSize" layout="total, sizes, prev, pager, next, jumper" 
+          :total="totalCount">
+        </el-pagination>
+      </div>
     </div>
   </el-dialog>
 </template>
 <script>
-import { getMemberTxn } from "@/api/member";
+import { getGameTxn } from "@/api/member";
 export default {
   name: "Detail",
   props:{
@@ -124,6 +421,8 @@ export default {
       PageSize:10,
 
       count:{},//总计
+
+      nowGame:'',
     };
   },
   created(){
@@ -169,36 +468,51 @@ export default {
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.unshift(this.count)
+      this.temList.push(this.count)
     },
 
-    getList(gametxnId,fromDate,toDate) {
+    getList(gametxnId,gameCode,fromDate,toDate,nowGame) {
+      this.nowGame = nowGame
+      let _this = this
       console.log(this.DetDialog,this.gnuserId,this.fromDate,this.toDate);
       if (this.fromDate && this.toDate) {
         this.listLoading = true;
-        getMemberTxn({ gametxnId:gametxnId})
+        getGameTxn({ gametxnId:gametxnId,gameCode:gameCode})
           .then((res) => {
             console.log(res,'游戏明细总结');
             this.memberList = res.data;
-
+            this.totalCount = res.data.length
+            this.getTemList()
             let bet = 0;
             let packetPoint = 0;
             let serviceFee = 0;
             let turnover = 0;
             let winLose = 0;
+            let hostFee = 0;
+            let packetFee = 0;
+            let winFee = 0;
+            let totalWinLose = 0;
             this.memberList.forEach(item=>{
               bet += Number(item.bet)
               packetPoint += Number(item.packetPoint)
               serviceFee += Number(item.serviceFee)
               turnover += Number(item.turnover)
               winLose += Number(item.winLose)
+              hostFee += Number(item.hostFee)
+              packetFee += Number(item.packetFee)
+              winFee += Number(item.winFee)
+              totalWinLose += Number(item.totalWinLose)
             })
             bet = Number(bet).toFixed(2)
             packetPoint = Number(packetPoint).toFixed(2)
             serviceFee = Number(serviceFee).toFixed(2)
             turnover = Number(turnover).toFixed(2)
             winLose = Number(winLose).toFixed(2)
-            this.count = { bet,packetPoint,serviceFee, turnover,winLose}
+            hostFee = Number(hostFee).toFixed(2)
+            winFee = Number(winFee).toFixed(2)
+            packetFee = Number(packetFee).toFixed(2)
+            totalWinLose = Number(totalWinLose).toFixed(2)
+            this.count = { bet,packetPoint,serviceFee, turnover,winLose,hostFee,packetFee,totalWinLose,winFee}
             this.count.firstColumn = '总计' 
             this.getTemList()
 
