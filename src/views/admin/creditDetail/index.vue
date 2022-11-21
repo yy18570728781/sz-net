@@ -58,7 +58,7 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{ }"
     >
       <el-table-column
         label="会员 ID"
@@ -191,10 +191,12 @@ export default {
             this.listLoading = false;
           })
           .catch((err) => {
+            this.butLoading = false
             this.listLoading = false;
             console.log(err);
           });
       } else {
+        this.butLoading = false
         this.$message({ type: "info", message: "请选择开始/结束时间" });
       }
     },

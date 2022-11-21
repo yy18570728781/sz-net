@@ -133,3 +133,66 @@ export function getCompanyAccount(params) {
     params
   })
 }
+// 获取分桶额
+export function getCompanyProfitAmount(params) {
+  return request({
+    url: '/WebC/api/GetCompanyProfitAmount',
+    method: 'get',
+    params
+  })
+}
+
+// 修改分桶额
+export function addCompanyProfit(data) {
+  return request({
+    url: '/WebC/api/AddCompanyProfit',
+    method: 'post',
+    data
+  })
+}
+
+
+// 获取奖励下拉列表
+export function getDrlBonus(params) {
+  return request({
+    url: '/WebC/api/DrlBonus',
+    method: 'get',
+    params
+  })
+}
+
+// 获取奖励列表
+export function getBonusContent(params) {
+  return request({
+    url: '/WebC/api/GetBonusContent',
+    method: 'get',
+    params
+  })
+}
+
+// 获取公司费用列表
+export function getCompanyExpenses(params) {
+  return request({
+    url: '/WebC/api/GetCompanyExpenses',
+    method: 'get',
+    params
+  })
+}
+
+// 添加公司费用
+export function addCompanyExpenses(data) {
+  return request({
+    url: '/WebC/api/AddCompanyExpenses',
+    method: 'post',
+    data
+  })
+}
+
+// 删除公司费用
+export function deleteCompanyExpenses(data) {
+  return request({
+    url: '/WebC/api/DeleteCompanyExpenses',
+    method: 'post',
+    data
+  })
+}

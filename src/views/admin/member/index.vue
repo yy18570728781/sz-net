@@ -32,17 +32,30 @@
       <div class="item">
         <el-button type="primary" @click="getList"  v-loading.fullscreen.lock="butLoading">搜索</el-button>
       </div>
+      <div class="item item1">
+        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+      </div>
     </div>
 
     <el-table
       v-loading="listLoading"
-      :data="temList"
+      :data="
+        temList.filter(
+          (data) =>
+            !search ||
+            data.userCode.toLowerCase().includes(search.toLowerCase()) ||
+            data.level.toLowerCase().includes(search.toLowerCase()) ||
+            data.creditLimit.toLowerCase().includes(search.toLowerCase()) ||
+            data.turnoverRebate.toLowerCase().includes(search.toLowerCase()) ||
+            data.turnoverRebateFb.toLowerCase().includes(search.toLowerCase()) 
+        )
+      "
       element-loading-text="Loading"
       border
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{}"
     >
       <el-table-column
         label="会员 ID"
@@ -52,7 +65,13 @@
         sortable
       >
       </el-table-column>
-      <el-table-column label="会员名" align="center" prop="userName" sortable>
+      <el-table-column
+        label="会员名 "
+        align="center"
+        prop="userName"
+        sort-by="userName"
+        sortable
+      >
       </el-table-column>
       <el-table-column
         label="层次"
@@ -214,11 +233,13 @@ export default {
     },
 
     getList() {
+      this.butLoading = true;
       this.listLoading = true;
       const { userCode, userName, uplineCode, uplineName } = this.searchFrom;
       console.log(this.searchFrom);
       getMemberList({ userCode, userName, uplineCode, uplineName })
         .then((res) => {
+          this.butLoading = false;
           console.log(res);
           this.memberList = res.data;
           this.totalCount = res.data.length
@@ -226,6 +247,7 @@ export default {
           this.listLoading = false;
         })
         .catch((err) => {
+          this.butLoading = false;
           console.log(err);
           this.listLoading = false;
         });
@@ -239,10 +261,16 @@ export default {
   .flex-box {
     display: flex;
     flex-wrap: wrap;
+    position: relative;
     .item {
+      
       margin-right: 10px;
       margin-top: 10px;
       margin-bottom: 10px;
+    }
+    .item1{
+      position: absolute;
+      right:0;
     }
   }
 }

@@ -40,6 +40,14 @@ export function downlineCreditTxn(params) {
     params
   })
 }
+// 当前信用额度
+export function getCreditLimit(params) {
+  return request({
+    url: '/WebC/api/GetCreditLimit',
+    method: 'get',
+    params
+  })
+}
 
 // 上分    
 export function topupPoint(data) {

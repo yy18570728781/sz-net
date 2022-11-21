@@ -21,7 +21,7 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{   }"
     >
 
       <el-table-column
@@ -147,7 +147,7 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{   }"
     >
 
       <el-table-column
@@ -271,7 +271,7 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{   }"
     >
 
       <el-table-column
@@ -450,7 +450,7 @@ export default {
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.unshift(this.count)
+      this.temList.push(this.count)
     },
 
     // 111

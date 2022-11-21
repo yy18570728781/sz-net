@@ -26,18 +26,30 @@
       <div class="item">
         <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
       </div>
+       <div class="item item1">
+        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+       </div>
       
     </div>
 
     <el-table
       v-loading="listLoading"
-      :data="temList"
+      :data="
+        temList.filter(
+          (data) =>
+            !search ||
+            data.agentName.toLowerCase().includes(search.toLowerCase()) ||
+            data.userName.toLowerCase().includes(search.toLowerCase()) ||
+            data.turnover.toLowerCase().includes(search.toLowerCase()) ||
+            data.profitBonus.toLowerCase().includes(search.toLowerCase())
+        )
+      "
       element-loading-text="Loading"
       border
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{ }"
     >
        <el-table-column
         label="操作"
@@ -46,8 +58,9 @@
         sortable
       > 
         <template slot-scope="scope">
-          <el-button v-if="scope.row.gnuserId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
-          <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+          <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
+          <el-button v-else type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
+          
         </template>
         
        </el-table-column>
@@ -111,12 +124,14 @@
         label="输赢"
         align="center"
         prop="winLose"
+         sortable
       >
       </el-table-column>
       <el-table-column
         label="总结"
         align="center"
         prop="profit"
+         sortable
       >
       </el-table-column>
       
@@ -176,6 +191,8 @@ export default {
       PageSize:10,
 
       count:{},//总计
+
+      search:'',
       
     };
   },
@@ -245,7 +262,7 @@ export default {
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.unshift(this.count)
+      this.temList.push(this.count)
     },
     getList() {
       this.butLoading= true
@@ -265,13 +282,18 @@ export default {
             this.totalCount = res.data.length
             // this.pointList = [{gnuserId:'12121'}];
 
+            let agentName = 0;
+            let userName = 0;
             let turnover = 0;
             let profitBonus = 0;
             let wallet = 0;
             let winLose = 0;
             let profit = 0;
             let transfer = 0;
+            let tag = true;
             this.pointList.forEach(item=>{
+              agentName += Number(item.agentName)
+              userName += Number(item.userName)
               turnover += Number(item.turnover)
               profitBonus += Number(item.profitBonus)
               wallet += Number(item.wallet)
@@ -279,13 +301,15 @@ export default {
               winLose += Number(item.winLose)
               profit += Number(item.profit)
             })
+            agentName = Number(agentName).toFixed(2)
+            userName = Number(userName).toFixed(2)
             turnover = Number(turnover).toFixed(2)
             profitBonus = Number(profitBonus).toFixed(2)
             wallet = Number(wallet).toFixed(2)
             transfer = Number(transfer).toFixed(2)
             winLose = Number(winLose).toFixed(2)
             profit = Number(profit).toFixed(2)
-            this.count = { turnover,profitBonus, wallet,transfer,winLose,profit}
+            this.count = { agentName,userName,turnover,profitBonus, wallet,transfer,winLose,profit,tag}
             this.count.firstColumn = '总计' 
             this.getTemList()
 
@@ -303,19 +327,18 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.flex-box {
-  display: flex;
-  flex-wrap: wrap;
-  .item {
-    margin-right: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  .flex-box {
+    display: flex;
+    flex-wrap: wrap;
+    .item {
+      
+      margin-right: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .item1{
+      position: absolute;
+      right:0;
+    }
   }
-  .el-select{
-    width: 250px !important;
-  }
-  .el-input__inner{
-    width: 250px !important;
-  }
-}
 </style>

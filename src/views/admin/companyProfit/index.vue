@@ -12,6 +12,9 @@
           />
         </el-select>
       </div>
+      <div class="item">
+        <el-button type="primary" @click="getFenTong" >分桶额</el-button>
+      </div>
 
       <!-- <div class="item">
         <el-select  v-model="searchFrom.gameCode"  placeholder="Please select type " >
@@ -37,14 +40,14 @@
         fit
         highlight-current-row
         ref="filterTable"
-        :default-sort="{ prop: 'userName', order: 'descending' }"
+        :default-sort="{  }"
       >
         <el-table-column
           label="项目 "
           align="center"
           prop="item"
           sort-by="item"
-          sortable
+          
         >
           <template slot-scope="scope">
             <span v-if="scope.row.item">{{scope.row.item}}</span>
@@ -55,7 +58,7 @@
           label="现金"
           align="center"
           prop="cashAmount"
-          sortable
+          
         >
         </el-table-column>
 
@@ -63,7 +66,7 @@
           label="信用"
           align="center"
           prop="creditAmount"
-          sortable
+          
         >
         </el-table-column>
 
@@ -71,16 +74,34 @@
           label="共计"
           align="center"
           prop="totalAmount"
-          sortable
+          
         >
         </el-table-column>
         
       </el-table>
+      <el-dialog
+      title="分桶额"
+      :visible.sync="FTvzb"
+      width="40%"
+    >
+      <el-form :model="searchFrom">
+        <el-form-item label="分桶额" label-width="100px">
+          <el-input
+            v-model="FTValue"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <!-- <el-button @click="closeEdit">取 消</el-button> -->
+        <el-button type="primary" @click="editFT">确 定</el-button>
+      </div>
+    </el-dialog>
     </div>
   </div>
 </template>
 <script>
-import { getTransferGame  , getDrlWeek , getCompanyAccount} from "@/api/member";
+import { getTransferGame  , getDrlWeek , getCompanyAccount,getCompanyProfitAmount,addCompanyProfit} from "@/api/member";
 export default {
   name: "userCredit",
   components:{},
@@ -107,6 +128,9 @@ export default {
       gameCode:'',//明细gameCode
 
       butLoading:false,
+
+      FTvzb:false,//分桶
+      FTValue:'',//分桶额
 
       // 分页
       // 总数据
@@ -157,6 +181,35 @@ export default {
       this.searchFrom.fromDate = this.dataList[proNum].fromDate
       this.searchFrom.toDate = this.dataList[proNum].toDate
       this.getList()
+    },
+
+    //分桶
+    getFenTong(){
+      const { fromDate, toDate , gameCode } = this.searchFrom;
+      this.FTvzb = true
+      getCompanyProfitAmount({fromDate,toDate}).then(res=>{
+        console.log(res,'分桶额');
+        this.FTValue = res.data.amount
+      })
+    },
+    editFT(){
+      const { fromDate, toDate , gameCode } = this.searchFrom;
+      addCompanyProfit({fromDate,toDate,amount:this.FTValue,}).then(res=>{
+        console.log(res,'设置分桶额');
+        if(res.data.remark == '' || res.data.status == 'success'){
+            this.$message({
+              type:'success',
+              message:res.message
+            })
+            this.getList()
+            this.FTvzb = false
+          }else{
+            this.$message({
+              type:'error',
+              message:res.data.remark
+            })
+          }
+      })
     },
 
     changeShow(row){

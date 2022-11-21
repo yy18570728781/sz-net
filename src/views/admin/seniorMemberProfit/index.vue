@@ -35,18 +35,31 @@
       <div class="item">
         <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
       </div>
+      <div class="item item1">
+        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+      </div>
       
     </div>
 
     <el-table
       v-loading="listLoading"
-      :data="temList"
+      :data="
+        temList.filter(
+          (data) =>
+            !search ||
+            data.userName.toLowerCase().includes(search.toLowerCase()) ||
+            data.level.toLowerCase().includes(search.toLowerCase()) ||
+            data.userType.toLowerCase().includes(search.toLowerCase()) ||
+            data.turnover.toLowerCase().includes(search.toLowerCase()) ||
+            data.playerBonus.toLowerCase().includes(search.toLowerCase()) 
+        )
+      "
       element-loading-text="Loading"
       border
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{  }"
     >
        <el-table-column
         label="操作"
@@ -215,6 +228,7 @@ export default {
       count:{},//总计
 
       butLoading:false,
+      search:'',
     };
   },
   async created(){
@@ -290,7 +304,7 @@ export default {
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.unshift(this.count)
+      this.temList.push(this.count)
     },
 
     getList() {
@@ -308,6 +322,9 @@ export default {
             this.totalCount = res.data.length
             // this.pointList = [{gnuserId:'12121'}];
 
+            let userName = '';
+            let userType = '';
+            let level = '';
             let turnover = 0;
             let turnoverBonus = 0;
             let profitBonus = 0;
@@ -316,6 +333,7 @@ export default {
             let transfer = 0;
             let winLose = 0;
             let profit = 0;
+            let tag = true
             this.pointList.forEach(item=>{
               turnover += Number(item.turnover)
               turnoverBonus += Number(item.turnoverBonus)
@@ -334,7 +352,7 @@ export default {
             transfer = Number(transfer).toFixed(2)
             winLose = Number(winLose).toFixed(2)
             profit = Number(profit).toFixed(2)
-            this.count = { turnover,turnoverBonus,profitBonus,playerBonus, wallet,transfer,winLose,profit}
+            this.count = { turnover,userType,level,userName,tag,turnoverBonus,profitBonus,playerBonus, wallet,transfer,winLose,profit}
             this.count.firstColumn = '总计' 
             this.getTemList()
             this.listLoading = false;
@@ -354,6 +372,7 @@ export default {
 .flex-box {
   display: flex;
   flex-wrap: wrap;
+  position: relative;
   .item {
     margin-right: 10px;
     margin-top: 10px;
@@ -365,5 +384,10 @@ export default {
   .el-input__inner{
     width: 250px !important;
   }
+  .item1{
+      position: absolute;
+      right:0;
+    }
 }
+
 </style>

@@ -143,6 +143,7 @@
         <el-form-item label="备注名" :label-width="formLabelWidth">
           <el-input
             v-model="currentMember.userRemark"
+            maxlength="45"
           ></el-input>
         </el-form-item>
         <el-form-item label="流水提成%" :label-width="formLabelWidth">
@@ -276,27 +277,30 @@ export default {
       this.dialogFormVisible = true;
       this.memberByID(id);
     },
+    // /^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,3})(\.\d{1,2})?$/
     editMember() {
       this.butLoading = true
       if (
-        /^([0-9]{1,2}$)|(^[0-9]{1,2}\.[0-9]{1,2}$)|100$/.test(
+        /^(0\.\d{0,1}[0-9]|\+?[0-9][0-9]{0,2})(\.\d{1,2})?$/.test(
           this.currentMember.turnoverRebate
         ) &&
-        /^([0-9]{1,2}$)|(^[0-9]{1,2}\.[0-9]{1,2}$)|100$/.test(
+        /^(0\.\d{0,1}[0-9]|\+?[0-9][0-9]{0,2})(\.\d{1,2})?$/.test(
           this.currentMember.profitRebate
         ) &&
-        /^([0-9]{1,2}$)|(^[0-9]{1,2}\.[0-9]{1,2}$)|100$/.test(
+        /^(0\.\d{0,1}[0-9]|\+?[0-9][0-9]{0,2})(\.\d{1,2})?$/.test(
           this.currentMember.turnoverRebateFb
         )
       ) {
+        
         const { userRemark,turnoverRebateFb,loginInd,gnuserId, turnoverRebate, profitRebate } = this.currentMember;
         UpdateSeniorRebate({ userRemark,turnoverRebateFb,loginInd,gnuserId, turnoverRebate, profitRebate })
           .then((res) => {
+            this.butLoading = false
             console.log(res);
             if (res.data.status == 'Success' && res.data.remark == '') {
               this.$message({ type: "success", message: "编辑成功" });
               this.closeEdit();
-              this.butLoading = false
+              
             } else {
               this.$message({ type: "error", message: res.data.remark || "编辑失败" });
               this.butLoading = false
@@ -307,9 +311,10 @@ export default {
             console.log(err);
           });
       } else {
+        this.butLoading = false
         this.$message({
           type: "info",
-          message: "流水提成、利润提成和球网利润提成皆为0到100之间最多允许包含2位小数",
+          message: "流水提成、利润提成和球网利润提成皆为最多7位数整数，限2位小数",
         });
       }
     },
@@ -326,24 +331,35 @@ export default {
     addCredit() {
       this.butLoading = true
       const { gnuserId } = this.currentMember;
-      addSeniorCredit({
-        gnuserId,
-        credit: this.credit,
-      })
-        .then((res) => {
-          if (res.data.status == 'Success' && res.data.remark == '') {
-            this.$message({ type: "success", message: "增加信用成功" });
-            this.closeAddCredit();
-            
-          } else {
-            this.$message({ type: "info", message: res.data.remark ||"增加信用失败" });
-          }
-          this.butLoading = false
-          
+      if(/^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,3})(\.\d{1,2})?$/.test(this.credit)){
+        addSeniorCredit({
+          gnuserId,
+          credit: this.credit,
         })
-        .catch((err) => {
-          console.log(err);
+          .then((res) => {
+            this.butLoading = false
+            if (res.data.status == 'Success' && res.data.remark == '') {
+              this.$message({ type: "success", message: "增加信用成功" });
+              this.closeAddCredit();
+              
+            } else {
+              this.$message({ type: "info", message: res.data.remark ||"增加信用失败" });
+            }
+            
+            
+          })
+          .catch((err) => {
+            console.log(err);
+            this.butLoading = false
+          });
+      }else{
+        this.butLoading = false
+        this.$message({
+          type: "info",
+          message: "只能填写最多7位数整数，限2位小数",
         });
+      }
+      
     },
     closeAddCredit() {
       this.dialogFormVisibleAdd = false;
@@ -359,24 +375,34 @@ export default {
     minusCredit() {
       this.butLoading = true
       const { gnuserId } = this.currentMember;
-      minusSeniorCredit({
-        gnuserId,
-        credit: this.credit,
-      })
-        .then((res) => {
-          
-          if (res.data.status == "Success" && res.data.remark == '') {
-            this.$message({ type: "success", message: "降低信用成功" });
-            this.closeMinusCredit();
-          } else {
-            this.$message({ type: "info", message: res.data.remark ||"降低信用失败" });
-          }
-          this.butLoading = false
-          this.fetchData();
+      if(/^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,3})(\.\d{1,2})?$/.test(this.credit)){
+        minusSeniorCredit({
+          gnuserId,
+          credit: this.credit,
         })
-        .catch((err) => {
-          console.log(err);
+          .then((res) => {
+            this.butLoading = false
+            if (res.data.status == "Success" && res.data.remark == '') {
+              this.$message({ type: "success", message: "降低信用成功" });
+              this.closeMinusCredit();
+            } else {
+              this.$message({ type: "info", message: res.data.remark ||"降低信用失败" });
+            }
+            this.butLoading = false
+            this.fetchData();
+          })
+          .catch((err) => {
+            this.butLoading = false
+            console.log(err);
+          });
+      }else{
+        this.butLoading = false
+        this.$message({
+          type: "info",
+          message: "只能填写最多7位数整数，限2位小数",
         });
+      }
+      
     },
     closeMinusCredit() {
       this.dialogFormVisibleMinus = false;

@@ -21,7 +21,7 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{   }"
     >
 
       <el-table-column
@@ -153,7 +153,7 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{   }"
     >
       <el-table-column
         label="代理总结"
@@ -432,6 +432,7 @@ export default {
           .then((res) => {
             console.log(res,'会员总结');
             this.memberList = res.data;
+            this.totalCount = res.data.length
             let userCode = 0;
             let userName = 0;
             let playerProfitBonus = 0;
@@ -471,7 +472,7 @@ export default {
             this.count = {userCode,userName, playerProfitBonus,turnoverBonus,profitBonus, turnover,winLose,wallet,playerProfit,profit,transfer,tag}
             this.count.firstColumn = '总计' 
             this.getTemList()
-            this.totalCount = res.data.length
+            
             this.listLoading = false;
           })
           .catch((err) => {
@@ -483,7 +484,9 @@ export default {
           .then((res) => {
             console.log(res,'代理总结');
             this.agencypList = res.data;
-             let userCode = 0;
+            this.totalCount1 = res.data.length;
+
+            let userCode = 0;
             let userName = 0;
             let agentTurnoverBonus = 0;
             let turnoverBonus = 0;
@@ -529,7 +532,7 @@ export default {
             this.count.firstColumn = '总计' 
             
             this.getTemList1()
-            this.totalCount1 = res.data.length
+            
             this.listLoading = false;
           })
           .catch((err) => {

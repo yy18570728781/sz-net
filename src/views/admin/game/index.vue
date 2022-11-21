@@ -14,7 +14,7 @@
       </div>
 
       <div class="item">
-        <el-select  v-model="searchFrom.gameCode" @change="getList" placeholder="Please select type " >
+        <el-select  v-model="searchFrom.gameCode" @change="yanGetList" placeholder="Please select type " >
           <el-option
             v-for="item in gameList"  
             :key="item.code"
@@ -22,6 +22,9 @@
             :value="item.code"
           />
         </el-select>
+      </div>
+      <div class="item item1">
+        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
       </div>
       <!-- <div class="item">
         <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
@@ -32,13 +35,21 @@
     <div v-if="nowGame == 'G01' ">
       <el-table
         v-loading="listLoading"  
-        :data="temList"
+        :data="
+          temList.filter(
+            (data) =>
+              !search ||
+              data.gameNo.toLowerCase().includes(search.toLowerCase()) ||
+              data.bankerWinFee.toLowerCase().includes(search.toLowerCase()) ||
+              data.totalPlayer.toLowerCase().includes(search.toLowerCase()) 
+          )
+        "
         element-loading-text="Loading"
         border
         fit
         highlight-current-row
         ref="filterTable"
-        :default-sort="{ prop: 'userName', order: 'descending' }"
+        :default-sort="{   }"
       >
         <el-table-column
           label="操作"
@@ -71,6 +82,7 @@
           label="上庄费"
           align="center"
           prop="hostFee"
+           sortable
         >
         </el-table-column>
 
@@ -78,6 +90,7 @@
           label="服务费"
           align="center"
           prop="serviceFee"
+           sortable
         >
         </el-table-column>
 
@@ -138,13 +151,22 @@
     <div v-if="nowGame == 'G02' ">
       <el-table
         v-loading="listLoading"  
-        :data="temList"
+        :data="
+          temList.filter(
+            (data) =>
+              !search ||
+              data.league.toLowerCase().includes(search.toLowerCase()) ||
+              data.homeTeam.toLowerCase().includes(search.toLowerCase()) ||
+              data.scoreResult.toLowerCase().includes(search.toLowerCase()) ||
+              data.awayTeam.toLowerCase().includes(search.toLowerCase()) 
+          )
+        "
         element-loading-text="Loading"
         border
         fit
         highlight-current-row
         ref="filterTable"
-        :default-sort="{ prop: 'userName', order: 'descending' }"
+        :default-sort="{   }"
       >
         <el-table-column
           label="操作"
@@ -245,13 +267,22 @@
     <div v-if="nowGame == 'G03' ">
       <el-table
         v-loading="listLoading"  
-        :data="temList"
+        :data="
+          temList.filter(
+            (data) =>
+              !search ||
+              data.gameNo.toLowerCase().includes(search.toLowerCase()) ||
+              data.totalPlayer.toLowerCase().includes(search.toLowerCase()) ||
+              data.winlose.toLowerCase().includes(search.toLowerCase()) ||
+              data.turnover.toLowerCase().includes(search.toLowerCase()) 
+          )
+        "
         element-loading-text="Loading"
         border
         fit
         highlight-current-row
         ref="filterTable"
-        :default-sort="{ prop: 'userName', order: 'descending' }"
+        :default-sort="{   }"
       >
         <el-table-column
           label="操作"
@@ -321,13 +352,22 @@
     <div v-if="nowGame == 'G04' ">
       <el-table
         v-loading="listLoading"  
-        :data="temList"
+        :data="
+          temList.filter(
+            (data) =>
+              !search ||
+              data.gameNo.toLowerCase().includes(search.toLowerCase()) ||
+              data.totalPlayer.toLowerCase().includes(search.toLowerCase()) ||
+              data.water.toLowerCase().includes(search.toLowerCase()) ||
+              data.turnover.toLowerCase().includes(search.toLowerCase()) 
+          )
+        "
         element-loading-text="Loading"
         border
         fit
         highlight-current-row
         ref="filterTable"
-        :default-sort="{ prop: 'userName', order: 'descending' }"
+        :default-sort="{   }"
       >
         <el-table-column
           label="操作"
@@ -442,6 +482,8 @@ export default {
       PageSize:10,
 
       count:{},//总计
+
+      search:'',
       
     };
   },
@@ -525,24 +567,33 @@ export default {
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
       this.temList.push(this.count)
     },
-    
+    async yanGetList(){
+      this.search = ''
+      await this.getList()
+    },
     getList(){
       this.nowGame = this.searchFrom.gameCode
       this.butLoading = true
+      this.listLoading = true;
       let _this = this
 
       if (this.searchFrom.fromDate && this.searchFrom.toDate) {
-        this.listLoading = true;
 
         const { fromDate, toDate , gameCode } = this.searchFrom;
         // 牛牛
         getGameTxnSum({ gameCode, fromDate, toDate })
           .then((res) => {
             this.butLoading = false
+            
             console.log(res,'游戏');
             this.pointList = res.data;
+            this.totalCount = res.data.length
 
             let gameNo = '';
+            let league = '';
+            let awayTeam = '';
+            let scoreResult = '';
+            let homeTeam = '';
             let totalPlayer = 0;
             let hostFee = 0;
             let serviceFee = 0;
@@ -550,7 +601,7 @@ export default {
             let playerWinFee = 0;
             let packetFee = 0;
             let turnover = 0;
-            let winLose = 0;
+            let winlose = 0;
             let water = 0;
             let drawDate = '';
             this.pointList.forEach(item=>{
@@ -560,7 +611,7 @@ export default {
               bankerWinFee += Number(item.bankerWinFee)
               playerWinFee += Number(item.playerWinFee)
               turnover += Number(item.turnover)
-              winLose += Number(item.winLose)
+              winlose += Number(item.winlose) 
               water += Number(item.water)
               packetFee += Number(item.packetFee)
             })
@@ -570,58 +621,18 @@ export default {
             bankerWinFee = Number(bankerWinFee).toFixed(2)
             playerWinFee = Number(playerWinFee).toFixed(2)
             turnover = Number(turnover).toFixed(2)
-            winLose = Number(winLose).toFixed(2)
+            winlose = Number(winlose).toFixed(2)
             water = Number(water).toFixed(2)
             packetFee = Number(packetFee).toFixed(2)
-            this.count = { gameNo,totalPlayer,hostFee,serviceFee, bankerWinFee,playerWinFee,turnover,winLose,water,packetFee,drawDate}
+            this.count = { league,scoreResult,awayTeam,homeTeam,gameNo,totalPlayer,hostFee,serviceFee, bankerWinFee,playerWinFee,turnover,winlose,water,packetFee,drawDate}
             this.count.firstColumn = '总计' 
             this.getTemList()
-            this.totalCount = res.data.length
             this.listLoading = false;
+            
           })
-        // 球网
-        getGameTxnSum({ gameCode, fromDate, toDate })
-          .then((res) => {
-            this.butLoading = false
-            console.log(res,'游戏');
-            this.pointList = res.data;
-
-            let gameNo = '';
-            let totalPlayer = 0;
-            let hostFee = 0;
-            let serviceFee = 0;
-            let bankerWinFee = 0;
-            let playerWinFee = 0;
-            let packetFee = 0;
-            let turnover = 0;
-            let winlose = 0;
-            let drawDate = '';
-            this.pointList.forEach(item=>{
-              totalPlayer += Number(item.totalPlayer)
-              hostFee += Number(item.hostFee)
-              serviceFee += Number(item.serviceFee)
-              bankerWinFee += Number(item.bankerWinFee)
-              playerWinFee += Number(item.playerWinFee)
-              turnover += Number(item.turnover)
-              winlose += Number(item.winlose)
-              packetFee += Number(item.packetFee)
-            })
-            totalPlayer = Number(totalPlayer).toFixed(2)
-            hostFee = Number(hostFee).toFixed(2)
-            serviceFee = Number(serviceFee).toFixed(2)
-            bankerWinFee = Number(bankerWinFee).toFixed(2)
-            playerWinFee = Number(playerWinFee).toFixed(2)
-            turnover = Number(turnover).toFixed(2)
-            winlose = Number(winlose).toFixed(2)
-            packetFee = Number(packetFee).toFixed(2)
-            this.count = { gameNo,totalPlayer,hostFee,serviceFee, bankerWinFee,playerWinFee,winlose,turnover,packetFee,drawDate}
-            this.count.firstColumn = '总计' 
-            this.getTemList()
-            this.totalCount = res.data.length
-            this.listLoading = false;
-          })
-          
+      
       } else {
+        this.listLoading = false;
         this.$message({ type: "info", message: "Please select time" }); 
       }
     },
@@ -645,10 +656,15 @@ export default {
 .flex-box {
   display: flex;
   flex-wrap: wrap;
+  position: relative;
   .item {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+  }  
+  .item1{
+    position: absolute;
+    right:0;
   }
   .el-select{
     width: 250px !important;

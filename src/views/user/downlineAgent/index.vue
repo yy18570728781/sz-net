@@ -36,7 +36,7 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{   }"
     >
        <el-table-column
         label="操作"
@@ -49,15 +49,7 @@
           <span v-else style="font-size:20px;font-weight: bold;">总计</span>
         </template>
         
-       </el-table-column>
-      <el-table-column
-        label="代理 ID"
-        align="center"
-        prop="userCode"
-        sort-by="userCode"
-        sortable
-      >
-      </el-table-column>
+       </el-table-column> 
       <el-table-column
         label="代理名"
         align="center"
@@ -69,6 +61,14 @@
         align="center"
         prop="turnover"
         sort-by="turnover"
+        sortable
+      >
+      </el-table-column>
+      <el-table-column
+        label="会员提成"
+        align="center"
+        prop="playerBonus"
+        sort-by="playerBonus"
         sortable
       >
       </el-table-column>
@@ -135,6 +135,14 @@
       >
       </el-table-column>
       <el-table-column
+        label="积分转移"
+        align="center"
+        prop="transfer"
+        sort-by="transfer"
+        sortable
+      >
+      </el-table-column>
+      <el-table-column
         label="输赢"
         align="center"
         prop="winLose"
@@ -172,7 +180,7 @@
       </el-pagination>
     </div>
     <div>
-      <p>**代理总结 = 输赢 + 会员流水提成 + 代理提成 + 钱包 + 积分转移</p>
+      <p>**代理总结 = 输赢 + 会员提成 + 代理提成 + 钱包 + 积分转移</p>
       <p>**我的总结 = 代理总结+ 我的提成</p>
     </div>
     <!-- 总结明细 -->
@@ -295,6 +303,8 @@ export default {
             let agentProfitBonus = 0;
             let turnoverBonus = 0;
             let profitBonus = 0;
+            let playerBonus = 0;
+            let transfer = 0;
             let wallet = 0;
             let winLose = 0;
             let agentProfit = 0;
@@ -307,6 +317,8 @@ export default {
               agentProfitBonus += Number(item.agentProfitBonus)
               turnoverBonus += Number(item.turnoverBonus)
               profitBonus += Number(item.profitBonus)
+              playerBonus += Number(item.playerBonus)
+              transfer += Number(item.transfer)
               wallet += Number(item.wallet)
               winLose += Number(item.winLose)
               agentProfit += Number(item.agentProfit)
@@ -319,11 +331,13 @@ export default {
             agentProfitBonus = Number(agentProfitBonus).toFixed(2)
             turnoverBonus = Number(turnoverBonus).toFixed(2)
             profitBonus = Number(profitBonus).toFixed(2)
+            playerBonus = Number(playerBonus).toFixed(2)
+            transfer = Number(transfer).toFixed(2)
             wallet = Number(wallet).toFixed(2)
             winLose = Number(winLose).toFixed(2)
             agentProfit = Number(agentProfit).toFixed(2)
             profit = Number(profit).toFixed(2)
-            this.count = {userCode,userName, turnover,agentTurnoverBonus,agentProfitBonus,turnoverBonus, wallet,winLose,agentProfit,profit}
+            this.count = {userCode,userName, turnover,agentTurnoverBonus,profitBonus,transfer,playerBonus,agentProfitBonus,turnoverBonus, wallet,winLose,agentProfit,profit}
             this.count.firstColumn = '总计' 
             this.getTemList()
 

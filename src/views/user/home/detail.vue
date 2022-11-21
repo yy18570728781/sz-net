@@ -9,7 +9,7 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{   }"
     >
  
       <el-table-column

@@ -35,7 +35,7 @@
         </el-date-picker>
       </div>
       <div class="item">
-        <el-button type="primary" @click="getList">搜索</el-button>
+        <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
       </div>
       <div class="item item1">
         <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
@@ -60,7 +60,7 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{}"
     >
       <el-table-column
         label="会员 ID"
@@ -155,6 +155,8 @@ export default {
       PageSize:10,
 
       count:{},//总计
+
+      butLoading:false,
     };
   },
   created() {
@@ -217,22 +219,26 @@ export default {
 
     // 获取数据
     getList() {
+      this.butLoading = true
       if (this.searchFrom.fromDate && this.searchFrom.toDate) {
         this.listLoading = true;
         const { userCode, userName, fromDate, toDate } = this.searchFrom;
 
         downlineTopupTxn({ userCode, userName, fromDate, toDate })
           .then((res) => {
+            this.butLoading = false
             this.memberList = res.data;
             this.totalCount = res.data.length
             this.getTemList()
             this.listLoading = false;
           })
           .catch((err) => {
+            this.butLoading = false
             this.listLoading = false;
             console.log(err);
           });
       } else {
+        this.butLoading = false
         this.$message({ type: "info", message: "请选择开始/结束时间" });
       }
     },

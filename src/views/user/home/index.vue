@@ -3,7 +3,7 @@
     <div class="flex-box">
 
       <div class="item">
-        <el-select class="select" v-model="searchFrom.showDate" placeholder="Please select time" @change="getList">
+        <el-select class="select" v-model="searchFrom.showDate" placeholder="Please select time" @change="selectChange">
           <el-option
             v-for="item in dataList"
             :key="item.showDate"
@@ -23,7 +23,7 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{   }"
     >
        <!-- <el-table-column
         label="操作"
@@ -61,7 +61,7 @@
 
 
       <el-table-column
-        label="提成"
+        label="我的提成"
         align="center"
         prop="bonus"
       >
@@ -73,7 +73,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="转积分"
+        label="积分转移"
         align="center"
         prop="transfer"
       >
@@ -86,13 +86,14 @@
       </el-table-column>
 
       <el-table-column
-        label="总结"
+        label="我的总结"
         align="center"
         prop="profit"
       >
       </el-table-column>
       
     </el-table>
+    <p>**我的总结 = 下线提成 + 我的提成 + 钱包 + 积分转移 + 输赢</p>
     <!-- <div class="page">
       <el-pagination 
         @size-change="handleSizeChange" 
@@ -155,6 +156,8 @@ export default {
       if(res.code == 0){
         this.dataList = res.data;
         this.searchFrom.showDate = this.dataList[0].showDate
+        this.searchFrom.fromDate = this.dataList[0].fromDate
+        this.searchFrom.toDate = this.dataList[0].toDate
         
         console.log(this.dataList,'时间列表');
         this.getList()
@@ -163,6 +166,16 @@ export default {
     
   },
   methods: {
+    selectChange(value){
+      let proNum = this.dataList.findIndex((item, index) =>{
+        return item.showDate == value
+      })
+      console.log(proNum);
+      this.searchFrom.fromDate = this.dataList[proNum].fromDate
+      this.searchFrom.toDate = this.dataList[proNum].toDate
+      this.getList()
+    },
+
     changeShow(row){
       console.log(row);
       this.gnuserId = row.gnuserId
@@ -195,9 +208,6 @@ export default {
     },
 
     getList() {
-      let index1 = this.searchFrom.showDate.indexOf(" - ")
-      this.searchFrom.fromDate = this.searchFrom.showDate.substring(0,index1);
-      this.searchFrom.toDate = this.searchFrom.showDate.substring(Number(index1) + 3);
 
       if (this.searchFrom.fromDate && this.searchFrom.toDate) {
         this.listLoading = true;

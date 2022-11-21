@@ -209,6 +209,34 @@ export const asyncRoutes = [
       }
     }]
   },
+  {
+    path: '/admin/memberBonus',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'memberBonus',
+      component: () => import('@/views/admin/memberBonus/index'),
+      meta: {
+        title: '会员奖励',
+        icon: 'memberBonus',
+        roles: ["admin","staff",]
+      }
+    }]
+  },
+  {
+    path: '/admin/companyExpenses',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'companyExpenses',
+      component: () => import('@/views/admin/companyExpenses/index'),
+      meta: {
+        title: '公司费用',
+        icon: 'companyExpenses',
+        roles: ["admin","staff",]
+      }
+    }]
+  },
   // 用户路由
   {
     path: '/user/home',
@@ -218,7 +246,7 @@ export const asyncRoutes = [
       name: 'home',
       component: () => import('@/views/user/home/index'),
       meta: {
-        title: '总结 Profit',
+        title: '我的总结',
         icon: 'home',
         roles: ["user"]
       }

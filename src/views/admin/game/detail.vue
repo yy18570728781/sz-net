@@ -1,17 +1,34 @@
 <template>
   
-  <el-dialog title="总结明细" :visible="DetDialog_" center width="95%"  @close="closeEdit">
+  <el-dialog title="游戏明细" :visible="DetDialog_" center width="95%"  @close="closeEdit">
+    <div class="flex_box">
+      <div class="item">
+        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+      </div>
+    </div>
     <!-- 牛牛 -->
     <div v-if="nowGame == 'G01' ">
       <el-table
         v-loading="listLoading"
-        :data="temList"
+        :data="
+          temList.filter(
+            (data) =>
+              !search ||
+              data.playerName.toLowerCase().includes(search.toLowerCase()) ||
+              data.betType.toLowerCase().includes(search.toLowerCase()) ||
+              data.packetPoint.toLowerCase().includes(search.toLowerCase()) ||
+              data.packetType.toLowerCase().includes(search.toLowerCase()) ||
+              data.multiply.toLowerCase().includes(search.toLowerCase()) ||
+              data.status.toLowerCase().includes(search.toLowerCase()) ||
+              data.bet.toLowerCase().includes(search.toLowerCase()) 
+          )
+        "
         element-loading-text="Loading"
         border
         fit
         highlight-current-row
         ref="filterTable"
-        :default-sort="{ prop: 'userName', order: 'descending' }"
+        :default-sort="{  }"
       >
 
         <el-table-column
@@ -21,8 +38,8 @@
           sortable
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.playerName">{{scope.row.playerName}} </span>
-            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+            <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
+            <span v-else>{{scope.row.playerName}} </span>
           </template>
         </el-table-column>
 
@@ -138,13 +155,24 @@
     <div v-if="nowGame == 'G02' ">
       <el-table
         v-loading="listLoading"
-        :data="temList"
+        :data="
+          temList.filter(
+            (data) =>
+              !search ||
+              data.playerName.toLowerCase().includes(search.toLowerCase()) ||
+              data.betType.toLowerCase().includes(search.toLowerCase()) ||
+              data.team.toLowerCase().includes(search.toLowerCase()) ||
+              data.bet.toLowerCase().includes(search.toLowerCase()) ||
+              data.odds.toLowerCase().includes(search.toLowerCase()) ||
+              data.status.toLowerCase().includes(search.toLowerCase()) 
+          )
+        "
         element-loading-text="Loading"
         border
         fit
         highlight-current-row
         ref="filterTable"
-        :default-sort="{ prop: 'userName', order: 'descending' }"
+        :default-sort="{  }"
       >
 
         <el-table-column
@@ -154,8 +182,8 @@
           sortable
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.playerName">{{scope.row.playerName}} </span>
-            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+             <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
+            <span v-else>{{scope.row.playerName}} </span>
           </template>
         </el-table-column>
 
@@ -229,13 +257,23 @@
     <div v-if="nowGame == 'G03' ">
       <el-table
         v-loading="listLoading"
-        :data="temList"
+        :data="
+          temList.filter(
+            (data) =>
+              !search ||
+              data.playerName.toLowerCase().includes(search.toLowerCase()) ||
+              data.betType.toLowerCase().includes(search.toLowerCase()) ||
+              data.bet.toLowerCase().includes(search.toLowerCase()) ||
+              data.odds.toLowerCase().includes(search.toLowerCase()) ||
+              data.status.toLowerCase().includes(search.toLowerCase()) 
+          )
+        "
         element-loading-text="Loading"
         border
         fit
         highlight-current-row
         ref="filterTable"
-        :default-sort="{ prop: 'userName', order: 'descending' }"
+        :default-sort="{  }"
       >
 
         <el-table-column
@@ -245,8 +283,8 @@
           sortable
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.playerName">{{scope.row.playerName}} </span>
-            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+             <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
+            <span v-else>{{scope.row.playerName}} </span>
           </template>
         </el-table-column>
 
@@ -313,13 +351,20 @@
     <div v-if="nowGame == 'G04' ">
       <el-table
         v-loading="listLoading"
-        :data="temList"
+        :data="
+          temList.filter(
+            (data) =>
+              !search ||
+              data.playerName.toLowerCase().includes(search.toLowerCase()) ||
+              data.status.toLowerCase().includes(search.toLowerCase()) 
+          )
+        "
         element-loading-text="Loading"
         border
         fit
         highlight-current-row
         ref="filterTable"
-        :default-sort="{ prop: 'userName', order: 'descending' }"
+        :default-sort="{  }"
       >
 
         <el-table-column
@@ -329,8 +374,8 @@
           sortable
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.playerName">{{scope.row.playerName}} </span>
-            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+             <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
+            <span v-else>{{scope.row.playerName}} </span>
           </template>
         </el-table-column>
 
@@ -423,6 +468,7 @@ export default {
       count:{},//总计
 
       nowGame:'',
+      search:'',
     };
   },
   created(){
@@ -472,6 +518,7 @@ export default {
     },
 
     getList(gametxnId,gameCode,fromDate,toDate,nowGame) {
+      this.search = ''
       this.nowGame = nowGame
       let _this = this
       console.log(this.DetDialog,this.gnuserId,this.fromDate,this.toDate);
@@ -482,7 +529,14 @@ export default {
             console.log(res,'游戏明细总结');
             this.memberList = res.data;
             this.totalCount = res.data.length
-            this.getTemList()
+            
+            let playerName = '';
+            let betType = '';
+            let packetType = '';
+            let team = '';
+            let multiply = '';
+            let status = '';
+            let odds = '';
             let bet = 0;
             let packetPoint = 0;
             let serviceFee = 0;
@@ -492,6 +546,7 @@ export default {
             let packetFee = 0;
             let winFee = 0;
             let totalWinLose = 0;
+            let tag = true
             this.memberList.forEach(item=>{
               bet += Number(item.bet)
               packetPoint += Number(item.packetPoint)
@@ -512,7 +567,7 @@ export default {
             winFee = Number(winFee).toFixed(2)
             packetFee = Number(packetFee).toFixed(2)
             totalWinLose = Number(totalWinLose).toFixed(2)
-            this.count = { bet,packetPoint,serviceFee, turnover,winLose,hostFee,packetFee,totalWinLose,winFee}
+            this.count = {playerName,team, betType,packetType,multiply,status,bet,packetPoint,serviceFee,tag, turnover,winLose,odds,hostFee,packetFee,totalWinLose,winFee}
             this.count.firstColumn = '总计' 
             this.getTemList()
 
@@ -532,9 +587,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 
-.flex-box {
+.flex_box {
   display: flex;
   flex-wrap: wrap;
+  justify-content: end;
   .item {
     margin-right: 10px;
     margin-top: 10px;

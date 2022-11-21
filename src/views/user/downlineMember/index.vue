@@ -32,7 +32,7 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{   }"
     >
        <el-table-column
         label="操作"
@@ -46,14 +46,14 @@
         </template>
         
        </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         label="会员 ID"
         align="center"
         prop="userCode"
         sort-by="userCode"
         sortable
       >
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         label="会员名"
         align="center"
@@ -152,7 +152,7 @@
       </el-pagination>
     </div>
     <div>
-      <p>**玩家总结 = 输赢 + 会员流水提成 + 钱包 + 积分转移</p>
+      <p>**玩家总结 = 输赢 + 会员提成 + 钱包 + 积分转移</p>
       <p>**我的总结 = 玩家总结 + 我的流水提成 + 我的利润提成</p>
     </div>
     <!-- 总结明细 -->

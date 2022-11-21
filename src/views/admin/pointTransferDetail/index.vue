@@ -14,7 +14,7 @@
       </div>
 
       <div class="item">
-        <el-select  v-model="searchFrom.gameCode"  placeholder="Please select type " >
+        <el-select  v-model="searchFrom.gameCode"  placeholder="Please select type "  @change="$forceUpdate()">
           <el-option
             v-for="item in gameList"  
             :key="item.code"
@@ -26,18 +26,31 @@
       <div class="item">
         <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
       </div>
+
+      <div class="item item1">
+        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+      </div>
       
     </div>
     <div>
       <el-table
         v-loading="listLoading"  
-        :data="pointList"
+        :data="
+          temList.filter(
+            (data) =>
+              !search ||
+              data.userCode.toLowerCase().includes(search.toLowerCase()) ||
+              data.userName.toLowerCase().includes(search.toLowerCase()) ||
+              data.remarks.toLowerCase().includes(search.toLowerCase()) ||
+              data.point.toLowerCase().includes(search.toLowerCase()) 
+          )
+        "
         element-loading-text="Loading"
         border
         fit
         highlight-current-row
         ref="filterTable"
-        :default-sort="{ prop: 'userName', order: 'descending' }"
+        :default-sort="{ }"
       >
         <el-table-column
           label="会员ID"
@@ -46,8 +59,8 @@
           sortable
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.userCode">{{scope.row.userCode}}</span>
-            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+            <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
+            <span v-else>{{scope.row.userCode}} </span>
           </template>
         </el-table-column>
         <el-table-column
@@ -130,6 +143,8 @@ export default {
       PageSize:10,
 
       count:{},//总计
+
+      search:'',
       
     };
   },
@@ -170,6 +185,9 @@ export default {
   mounted(){
   },
   methods: {
+    log(){
+
+    },
     selectChange(value){
       let proNum = this.dataList.findIndex((item, index) =>{
         return item.showDate == value
@@ -230,12 +248,16 @@ export default {
             console.log(res,'游戏');
             this.pointList = res.data;
 
+            let userCode = '';
+            let userName = '';
+            let remarks = '';
             let point = 0;
+            let tag = true
             this.pointList.forEach(item=>{
               point += Number(item.point)
             })
             point = Number(point).toFixed(2)
-            this.count = { point}
+            this.count = { userCode,userName,remarks,point,tag}
             // this.count.firstColumn = '总计' 
             await this.getTemList()
             this.totalCount = res.data.length
@@ -267,10 +289,15 @@ export default {
 .flex-box {
   display: flex;
   flex-wrap: wrap;
+  position: relative;
   .item {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+  }  
+  .item1{
+    position: absolute;
+    right:0;
   }
   .el-select{
     width: 250px !important;

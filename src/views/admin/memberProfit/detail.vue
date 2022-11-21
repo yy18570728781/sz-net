@@ -1,48 +1,51 @@
 <template>
   
-  <el-dialog title="总结明细" :visible="DetDialog_" center width="98%"  @close="closeEdit">
+  <el-dialog title="会员总结明细" :visible="DetDialog_" center width="98%"  @close="closeEdit">
+   <div class="flex">
+      <div class="item">
+        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+      </div>
+    </div>
     <el-table
       v-loading="listLoading"
-      :data="temList"
+      :data="
+        temList.filter(
+          (data) =>
+            !search ||
+            data.userCode.toLowerCase().includes(search.toLowerCase()) ||
+            data.userName.toLowerCase().includes(search.toLowerCase()) 
+        )
+      "
       element-loading-text="Loading"
       border
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{   }"
     >
- 
+
       <el-table-column
-        label="会员 ID"
+        label="游戏 1"
         align="center"
-        prop="userCode"
-        sort-by="userCode"
+        prop=""
+      >
+      <el-table-column
+        label="游戏"
+        align="center"
+        prop="game"
         sortable
       >
         <template slot-scope="scope">
-          <span v-if="scope.row.userCode">{{scope.row.userCode}} </span>
+          <span v-if="scope.row.game">{{scope.row.game}} </span>
           <span v-else style="font-size:20px;font-weight: bold;">总计</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="会员名"
-        align="center"
-        prop="userName"
-      >
-      </el-table-column>
-
-      <el-table-column
-        label="游戏"
-        align="center"
-        prop="game"
-      >
-      </el-table-column>
-
-      <el-table-column
-        label="场数"
+        label="期数"
         align="center"
         prop="gameNo"
+         sortable
       >
       </el-table-column>
 
@@ -50,6 +53,7 @@
         label="类型"
         align="center"
         prop="type"
+         sortable
       >
       </el-table-column>
 
@@ -57,6 +61,21 @@
         label="下注"
         align="center"
         prop="bet"
+         sortable
+      >
+      </el-table-column>
+      <el-table-column
+        label="赔率"
+        align="center"
+        prop="odds"
+         sortable
+      >
+      </el-table-column>
+      <el-table-column
+        label="结果"
+        align="center"
+        prop="status"
+         sortable
       >
       </el-table-column>
 
@@ -64,6 +83,7 @@
         label="钱包"
         align="center"
         prop="wallet"
+         sortable
       >
       </el-table-column>
 
@@ -80,6 +100,7 @@
         label="输赢"
         align="center"
         prop="winLose"
+         sortable
       >
       </el-table-column>
 
@@ -91,7 +112,7 @@
         sortable
       >
       </el-table-column>
-        
+      </el-table-column>  
     </el-table>
     <div class="page">
       <el-pagination 
@@ -103,10 +124,213 @@
         :total="totalCount">
       </el-pagination>
     </div>
+
+    <div class="flex">
+      <div class="item">
+        <el-input v-model="search1" placeholder="输入关键字搜索"> </el-input>
+      </div>
+    </div>
+    <el-table
+      v-loading="listLoading"
+      :data="
+        temList1.filter(
+          (data) =>
+            !search1 ||
+            data.game.toLowerCase().includes(search1.toLowerCase()) ||
+            data.team.toLowerCase().includes(search1.toLowerCase()) ||
+            data.type.toLowerCase().includes(search1.toLowerCase()) ||
+            data.gameNo.toLowerCase().includes(search1.toLowerCase()) 
+        )
+      "
+      element-loading-text="Loading"
+      border
+      fit
+      highlight-current-row
+      ref="filterTable"
+      :default-sort="{   }"
+    >
+
+      <el-table-column
+        label="游戏 2"
+        align="center"
+        prop=""
+      >
+      <el-table-column
+        label="游戏"
+        align="center"
+        prop="game"
+        sortable
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.time">{{scope.row.game}} </span>
+          <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="场数"
+        align="center"
+        prop="gameNo"
+         sortable
+      >
+      </el-table-column>
+
+      <el-table-column
+        label="类型"
+        align="center"
+        prop="type"
+         sortable
+      >
+      </el-table-column>
+      <el-table-column
+        label="球队"
+        align="center"
+        prop="team"
+         sortable
+      >
+      </el-table-column>
+
+      <el-table-column
+        label="下注"
+        align="center"
+        prop="bet"
+         sortable
+      >
+      </el-table-column>
+      <el-table-column
+        label="赔率"
+        align="center"
+        prop="odds"
+         sortable
+      >
+      </el-table-column>
+      <el-table-column
+        label="结果"
+        align="center"
+        prop="status"
+         sortable
+      >
+      </el-table-column>
+
+      <el-table-column
+        label="流水"
+        align="center"
+        prop="turnover"
+        sort-by="turnover"
+        sortable
+      >
+      </el-table-column>
+      
+      <el-table-column
+        label="输赢"
+        align="center"
+        prop="winLose"
+         sortable
+      >
+      </el-table-column>
+
+      <el-table-column
+        label="时间"
+        align="center"
+        prop="time"
+        sort-by="time"
+        sortable
+      >
+      </el-table-column>
+      </el-table-column>  
+    </el-table>
+    <div class="page">
+      <el-pagination 
+        @size-change="handleSizeChange1" 
+        @current-change="handleCurrentChange1" 
+        :current-page="currentPage1" 
+        :page-sizes="pageSizes1" 
+        :page-size="PageSize1" layout="total, sizes, prev, pager, next, jumper" 
+        :total="totalCount1">
+      </el-pagination>
+    </div>
+
+    <div class="flex">
+      <div class="item">
+        <el-input v-model="search2" placeholder="输入关键字搜索"> </el-input>
+      </div>
+    </div>
+    <el-table
+      v-loading="listLoading"
+      :data="
+        temList2.filter(
+          (data) =>
+            !search2 ||
+            data.game.toLowerCase().includes(search2.toLowerCase()) ||
+            data.transferType.toLowerCase().includes(search2.toLowerCase()) ||
+            data.point.toLowerCase().includes(search2.toLowerCase()) 
+        )
+      "
+      element-loading-text="Loading"
+      border
+      fit
+      highlight-current-row
+      ref="filterTable"
+      :default-sort="{   }"
+    >
+
+      <el-table-column
+        label="积分转移"
+        align="center"
+        prop=""
+      >
+      <el-table-column
+        label="游戏"
+        align="center"
+        prop="game"
+        sortable
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.time">{{scope.row.game}} </span>
+          <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="类型"
+        align="center"
+        prop="transferType"
+         sortable
+      >
+      </el-table-column>
+      
+      <el-table-column
+        label="积分"
+        align="center"
+        prop="point"
+         sortable
+      >
+      </el-table-column>
+
+      <el-table-column
+        label="时间"
+        align="center"
+        prop="time"
+        sort-by="time"
+        sortable
+      >
+      </el-table-column>
+      </el-table-column>  
+    </el-table>
+    <div class="page">
+      <el-pagination 
+        @size-change="handleSizeChange2" 
+        @current-change="handleCurrentChange2" 
+        :current-page="currentPage2" 
+        :page-sizes="pageSizes2" 
+        :page-size="PageSize2" layout="total, sizes, prev, pager, next, jumper" 
+        :total="totalCount2">
+      </el-pagination>
+    </div>
   </el-dialog>
 </template>
 <script>
-import { getWindingMemberDetail } from "@/api/user";
+import { getWindingMemberDetail , getMemberTxnFB , getMemberTransferTxn} from "@/api/user";
 export default {
   name: "Detail",
   props:{
@@ -133,6 +357,7 @@ export default {
       detailShow:false,//明细开关
 
       // 分页
+      search:'',
       // 总数据
       memberList: [],
       // 展示数据
@@ -147,6 +372,40 @@ export default {
       PageSize:10,
 
       count:{},//总计
+
+      // 分页1
+      search1:'',
+      // 总数据
+      memberList1: [],
+      // 展示数据
+      temList1:[],
+      // 默认显示第几页
+      currentPage1:1,
+      // 总条数，根据接口获取数据长度(注意：这里不能为空)
+      totalCount1:1,
+      // 个数选择器（可修改）
+      pageSizes1:[5,10,20,30],
+      // 默认每页显示的条数（可修改）
+      PageSize1:10,
+
+      count1:{},//总计
+
+      // 分页2
+      search2:'',
+      // 总数据
+      memberList2: [],
+      // 展示数据
+      temList2:[],
+      // 默认显示第几页
+      currentPage2:1,
+      // 总条数，根据接口获取数据长度(注意：这里不能为空)
+      totalCount2:1,
+      // 个数选择器（可修改）
+      pageSizes2:[5,10,20,30],
+      // 默认每页显示的条数（可修改）
+      PageSize2:10,
+
+      count2:{},//总计
     };
   },
   created(){
@@ -191,7 +450,50 @@ export default {
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.unshift(this.count)
+      this.temList.push(this.count)
+    },
+
+    // 111
+    //每页显示的条数
+    handleSizeChange1(val) {
+        // 改变每页显示的条数 
+        this.PageSize1=val
+        // 注意：在改变每页显示的条数时，要将页码显示到第一页
+        this.currentPage1=1
+        this.getTemList1()
+    },
+    //显示第几页
+    handleCurrentChange1(val) {
+      console.log(val,'val');
+        //改变默认的页数
+        this.currentPage1=val
+        this.getTemList1()
+        console.log(this.currentPage1,'this.curpage');
+    },
+    getTemList1(){
+      this.temList1 =  this.memberList1.slice((this.currentPage1-1)*this.PageSize1,this.currentPage1*this.PageSize1)
+      this.temList1.push(this.count1)
+    },
+
+    // 222
+    //每页显示的条数
+    handleSizeChange2(val) {
+        // 改变每页显示的条数 
+        this.PageSize2=val
+        // 注意：在改变每页显示的条数时，要将页码显示到第一页
+        this.currentPage2=1
+        this.getTemList1()
+    },
+    //显示第几页
+    handleCurrentChange2(val) {
+      console.log(val,'val');
+        //改变默认的页数
+        this.currentPage2=val
+        this.getTemList2()
+    },
+    getTemList2(){
+      this.temList2 =  this.memberList2.slice((this.currentPage2-1)*this.PageSize2,this.currentPage2*this.PageSize2)
+      this.temList2.push(this.count2)
     },
 
     getList(gnuserId,fromDate,toDate) {
@@ -202,24 +504,105 @@ export default {
           .then((res) => {
             console.log(res,'会员明细总结');
             this.memberList = res.data;
-            this.totalCount = res.data.length;
+            this.totalCount = res.data.length
+
+             let userCode = 0;
+            let userName = 0;
             let bet = 0;
             let turnover = 0;
             let winLose = 0;
             let wallet = 0;
             this.memberList.forEach(item=>{
+              userCode += Number(item.userCode)
+              userName += Number(item.userName)
               bet += Number(item.bet)
               turnover += Number(item.turnover)
               winLose += Number(item.winLose)
               wallet += Number(item.wallet)
             })
+            userCode = Number(userCode).toFixed(2)
+            userName = Number(userName).toFixed(2)
             bet = Number(bet).toFixed(2)
             turnover = Number(turnover).toFixed(2)
             winLose = Number(winLose).toFixed(2)
             wallet = Number(wallet).toFixed(2)
-            this.count = { bet, turnover,winLose,wallet}
+            this.count = {userCode,userName, bet, turnover,winLose,wallet}
             this.count.firstColumn = '总计' 
             this.getTemList()
+
+            this.listLoading = false;
+          })
+          .catch((err) => {
+            this.listLoading = false;
+            console.log(err);
+          });
+          // 游戏2
+        getMemberTxnFB({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
+          .then((res) => {
+            console.log(res,'游戏2');
+            this.memberList1 = res.data;
+            this.totalCount1 = res.data.length
+
+             let game = 0;
+            let gameNo = 0;
+            let type = 0;
+            let team = 0;
+            let odds = 0;
+            let status = 0;
+            let bet = 0;
+            let turnover = 0;
+            let winLose = 0;
+            this.memberList1.forEach(item=>{
+              game += Number(item.game)
+              gameNo += Number(item.gameNo)
+              type += Number(item.type)
+              odds += Number(item.odds)
+              team += Number(item.team)
+              status += Number(item.status)
+              bet += Number(item.bet)
+              turnover += Number(item.turnover)
+              winLose += Number(item.winLose)
+            })
+            game = Number(game).toFixed(2)
+            gameNo = Number(gameNo).toFixed(2)
+            type = Number(type).toFixed(2)
+            odds = Number(odds).toFixed(2)
+            team = Number(team).toFixed(2)
+            status = Number(status).toFixed(2)
+            bet = Number(bet).toFixed(2)
+            turnover = Number(turnover).toFixed(2)
+            winLose = Number(winLose).toFixed(2)
+            this.count1 = {game,gameNo,type,odds,team,status, bet, turnover,winLose}
+            this.count1.firstColumn = '总计' 
+            this.getTemList1()
+
+            this.listLoading = false;
+          })
+          .catch((err) => {
+            this.listLoading = false;
+            console.log(err);
+          });
+          // 积分转移
+        getMemberTransferTxn({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
+          .then((res) => {
+            console.log(res,'积分转移');
+            this.memberList2 = res.data;
+            this.totalCount2 = res.data.length
+
+             let game = 0;
+            let transferType = 0;
+            let point = 0;
+            this.memberList2.forEach(item=>{
+              game += Number(item.game)
+              transferType += Number(item.transferType)
+              point += Number(item.point)
+            })
+            game = Number(game).toFixed(2)
+            transferType = Number(transferType).toFixed(2)
+            point = Number(point).toFixed(2)
+            this.count2 = {game, transferType, point}
+            this.count2.firstColumn = '总计' 
+            this.getTemList2()
 
             this.listLoading = false;
           })
@@ -236,7 +619,18 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
+.flex{
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  margin-bottom: 10px;
+  .item{
+    width: 200px;
+  }
+}
+.page{
+  margin-bottom: 10px;
+}
 .flex-box {
   display: flex;
   flex-wrap: wrap;

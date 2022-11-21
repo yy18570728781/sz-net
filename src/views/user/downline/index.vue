@@ -25,7 +25,7 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'userName', order: 'descending' }"
+      :default-sort="{   }"
     >
       <el-table-column
         label="下线 ID"
@@ -52,6 +52,14 @@
         sortable
       >
       </el-table-column>
+      <el-table-column
+        label="球网流水提成%"
+        align="center"
+        prop="turnoverRebateFb"
+        sort-by="turnoverRebateFb"
+        sortable
+      >
+      </el-table-column>
       
       <el-table-column
         class-name="status-col"
@@ -62,14 +70,7 @@
         sortable
       >
       </el-table-column>
-      <el-table-column
-        label="球网流水佣金 %"
-        align="center"
-        prop="turnoverRebateFb"
-        sort-by="turnoverRebateFb"
-        sortable
-      >
-      </el-table-column>
+      
       
       <el-table-column
         class-name="status-col"
@@ -89,7 +90,7 @@
         sortable
       >
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         class-name="status-col"
         label="类型"
         align="center"
@@ -97,7 +98,7 @@
         sort-by="userType"
         sortabl
       >
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         label="代理网登录"
         align="center"
@@ -143,7 +144,7 @@
     </div>
 
     <!-- 更多信息 -->
-    <el-dialog title="上下分" :visible.sync="dialogMoreVisible" width="40%">
+    <el-dialog title="上下分/加减信用额度" :visible.sync="dialogMoreVisible" width="40%">
       <el-form label-position="left" label-width="120px">
 
         <el-form-item label="下线名:">
@@ -151,7 +152,7 @@
         </el-form-item>
 
         <el-form-item label="当前会员积分:">
-          <el-input v-model="currentPoint" disabled></el-input>
+          <el-input v-model="nowPoint" disabled></el-input>
         </el-form-item>
 
         <el-form-item label="上分:">
@@ -170,8 +171,8 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item label="信用额度:">
-          <el-input v-model="creditLimit" maxlength="11" disabled>
+        <el-form-item label="当前信用额度:">
+          <el-input v-model=" nowCredit" maxlength="11" disabled>
           </el-input>
         </el-form-item>
 
@@ -194,7 +195,7 @@
     </el-dialog>
     <!-- 修改 -->
     <el-dialog
-      title="修改 Edit"
+      title="修改"
       :visible.sync="dialogEditVisible"
       @close="closeEdit"
       width="40%"
@@ -244,7 +245,7 @@
   </div>
 </template>
 <script>
-import { getDownline, updateRebate ,topupPoint,withdrawPoint,addCredit,minusCredit,} from "@/api/user";
+import { getDownline, updateRebate ,topupPoint,withdrawPoint,addCredit,minusCredit,getCreditLimit} from "@/api/user";
 export default {
   name: "downline",
   data() {
@@ -261,6 +262,7 @@ export default {
       userName:'',
       creditLimit: "" ,
       appUserId: "",
+      gnuserId: "",
       currentPoint: "",
       // 上下分
       addPoint: "",
@@ -268,6 +270,8 @@ export default {
       // 加减信用额度
       addCreditValue: "",
       minusCreditValue: "",
+      nowPoint:'',//当前会员积分
+      nowCredit:'',//当前信用额度
 
       // 分页
       // 总数据
@@ -311,6 +315,15 @@ export default {
       // this.temList.unshift(this.count)
     },
 
+    // 当前信用额度
+    getNow(){
+      getCreditLimit({gnuserId:this.gnuserId}).then(res=>{
+        console.log(res,'当前信用额度');
+        this.nowPoint= res.data.point
+        this.nowCredit= res.data.credit
+      })
+    },
+
     getList() {
       this.listLoading = true;
       getDownline()
@@ -336,7 +349,8 @@ export default {
     },
     moreInfo(row) {
       this.userName = row.userName
-      this.appUserId = row.appUserId
+      this.gnuserId = row.gnuserId
+      this.getNow()
       this.dialogMoreVisible = true;
     },
     openEdit(id) {
@@ -359,22 +373,24 @@ export default {
         console.log({ gnuserId, turnoverRebate, profitRebate });
         updateRebate({ gnuserId, turnoverRebate, profitRebate , userRemark , turnoverRebateFb , loginInd})
           .then((res) => {
-            if (res.data?.status == "Failed") {
-              this.$message({
-                type: "error",
-                message: res.data.remark,
-              });
-            } else {
-              this.$message({
-                type: "success",
-                message: "编辑成功",
-              });
-            }
-            this.closeEdit();
+            if(res.data.remark == '' || res.data.status == 'success'){
+            this.$message({
+              type:'success',
+              message:res.message
+            })
+            this.getList()
+            this.dialogEditVisible = false
+          }else{
+            this.$message({
+              type:'error',
+              message:res.data.remark
+            })
+          }
           })
           .catch((err) => {
             console.log(err);
           });
+          
       } else {
         this.$message({
           type: "info",
@@ -390,24 +406,17 @@ export default {
     // 上分
     topupPoint() {
       console.log("topupPoint");
-      
-      // gnuserId    +   point:this.addPoint
-      topupPoint({gnuserId:this.appUserId,point:this.addPoint})
+      if(/^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,6})(\.\d{1,2})?$/.test(this.addPoint)){
+        topupPoint({gnuserId:this.gnuserId,point:this.addPoint})
         .then((res) => {
           console.log(res);
-          // this.getInfo()
-          // if(res.data.remark == 'Please Fill In All The Mandatory Fields!'){
-          //   this.$message({
-          //     type:'error',
-          //     message:res.data.remark || 'error'
-          //   })
-          // }
           if(res.data.remark == '' || res.data.status == 'success'){
             this.$message({
               type:'success',
               message:res.message
             })
             this.addPoint = ''
+            this.getNow()
           }else{
             this.$message({
               type:'error',
@@ -419,12 +428,18 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      }else{
+        this.$message({
+          type: "info",
+          message: "最多七位数,允许包含2位小数",
+        });
+      }
+      
     },
     // 下分
     withdrawPoint() {
-      
-      // gnuserId    +   point:this.minusPoint
-      withdrawPoint({gnuserId:this.appUserId,point:this.minusPoint})
+      if(/^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,6})(\.\d{1,2})?$/.test(this.minusPoint)){
+        withdrawPoint({gnuserId:this.gnuserId,point:this.minusPoint})
         .then((res) => {
           console.log(res);
           // this.getInfo()
@@ -434,6 +449,7 @@ export default {
               message:res.message
             })
             this.minusPoint = ''
+            this.getNow()
           }else{
             this.$message({
               type:'error',
@@ -444,12 +460,20 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      }else{
+        this.$message({
+          type: "info",
+          message: "最多七位数,允许包含2位小数",
+        });
+      }
+      
     },
     // 加信用额度
     addCredit() {
       console.log("addCredit");
       // gnuserId    +   credit:this.addCreditValue
-      addCredit({gnuserId:this.appUserId,credit:this.addCreditValue})
+      if(/^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,6})(\.\d{1,2})?$/.test(this.addCreditValue)){
+        addCredit({gnuserId:this.gnuserId,credit:this.addCreditValue})
         .then((res) => {
           if(res.data.remark == '' || res.data.status == 'success'){
             this.$message({
@@ -457,6 +481,7 @@ export default {
               message:res.message
             })
             this.addCreditValue = ''
+            this.getNow()
           }else{
             this.$message({
               type:'error',
@@ -467,13 +492,21 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      }else{
+        this.$message({
+          type: "info",
+          message: "最多七位数,允许包含2位小数",
+        });
+      }
+      
     },
     // 减信用额度
     minusCredit() {
       console.log("minusCredit");
       
       // gnuserId    +   credit:this.minusCreditValue
-      minusCredit({gnuserId:this.appUserId,credit:this.minusCreditValue})
+      if(/^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,6})(\.\d{1,2})?$/.test(this.minusCreditValue)){
+        minusCredit({gnuserId:this.gnuserId,credit:this.minusCreditValue})
         .then((res) => {
            if(res.data.remark == '' || res.data.status == 'success'){
             this.$message({
@@ -481,6 +514,7 @@ export default {
               message:res.message
             })
             this.minusCreditValue = ''
+            this.getNow()
           }else{
             this.$message({
               type:'error',
@@ -491,15 +525,26 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      }else{
+        this.$message({
+          type: "info",
+          message: "最多七位数,允许包含2位小数",
+        });
+      }
+      
     },
   },
 };
 </script>
-<style lang="sass" scoped>
-.flex-box
-  display: flex
-  .item
-    margin-right: 10px
-    margin-top: 10px
-    margin-bottom: 10px
+<style lang="scss" scoped>
+.flex-box{
+  display:flex;
+  justify-content: end;
+  .item{
+     margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+   
 </style>
