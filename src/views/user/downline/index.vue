@@ -30,10 +30,10 @@
       <el-table-column
         label="下线 ID"
         align="center"
-        fixed="left"
         prop="userCode"
         sort-by="userCode"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -42,6 +42,7 @@
         prop="userName"
         sort-by="userName"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -50,6 +51,7 @@
         prop="userRemark"
         sort-by="userRemark"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -58,6 +60,7 @@
         prop="turnoverRebateFb"
         sort-by="turnoverRebateFb"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       
@@ -68,6 +71,7 @@
         prop="creditLimit"
         sort-by="creditLimit"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       
@@ -79,6 +83,7 @@
         prop="turnoverRebate"
         sort-by="turnoverRebate"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -88,6 +93,7 @@
         prop="profitRebate"
         sort-by="profitRebate"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <!-- <el-table-column
@@ -105,6 +111,7 @@
         prop="loginInd"
         sort-by="loginInd"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -546,5 +553,17 @@ export default {
     margin-bottom: 10px;
   }
 }
+@media screen and (max-width:1200px) {
+  .downline{
+    ::v-deep .el-dialog{
+      width: 100% !important;
+    }
+    ::v-deep .el-table td, .el-table th{
+      padding: 0 !important;
+    }
+  }
+  
+}
+
    
 </style>

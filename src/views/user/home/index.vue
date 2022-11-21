@@ -29,7 +29,7 @@
         label="操作"
         align="center"
         prop=""
-      > 
+      >show-overflow-tooltip 
         <template slot-scope="scope">
           <el-button type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
         </template>
@@ -39,7 +39,7 @@
         label="下线类别"
         align="center"
         prop="downlineCategory"
-      >
+      show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.downlineCategory">{{scope.row.downlineCategory}}</span>
           <span v-else style="font-size: 20px;font-weight: bold;">总计</span>
@@ -49,14 +49,14 @@
         label="流水"
         align="center"
         prop="turnover"
-      >
+      show-overflow-tooltip>
       </el-table-column>
 
       <el-table-column
         label="下线提成"
         align="center"
         prop="downlineBobus"
-      >
+      show-overflow-tooltip>
       </el-table-column>
 
 
@@ -64,32 +64,32 @@
         label="我的提成"
         align="center"
         prop="bonus"
-      >
+      show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         label="钱包"
         align="center"
         prop="wallet"
-      >
+      show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         label="积分转移"
         align="center"
         prop="transfer"
-      >
+      show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         label="输赢"
         align="center"
         prop="winLose"
-      >
+      show-overflow-tooltip>
       </el-table-column>
 
       <el-table-column
         label="我的总结"
         align="center"
         prop="profit"
-      >
+      show-overflow-tooltip>
       </el-table-column>
       
     </el-table>
@@ -275,5 +275,14 @@ export default {
     width: 250px !important;
     
   }
+}
+@media screen and (max-width:1200px) {
+    ::v-deep .el-dialog{
+      width: 100% !important;
+    }
+    ::v-deep .el-table td, .el-table th{
+      padding: 0 !important;
+    }
+  
 }
 </style>

@@ -18,6 +18,7 @@
         prop="userCode"
         sort-by="userCode"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
 
@@ -69,6 +70,7 @@
         prop="turnover"
         sort-by="turnover"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       
@@ -85,6 +87,7 @@
         prop="time"
         sort-by="time"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
         

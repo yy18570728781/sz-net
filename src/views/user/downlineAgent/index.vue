@@ -43,6 +43,7 @@
         align="center"
         prop=""
         sortable
+        show-overflow-tooltip
       > 
         <template slot-scope="scope">
           <el-button v-if="scope.row.gnuserId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
@@ -62,6 +63,7 @@
         prop="turnover"
         sort-by="turnover"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -70,6 +72,7 @@
         prop="playerBonus"
         sort-by="playerBonus"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
 
@@ -79,6 +82,7 @@
         prop=""
         sort-by=""
         sortable
+        show-overflow-tooltip
       >
 
         <el-table-column
@@ -87,6 +91,7 @@
           prop="agentTurnoverBonus"
           sort-by="agentTurnoverBonus"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -95,6 +100,7 @@
           prop="agentProfitBonus"
           sort-by="agentProfitBonus"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
 
@@ -105,6 +111,7 @@
         prop=""
         sort-by=""
         sortable
+        show-overflow-tooltip
       >
 
         <el-table-column
@@ -113,6 +120,7 @@
           prop="turnoverBonus"
           sort-by="turnoverBonus"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -121,6 +129,7 @@
           prop="profitBonus"
           sort-by="profitBonus"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
 
@@ -132,6 +141,7 @@
         prop="wallet"
         sort-by="wallet"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -140,6 +150,7 @@
         prop="transfer"
         sort-by="transfer"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -148,6 +159,7 @@
         prop="winLose"
         sort-by="winLose"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -156,6 +168,7 @@
         prop="agentProfit"
         sort-by="agentProfit"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -164,6 +177,7 @@
         prop="profit"
         sort-by="profit"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       
@@ -282,7 +296,7 @@ export default {
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.unshift(this.count)
+      this.temList.push(this.count)
     },
 
     getList() {
@@ -371,5 +385,14 @@ export default {
   .el-input__inner{
     width: 250px !important;
   }
+}
+@media screen and (max-width:1200px) {
+    ::v-deep .el-dialog{
+      width: 100% !important;
+    }
+    ::v-deep .el-table td, .el-table th{
+      padding: 0 !important;
+    }
+  
 }
 </style>

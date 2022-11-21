@@ -215,8 +215,19 @@ export default {
   },
 };
 </script>
-<style  lang="sass" scoped>
-.editDownline
-  width: 600px
-  padding-top: 50px
+<style  lang="scss" scoped>
+.editDownline{
+  width: 600px;
+  padding-top: 50px;
+}
+  
+  @media screen and (max-width:1200px) {
+    ::v-deep .el-dialog{
+      width: 100% !important;
+    }
+    ::v-deep .el-table td, .el-table th{
+      padding: 0 !important;
+    }
+  
+}
 </style>

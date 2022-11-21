@@ -34,6 +34,7 @@
         align="center"
         prop="game"
         sortable
+        show-overflow-tooltip
       >
         <template slot-scope="scope">
           <span v-if="scope.row.game">{{scope.row.game}} </span>
@@ -46,6 +47,7 @@
         align="center"
         prop="gameNo"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
 
@@ -54,6 +56,7 @@
         align="center"
         prop="type"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
 
@@ -62,6 +65,7 @@
         align="center"
         prop="bet"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -69,6 +73,7 @@
         align="center"
         prop="odds"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -76,6 +81,7 @@
         align="center"
         prop="status"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
 
@@ -84,6 +90,7 @@
         align="center"
         prop="wallet"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
 
@@ -93,6 +100,7 @@
         prop="turnover"
         sort-by="turnover"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       
@@ -101,6 +109,7 @@
         align="center"
         prop="winLose"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
 
@@ -110,6 +119,7 @@
         prop="time"
         sort-by="time"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       </el-table-column>  
@@ -160,6 +170,7 @@
         align="center"
         prop="game"
         sortable
+        show-overflow-tooltip
       >
         <template slot-scope="scope">
           <span v-if="scope.row.time">{{scope.row.game}} </span>
@@ -172,6 +183,7 @@
         align="center"
         prop="gameNo"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
 
@@ -180,6 +192,7 @@
         align="center"
         prop="type"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -187,6 +200,7 @@
         align="center"
         prop="team"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
 
@@ -195,6 +209,7 @@
         align="center"
         prop="bet"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -202,6 +217,7 @@
         align="center"
         prop="odds"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -209,6 +225,7 @@
         align="center"
         prop="status"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
 
@@ -218,6 +235,7 @@
         prop="turnover"
         sort-by="turnover"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       
@@ -226,6 +244,7 @@
         align="center"
         prop="winLose"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
 
@@ -235,6 +254,7 @@
         prop="time"
         sort-by="time"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       </el-table-column>  
@@ -284,6 +304,7 @@
         align="center"
         prop="game"
         sortable
+        show-overflow-tooltip
       >
         <template slot-scope="scope">
           <span v-if="scope.row.time">{{scope.row.game}} </span>
@@ -296,6 +317,7 @@
         align="center"
         prop="transferType"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
       
@@ -304,6 +326,7 @@
         align="center"
         prop="point"
          sortable
+         show-overflow-tooltip
       >
       </el-table-column>
 
@@ -313,6 +336,7 @@
         prop="time"
         sort-by="time"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       </el-table-column>  
@@ -648,5 +672,14 @@ export default {
   ::v-deep .el-table td{
     padding: 0 !important;
   }
+}
+@media screen and (max-width:1200px) {
+    ::v-deep .el-dialog{
+      width: 100% !important;
+    }
+    ::v-deep .el-table td, .el-table th{
+      padding: 0 !important;
+    }
+  
 }
 </style>

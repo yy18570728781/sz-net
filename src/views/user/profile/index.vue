@@ -74,4 +74,13 @@ export default {
     width: 100%;
   }
 }
+@media screen and (max-width:1200px) {
+    ::v-deep .el-dialog{
+      width: 100% !important;
+    }
+    ::v-deep .el-table td, .el-table th{
+      padding: 0 !important;
+    }
+  
+}
 </style>

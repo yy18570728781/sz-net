@@ -229,7 +229,7 @@ export default {
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
       // this.temList.push(this.count)
-      this.pointList.unshift(this.count)
+      this.pointList.push(this.count)
     },
     
     getList(){

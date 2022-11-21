@@ -55,6 +55,7 @@
         prop="userCode"
         sort-by="userCode"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -63,6 +64,7 @@
         prop="userName"
         sort-by="userName"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -71,6 +73,7 @@
         prop="topup"
         sort-by="topup"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -79,6 +82,7 @@
         prop="remarks"
         sort-by="remarks"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -88,6 +92,7 @@
         prop="createdDate"
         sort-by="createdDate"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
     </el-table>
@@ -160,7 +165,7 @@ export default {
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.unshift(this.count)
+      this.temList.push(this.count)
     },
 
     getList() {
@@ -205,5 +210,14 @@ export default {
     margin-top: 10px;
     margin-bottom: 10px;
   }
+}
+@media screen and (max-width:1200px) {
+    ::v-deep .el-dialog{
+      width: 100% !important;
+    }
+    ::v-deep .el-table td, .el-table th{
+      padding: 0 !important;
+    }
+  
 }
 </style>

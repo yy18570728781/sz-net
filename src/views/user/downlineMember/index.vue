@@ -39,6 +39,7 @@
         align="center"
         prop=""
         sortable
+        show-overflow-tooltip
       > 
         <template slot-scope="scope">
           <el-button v-if="scope.row.gnuserId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
@@ -52,6 +53,7 @@
         prop="userCode"
         sort-by="userCode"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column> -->
       <el-table-column
@@ -59,6 +61,7 @@
         align="center"
         prop="userName"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -66,6 +69,7 @@
         align="center"
         prop="userRemark"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
 
@@ -74,6 +78,7 @@
         align="center"
         prop="turnover"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
 
@@ -83,6 +88,7 @@
         align="center"
         prop="playerProfitBonus"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -91,6 +97,7 @@
         prop="turnoverBonus"
         sort-by="turnoverBonus"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -99,6 +106,7 @@
         prop="profitBonus"
         sort-by="profitBonus"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
 
@@ -108,6 +116,7 @@
         prop="wallet"
         sort-by="wallet"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -116,6 +125,7 @@
         prop="transfer"
         sort-by="transfer"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -123,6 +133,7 @@
         align="center"
         prop="winLose"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -130,6 +141,7 @@
         align="center"
         prop="playerProfit"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -137,6 +149,7 @@
         align="center"
         prop="profit"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       
@@ -257,7 +270,7 @@ export default {
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
       
       this.$nextTick(()=>{
-         this.temList.unshift(this.count)
+         this.temList.push(this.count)
       })
       console.log(this.temList);
     },
@@ -344,5 +357,14 @@ export default {
   .el-input__inner{
     width: 250px !important;
   }
+}
+@media screen and (max-width:1200px) {
+    ::v-deep .el-dialog{
+      width: 100% !important;
+    }
+    ::v-deep .el-table td, .el-table th{
+      padding: 0 !important;
+    }
+  
 }
 </style>

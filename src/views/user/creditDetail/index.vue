@@ -55,6 +55,7 @@
         prop="userCode"
         sort-by="userCode"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -63,6 +64,7 @@
         prop="userName"
         sort-by="userName"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -71,6 +73,7 @@
         prop="creditLimit"
         sort-by="creditLimit"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -80,6 +83,7 @@
         prop="createdDate"
         sort-by="createdDate"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
     </el-table>
@@ -186,5 +190,15 @@ export default {
     margin-top: 10px;
     margin-bottom: 10px;
   }
+}
+
+@media screen and (max-width:1200px) {
+    ::v-deep .el-dialog{
+      width: 100% !important;
+    }
+    ::v-deep .el-table td, .el-table th{
+      padding: 0 !important;
+    }
+  
 }
 </style>

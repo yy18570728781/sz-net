@@ -28,6 +28,7 @@
         label="会员总结"
         align="center"
         sortable
+        show-overflow-tooltip
       >
         
         <el-table-column
@@ -35,6 +36,7 @@
           align="center"
           prop="userName"
           sortable
+          show-overflow-tooltip
         >
            <template slot-scope="scope">
             
@@ -48,6 +50,7 @@
           prop="turnover"
           sort-by="turnover"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
 
@@ -58,6 +61,7 @@
           prop="playerProfitBonus"
           sort-by="playerProfitBonus"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -66,6 +70,7 @@
           prop="turnoverBonus"
           sort-by="turnoverBonus"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -74,6 +79,7 @@
           prop="profitBonus"
           sort-by="profitBonus"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
 
@@ -83,6 +89,7 @@
           prop="wallet"
           sort-by="wallet"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -91,6 +98,7 @@
           prop="transfer"
           sort-by="transfer"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -99,6 +107,7 @@
           prop="winLose"
           sort-by="winLose"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -107,6 +116,7 @@
           prop="playerProfit"
           sort-by="playerProfit"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -115,6 +125,7 @@
           prop="profit"
           sort-by="profit"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
 
@@ -159,12 +170,14 @@
         label="代理总结"
         align="center"
         sortable
+        show-overflow-tooltip
       >
       <el-table-column
         label="代理名"
         align="center"
         prop="userName"
         sortable
+        show-overflow-tooltip
       >
         <template slot-scope="scope">
           <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
@@ -177,6 +190,7 @@
         prop="turnover"
         sort-by="turnover"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -185,6 +199,7 @@
         prop="playerBonus"
         sort-by="playerBonus"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
 
@@ -195,6 +210,7 @@
         prop=""
         sort-by=""
         sortable
+        show-overflow-tooltip
       >
 
         <el-table-column
@@ -203,6 +219,7 @@
           prop="agentTurnoverBonus"
           sort-by="agentTurnoverBonus"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -211,6 +228,7 @@
           prop="agentProfitBonus"
           sort-by="agentProfitBonus"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
 
@@ -221,6 +239,7 @@
         prop=""
         sort-by=""
         sortable
+        show-overflow-tooltip
       >
 
         <el-table-column
@@ -229,6 +248,7 @@
           prop="turnoverBonus"
           sort-by="turnoverBonus"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -237,6 +257,7 @@
           prop="profitBonus"
           sort-by="profitBonus"
           sortable
+          show-overflow-tooltip
         >
         </el-table-column>
 
@@ -248,6 +269,7 @@
         prop="wallet"
         sort-by="wallet"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -256,6 +278,7 @@
         prop="transfer"
         sort-by="transfer"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -264,6 +287,7 @@
         prop="winLose"
         sort-by="winLose"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -272,6 +296,7 @@
         prop="agentProfit"
         sort-by="agentProfit"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -280,6 +305,7 @@
         prop="profit"
         sort-by="profit"
         sortable
+        show-overflow-tooltip
       >
       </el-table-column>
 
@@ -578,5 +604,14 @@ export default {
   ::v-deep .el-table td{
     padding: 0 !important;
   }
+}
+@media screen and (max-width:1200px) {
+    ::v-deep .el-dialog{
+      width: 100% !important;
+    }
+    ::v-deep .el-table td, .el-table th{
+      padding: 0 !important;
+    }
+  
 }
 </style>

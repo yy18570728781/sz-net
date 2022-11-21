@@ -89,6 +89,7 @@
             :disabled="scope.row.cashInd !== 'N'" -->
           <template slot-scope="scope">
             <el-button
+              v-if="!scope.row.tag"
               type="danger"
               icon="el-icon-delete-solid"
               circle

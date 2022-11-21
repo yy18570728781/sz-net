@@ -13,7 +13,8 @@ const service = axios.create({
   // url = base url + request url
   // baseURL: process.env.VUE_APP_BASE_API,
   // baseURL: 'http://8.134.95.28:81',
-  baseURL: 'http://18.136.199.188',
+  baseURL: 'http://18.136.199.188',//旧
+  baseURL: 'http://www.webc666.com',//新
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 50000 // request timeout
 })
