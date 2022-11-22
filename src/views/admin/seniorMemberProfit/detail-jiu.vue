@@ -353,11 +353,9 @@ export default {
     },
     //显示第几页
     handleCurrentChange(val) {
-      console.log(val,'val');
         //改变默认的页数
         this.currentPage=val
         this.getTemList()
-        console.log(this.currentPage,'this.curpage');
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
@@ -378,7 +376,6 @@ export default {
         //改变默认的页数
         this.currentPage1=val
         this.getTemList1()
-        console.log(this.currentPage1,'this.curpage');
     },
     getTemList1(){
       this.temList1 =  this.agencypList.slice((this.currentPage1-1)*this.PageSize1,this.currentPage1*this.PageSize1)
@@ -386,12 +383,10 @@ export default {
     },
 
     getList(gnuserId,fromDate,toDate) {
-      console.log(this.DetDialog,this.gnuserId,this.fromDate,this.toDate);
       if (this.fromDate && this.toDate) {
         this.listLoading = true;
         getDetAgentPlayerSum({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
-            console.log(res,'会员总结');
             this.memberList = res.data;
             this.totalCount = res.data.length;
             let playerProfitBonus = 0;
@@ -433,7 +428,6 @@ export default {
 
         getDetAgentSum({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
-            console.log(res,'代理总结');
             this.agencypList = res.data;
             this.totalCount1 = res.data.length;
             let agentTurnoverBonus = 0;
@@ -473,7 +467,6 @@ export default {
           })
           .catch((err) => {
             this.listLoading = false;
-            console.log(err);
           });
           
       } else {

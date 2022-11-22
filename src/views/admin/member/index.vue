@@ -217,11 +217,9 @@ export default {
     },
     //显示第几页
     handleCurrentChange(val) {
-      console.log(val,'val');
         //改变默认的页数
         this.currentPage=val
         this.getTemList()
-        console.log(this.currentPage,'this.curpage');
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
@@ -236,11 +234,9 @@ export default {
       this.butLoading = true;
       this.listLoading = true;
       const { userCode, userName, uplineCode, uplineName } = this.searchFrom;
-      console.log(this.searchFrom);
       getMemberList({ userCode, userName, uplineCode, uplineName })
         .then((res) => {
           this.butLoading = false;
-          console.log(res);
           this.memberList = res.data;
           this.totalCount = res.data.length
           this.getTemList()
@@ -248,7 +244,6 @@ export default {
         })
         .catch((err) => {
           this.butLoading = false;
-          console.log(err);
           this.listLoading = false;
         });
     },

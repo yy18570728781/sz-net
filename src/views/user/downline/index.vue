@@ -54,15 +54,7 @@
         show-overflow-tooltip
       >
       </el-table-column>
-      <el-table-column
-        label="球网流水提成%"
-        align="center"
-        prop="turnoverRebateFb"
-        sort-by="turnoverRebateFb"
-        sortable
-        show-overflow-tooltip
-      >
-      </el-table-column>
+      
       
       <el-table-column
         class-name="status-col"
@@ -74,7 +66,15 @@
         show-overflow-tooltip
       >
       </el-table-column>
-      
+      <el-table-column
+        label="球网流水提成%"
+        align="center"
+        prop="turnoverRebateFb"
+        sort-by="turnoverRebateFb"
+        sortable
+        show-overflow-tooltip
+      >
+      </el-table-column>
       
       <el-table-column
         class-name="status-col"
@@ -325,7 +325,7 @@ export default {
     // 当前信用额度
     getNow(){
       getCreditLimit({gnuserId:this.gnuserId}).then(res=>{
-        console.log(res,'当前信用额度');
+        
         this.nowPoint= res.data.point
         this.nowCredit= res.data.credit
       })
@@ -335,7 +335,6 @@ export default {
       this.listLoading = true;
       getDownline()
         .then((res) => {
-          console.log(res);
           this.downlineList = res.data;
           this.getTemList()
           this.totalCount = res.data.length
@@ -345,14 +344,12 @@ export default {
         .catch((err) => {
           this.listLoading = false;
 
-          console.log(err);
         });
     },
     downlineByID(id) {
       this.currentDown = this.downlineList.filter((item) => {
         return item.gnuserId == id;
       })?.[0];
-      console.log(this.currentDown);
     },
     moreInfo(row) {
       this.userName = row.userName
@@ -377,7 +374,6 @@ export default {
         )
       ) {
         const { gnuserId, turnoverRebate, profitRebate , userRemark , turnoverRebateFb , loginInd } = this.currentDown;
-        console.log({ gnuserId, turnoverRebate, profitRebate });
         updateRebate({ gnuserId, turnoverRebate, profitRebate , userRemark , turnoverRebateFb , loginInd})
           .then((res) => {
             if(res.data.remark == '' || res.data.status == 'success'){
@@ -416,7 +412,6 @@ export default {
       if(/^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,6})(\.\d{1,2})?$/.test(this.addPoint)){
         topupPoint({gnuserId:this.gnuserId,point:this.addPoint})
         .then((res) => {
-          console.log(res);
           if(res.data.remark == '' || res.data.status == 'success'){
             this.$message({
               type:'success',
@@ -448,7 +443,6 @@ export default {
       if(/^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,6})(\.\d{1,2})?$/.test(this.minusPoint)){
         withdrawPoint({gnuserId:this.gnuserId,point:this.minusPoint})
         .then((res) => {
-          console.log(res);
           // this.getInfo()
           if(res.data.remark == '' || res.data.status == 'success'){
             this.$message({
@@ -477,7 +471,6 @@ export default {
     },
     // 加信用额度
     addCredit() {
-      console.log("addCredit");
       // gnuserId    +   credit:this.addCreditValue
       if(/^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,6})(\.\d{1,2})?$/.test(this.addCreditValue)){
         addCredit({gnuserId:this.gnuserId,credit:this.addCreditValue})

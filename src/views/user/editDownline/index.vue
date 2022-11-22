@@ -94,21 +94,17 @@ export default {
     getList() {
       getDownline()
         .then((res) => {
-          console.log(res);
           this.downlineList = res.data;
-          console.log(this.downlineList);
         })
         .catch((err) => {
           console.log(err);
         });
     },
     getInfo() {
-      console.log(this.appUserId);
       // 根据appUserId 获取当前下线 会员积分 和 信用额度
     },
     // 上分
     topupPoint() {
-      console.log("topupPoint");
       if(!this.appUserId){
         this.$message({
           type:'info',
@@ -119,7 +115,6 @@ export default {
       // gnuserId    +   point:this.addPoint
       topupPoint({gnuserId:this.appUserId,point:this.addPoint})
         .then((res) => {
-          console.log(res);
           // this.getInfo()
           // if(res.data.remark == 'Please Fill In All The Mandatory Fields!'){
           //   this.$message({
@@ -151,7 +146,6 @@ export default {
       // gnuserId    +   point:this.minusPoint
       withdrawPoint({gnuserId:this.appUserId,point:this.addPoint})
         .then((res) => {
-          console.log(res);
           // this.getInfo()
           if(res.data.remark == '' || res.data.status == 'success'){
             this.$message({
@@ -166,7 +160,6 @@ export default {
     },
     // 加信用额度
     addCredit() {
-      console.log("addCredit");
       if(!this.appUserId){
         this.$message({
           type:'info',
@@ -190,7 +183,6 @@ export default {
     },
     // 减信用额度
     minusCredit() {
-      console.log("minusCredit");
       if(!this.appUserId){
         this.$message({
           type:'info',

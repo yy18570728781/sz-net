@@ -439,7 +439,6 @@ export default {
     },
     //显示第几页
     handleCurrentChange1(val) {
-      console.log(val,'val');
         //改变默认的页数
         this.currentPage1=val
         this.getTemList1()
@@ -456,7 +455,6 @@ export default {
         this.listLoading = true;
         getDetAgentPlayerSum({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
-            console.log(res,'会员总结');
             this.memberList = res.data;
             this.totalCount = res.data.length
             let userCode = 0;
@@ -508,7 +506,6 @@ export default {
 
         getDetAgentSum({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
-            console.log(res,'代理总结');
             this.agencypList = res.data;
             this.totalCount1 = res.data.length;
 

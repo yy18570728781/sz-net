@@ -466,11 +466,9 @@ export default {
     },
     //显示第几页
     handleCurrentChange(val) {
-      console.log(val,'val');
         //改变默认的页数
         this.currentPage=val
         this.getTemList()
-        console.log(this.currentPage,'this.curpage');
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
@@ -492,7 +490,6 @@ export default {
         //改变默认的页数
         this.currentPage1=val
         this.getTemList1()
-        console.log(this.currentPage1,'this.curpage');
     },
     getTemList1(){
       this.temList1 =  this.memberList1.slice((this.currentPage1-1)*this.PageSize1,this.currentPage1*this.PageSize1)
@@ -526,7 +523,6 @@ export default {
         this.listLoading = true;
         getWindingMemberDetail({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
-            console.log(res,'会员明细总结');
             this.memberList = res.data;
             this.totalCount = res.data.length
 
@@ -563,7 +559,6 @@ export default {
           // 游戏2
         getMemberTxnFB({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
-            console.log(res,'游戏2');
             this.memberList1 = res.data;
             this.totalCount1 = res.data.length
 
@@ -609,7 +604,6 @@ export default {
           // 积分转移
         getMemberTransferTxn({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
-            console.log(res,'积分转移');
             this.memberList2 = res.data;
             this.totalCount2 = res.data.length
 

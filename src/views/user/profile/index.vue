@@ -55,11 +55,9 @@ export default {
       getInfo()
         .then((res) => {
           this.userInfo = res.data;
-          console.log(res.data);
           this.listLoading = false;
         })
         .catch((err) => {
-          console.log(err);
           this.listLoading = false;
         });
     },

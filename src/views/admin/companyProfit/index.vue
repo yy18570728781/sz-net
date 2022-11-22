@@ -162,7 +162,6 @@ export default {
         this.searchFrom.fromDate = this.dataList[0].fromDate
         this.searchFrom.toDate = this.dataList[0].toDate
         
-        console.log(this.dataList,'时间列表');
         this.getList()
       }
       
@@ -177,7 +176,6 @@ export default {
       let proNum = this.dataList.findIndex((item, index) =>{
         return item.showDate == value
       })
-      console.log(proNum);
       this.searchFrom.fromDate = this.dataList[proNum].fromDate
       this.searchFrom.toDate = this.dataList[proNum].toDate
       this.getList()
@@ -188,15 +186,14 @@ export default {
       const { fromDate, toDate , gameCode } = this.searchFrom;
       this.FTvzb = true
       getCompanyProfitAmount({fromDate,toDate}).then(res=>{
-        console.log(res,'分桶额');
         this.FTValue = res.data.amount
       })
     },
     editFT(){
       const { fromDate, toDate , gameCode } = this.searchFrom;
-      addCompanyProfit({fromDate,toDate,amount:this.FTValue,}).then(res=>{
-        console.log(res,'设置分桶额');
-        if(res.data.remark == '' || res.data.status == 'success'){
+      if(/^(0\.\d{0,1}[0-9]|\+?[0-9][0-9]{0,6})(\.\d{1,2})?$/.test(this.FTValue)){
+        addCompanyProfit({fromDate,toDate,amount:this.FTValue,}).then(res=>{
+          if(res.data.remark == '' || res.data.status == 'success'){
             this.$message({
               type:'success',
               message:res.message
@@ -209,11 +206,18 @@ export default {
               message:res.data.remark
             })
           }
-      })
+        })
+      }else{
+        this.butLoading = false
+        this.$message({
+          type: "info",
+          message: "只能填写最多7位数整数，限2位小数",
+        });
+      }
+      
     },
 
     changeShow(row){
-      console.log(row);
       this.gametxnId = row.gametxnId
       this.gameCode = row.gameCode
       this.DetDialog = true
@@ -230,15 +234,12 @@ export default {
         // 注意：在改变每页显示的条数时，要将页码显示到第一页
         this.currentPage=1
         this.getTemList()
-        console.log(val,'条数');
     },
     //显示第几页
     handleCurrentChange(val) {
-      console.log(val,'val');
         //改变默认的页数
         this.currentPage=val
         this.getTemList()
-        console.log(this.currentPage,'this.curpage');
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
@@ -259,7 +260,6 @@ export default {
         getCompanyAccount({fromDate, toDate })
           .then((res) => {
             this.butLoading = false
-            console.log(res,'公司利润');
             this.pointList = res.data;
 
             let cashAmount = 0;

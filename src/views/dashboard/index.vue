@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">你好{{ userName }}</div>
+    <div class="dashboard-text"></div>
   </div>
 </template>
 
@@ -19,7 +19,6 @@ export default {
   },
   created() {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-    console.log(userInfo);
     this.userName = userInfo.userName
   },
 };

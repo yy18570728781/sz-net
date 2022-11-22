@@ -37,11 +37,23 @@
       <div class="item">
         <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
       </div>
+      <div class="item item1">
+        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+      </div>
     </div>
 
     <el-table
       v-loading="listLoading"
-      :data="temList"
+      :data="
+        temList.filter(
+          (data) =>
+            !search ||
+            data.userCode.toLowerCase().includes(search.toLowerCase()) ||
+            data.userName.toLowerCase().includes(search.toLowerCase()) ||
+            data.topup.toLowerCase().includes(search.toLowerCase()) ||
+            data.remarks.toLowerCase().includes(search.toLowerCase())
+        )
+      "
       element-loading-text="Loading"
       border
       fit
@@ -120,7 +132,7 @@ export default {
       searchFrom: {
         userCode: "", //下线 ID
         userName: "", //下线名
-        fromDate: new Date(Date.now() - (24 * 60 * 60 * 1000 * 30)), //必填
+        fromDate: new Date(new Date().setHours(0, 0, 0, 0)), //必填
         toDate: new Date(),//必填
       },
       // 分页
@@ -138,15 +150,36 @@ export default {
       PageSize:10,
 
       count:{},//总计
+
+      search:'',
     };
   },
   created() {
-    console.log(111);
     this.getList();
   },
   components: {},
   
   methods:{
+
+    // 时间格式转换
+    getDataTime(dataTime){
+      //this.dateTime  是需要转换的值
+      let date = new Date(dataTime)
+      let y = date.getFullYear()
+      let m = date.getMonth() + 1
+      m = m < 10 ? ('0' + m) : m
+      let d = date.getDate()
+      d = d < 10 ? ('0' + d) : d
+      let h = date.getHours()
+      let mm = date.getMinutes()
+      let ss = date.getSeconds()
+      h = h < 10 ? ('0' + h) : h
+      mm = mm < 10 ? ('0' + mm) : mm
+      ss = ss < 10 ? ('0' + ss) : ss
+      const time =  y + '-' + m + '-' + d + ' ' + h + ':' + mm + ':' +ss ;
+      return time
+    },
+
     //每页显示的条数
     handleSizeChange(val) {
         // 改变每页显示的条数 
@@ -161,22 +194,26 @@ export default {
         //改变默认的页数
         this.currentPage=val
         this.getTemList()
-        console.log(this.currentPage,'this.curpage');
+        // console.log(this.currentPage,'this.curpage');
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.push(this.count)
+      // this.temList.push(this.count)
     },
 
     getList() {
       this.listLoading = true;
       this.butLoading = true;
-      const { userCode, userName, fromDate, toDate } = this.searchFrom;
+      // console.log(this.searchFrom);
+      let temRow = {...this.searchFrom}
+      temRow.fromDate = this.getDataTime(temRow.fromDate)
+      temRow.toDate = this.getDataTime(temRow.toDate)
+      const { userCode, userName, fromDate, toDate } = temRow;
         downlineTopupTxn({ userCode, userName, fromDate, toDate }).then(
           
           (res) => {
             this.butLoading = false
-            console.log(res);
+            // console.log(res);
             this.pointList = res.data;
             this.getTemList()
             this.totalCount = res.data.length
@@ -202,15 +239,20 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.flex-box {
-  display: flex;
-  flex-wrap: wrap;
-  .item {
-    margin-right: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  .flex-box {
+    display: flex;
+    flex-wrap: wrap;
+    .item {
+      
+      margin-right: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .item1{
+      position: absolute;
+      right:0;
+    }
   }
-}
 @media screen and (max-width:1200px) {
     ::v-deep .el-dialog{
       width: 100% !important;

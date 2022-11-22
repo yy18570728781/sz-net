@@ -252,7 +252,6 @@ export default {
         this.searchFrom.fromDate = this.dataList[0].fromDate
         this.searchFrom.toDate = this.dataList[0].toDate
         
-        console.log(this.dataList,'dfg');
         this.getList()
       }
     })
@@ -263,13 +262,11 @@ export default {
       let proNum = this.dataList.findIndex((item, index) =>{
         return item.showDate == value
       })
-      console.log(proNum);
       this.searchFrom.fromDate = this.dataList[proNum].fromDate
       this.searchFrom.toDate = this.dataList[proNum].toDate
       this.getList()
     },
     changeShow(row){
-      console.log(row);
       this.gnuserId = row.gnuserId
       this.DetDialog = true
       this.$refs.detail.getList(this.gnuserId,this.searchFrom.fromDate,this.searchFrom.toDate)
@@ -292,7 +289,6 @@ export default {
         //改变默认的页数
         this.currentPage=val
         this.getTemList()
-        console.log(this.currentPage,'this.curpage');
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
@@ -307,7 +303,6 @@ export default {
         const { fromDate, toDate } = this.searchFrom;
         getAgentSum({ gnuserId:this.userInfo.gnuserId, fromDate, toDate })
           .then((res) => {
-            console.log(res,'下线代理总结');
             this.pointList = res.data;
             // this.pointList = [{gnuserId:'12121'}];
              let userCode = 0;

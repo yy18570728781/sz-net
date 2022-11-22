@@ -257,13 +257,11 @@ export default {
       this.listLoading = true;
       getList()
         .then((res) => {
-          console.log(res);
           this.list = res.data;
           this.listLoading = false;
         })
         .catch((err) => {
           this.listLoading = false;
-          console.log(err);
         });
     },
     // 根据 gnuserId 获取会员信息
@@ -296,7 +294,6 @@ export default {
         UpdateSeniorRebate({ userRemark,turnoverRebateFb,loginInd,gnuserId, turnoverRebate, profitRebate })
           .then((res) => {
             this.butLoading = false
-            console.log(res);
             if (res.data.status == 'Success' && res.data.remark == '') {
               this.$message({ type: "success", message: "编辑成功" });
               this.closeEdit();
@@ -308,7 +305,6 @@ export default {
             
           })
           .catch((err) => {
-            console.log(err);
           });
       } else {
         this.butLoading = false
@@ -331,7 +327,7 @@ export default {
     addCredit() {
       this.butLoading = true
       const { gnuserId } = this.currentMember;
-      if(/^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,3})(\.\d{1,2})?$/.test(this.credit)){
+      if(/^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,6})(\.\d{1,2})?$/.test(this.credit)){
         addSeniorCredit({
           gnuserId,
           credit: this.credit,
@@ -349,7 +345,6 @@ export default {
             
           })
           .catch((err) => {
-            console.log(err);
             this.butLoading = false
           });
       }else{
@@ -375,7 +370,7 @@ export default {
     minusCredit() {
       this.butLoading = true
       const { gnuserId } = this.currentMember;
-      if(/^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,3})(\.\d{1,2})?$/.test(this.credit)){
+      if(/^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,6})(\.\d{1,2})?$/.test(this.credit)){
         minusSeniorCredit({
           gnuserId,
           credit: this.credit,
@@ -393,7 +388,6 @@ export default {
           })
           .catch((err) => {
             this.butLoading = false
-            console.log(err);
           });
       }else{
         this.butLoading = false

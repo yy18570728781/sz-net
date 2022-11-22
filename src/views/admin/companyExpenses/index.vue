@@ -193,7 +193,6 @@ export default {
             this.searchFrom.fromDate = this.dataList[0].fromDate
             this.searchFrom.toDate = this.dataList[0].toDate
             
-            console.log(this.dataList,'时间列表');
             this.getList()
           }
         })
@@ -210,14 +209,9 @@ export default {
     },
     // 表单提交
     Rebate(){
-      if(
-        /^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,6})(\.\d{1,2})?$/.test(this.searchFrom.amount) 
-        && 
-        this.searchFrom.note
-      ){
+      if(/^(0\.\d{0,1}[1-9]|\+?[1-9][0-9]{0,6})(\.\d{1,2})?$/.test(this.searchFrom.amount)&&this.searchFrom.note ){
         const {fromDate,toDate,note,amount} = this.searchFrom
         addCompanyExpenses({fromDate,toDate,note,amount}).then(res=>{
-          console.log(res);
           if(res.data.remark == '' || res.data.status == 'success'){
             this.$message({
               type:'success',
@@ -250,7 +244,6 @@ export default {
         type: 'warning'
       }).then(() => {
         deleteCompanyExpenses({expensestxnId:row.expensestxnId}).then(res=>{
-          console.log(res);
           if(res.data.remark == '' || res.data.status == 'success'){
             this.$message({
               type:'success',
@@ -272,7 +265,6 @@ export default {
       let proNum = this.dataList.findIndex((item, index) =>{
         return item.showDate == value
       })
-      console.log(proNum);
       this.searchFrom.fromDate = this.dataList[proNum].fromDate
       this.searchFrom.toDate = this.dataList[proNum].toDate
       this.getList()
@@ -297,7 +289,6 @@ export default {
         getCompanyExpenses({fromDate, toDate })
           .then(async(res) => {
             this.butLoading = false
-            console.log(res,'公司费用');
             this.pointList = res.data;
 
             let note = '';
@@ -307,6 +298,7 @@ export default {
             this.pointList.forEach(item=>{
               amount += Number(item.amount)
             })
+            amount = Number(amount).toFixed(2)
             amount = amount.toString()
             this.count = { note,amount,createdDate,tag}
             // this.count.firstColumn = '总计' 

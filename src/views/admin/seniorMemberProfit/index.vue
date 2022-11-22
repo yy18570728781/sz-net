@@ -177,7 +177,7 @@
         :total="totalCount">
       </el-pagination>
     </div>
-    <p>**总结 = 输赢 + 会员流水提成 + 代理流水提成 + + 代理利润提成 + 钱包 +
+    <p>**总结 = 输赢 + 会员流水提成 + 代理流水提成 + 代理利润提成 + 钱包 +
 积分转移</p>
     <!-- 总结明细 -->
     <Detail ref="detail" @changeDetDialog="changeDetDialog" :DetDialog="DetDialog"  :fromDate="searchFrom.fromDate" :toDate="searchFrom.toDate" :DetailFrom="DetailFrom"></Detail>
@@ -240,14 +240,14 @@ export default {
       if(res.code == 0){
         this.typeList = res.data;
         this.searchFrom.userType = this.typeList[0].value
-        console.log(res,'用户类型列表');
+        
       }
       getDrlAgentLevela()
       .then((res) => {
         if(res.code == 0){
           this.levelaList = res.data;
           this.searchFrom.agentLevel = this.levelaList[0].value
-          console.log(res,'等级列表');
+          
           // this.getList()
         }
         getDrlWeek()
@@ -257,7 +257,6 @@ export default {
             this.searchFrom.showDate = this.dataList[0].showDate
             this.searchFrom.fromDate = this.dataList[0].fromDate
             this.searchFrom.toDate = this.dataList[0].toDate
-            console.log(res,'星期');
             this.getList()
           }
         });
@@ -271,13 +270,12 @@ export default {
       let proNum = this.dataList.findIndex((item, index) =>{
         return item.showDate == value
       })
-      console.log(proNum);
+      
       this.searchFrom.fromDate = this.dataList[proNum].fromDate
       this.searchFrom.toDate = this.dataList[proNum].toDate
     },
     
     changeShow(row){
-      console.log(row);
       this.gnuserId = row.gnuserId
       this.DetDialog = true
       this.$refs.detail.getList(this.gnuserId,this.searchFrom.fromDate,this.searchFrom.toDate)
@@ -296,11 +294,9 @@ export default {
     },
     //显示第几页
     handleCurrentChange(val) {
-      console.log(val,'val');
         //改变默认的页数
         this.currentPage=val
         this.getTemList()
-        console.log(this.currentPage,'this.curpage');
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
@@ -317,7 +313,6 @@ export default {
         getAdminAgentSum({ agentLevel, userType,fromDate, toDate })
           .then((res) => {
             this.butLoading = false
-            console.log(res,'高级会员总结');
             this.pointList = res.data;
             this.totalCount = res.data.length
             // this.pointList = [{gnuserId:'12121'}];

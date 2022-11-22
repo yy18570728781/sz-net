@@ -37,11 +37,22 @@
       <div class="item">
         <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
       </div>
+      <div class="item item1">
+        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+      </div>
     </div>
 
     <el-table
       v-loading="listLoading"
-      :data="temList"
+      :data="
+        temList.filter(
+          (data) =>
+            !search ||
+            data.userCode.toLowerCase().includes(search.toLowerCase()) ||
+            data.userName.toLowerCase().includes(search.toLowerCase()) ||
+            data.creditLimit.toLowerCase().includes(search.toLowerCase()) 
+        )
+      "
       element-loading-text="Loading"
       border
       fit
@@ -111,10 +122,12 @@ export default {
       searchFrom: {
         userCode: "", //下线 ID
         userName: "", //下线名
-        fromDate: new Date(Date.now() - (24 * 60 * 60 * 1000 * 30)), //必填
+        fromDate: new Date(new Date().setHours(0, 0, 0, 0)), //必填
         toDate: new Date(),//必填
       },
-       // 分页
+      search:'',
+
+      // 分页
       // 总数据
       pointList: [],
       // 展示数据
@@ -131,8 +144,29 @@ export default {
       count:{},//总计
     };
   },
+  created() {
+    this.getList();
+  },
   components: {},
   methods: {
+    // 时间格式转换
+    getDataTime(dataTime){
+      //this.dateTime  是需要转换的值
+      let date = new Date(dataTime)
+      let y = date.getFullYear()
+      let m = date.getMonth() + 1
+      m = m < 10 ? ('0' + m) : m
+      let d = date.getDate()
+      d = d < 10 ? ('0' + d) : d
+      let h = date.getHours()
+      let mm = date.getMinutes()
+      let ss = date.getSeconds()
+      h = h < 10 ? ('0' + h) : h
+      mm = mm < 10 ? ('0' + mm) : mm
+      ss = ss < 10 ? ('0' + ss) : ss
+      const time =  y + '-' + m + '-' + d + ' ' + h + ':' + mm + ':' +ss ;
+      return time
+    },
     //每页显示的条数
     handleSizeChange(val) {
         // 改变每页显示的条数 
@@ -148,7 +182,6 @@ export default {
         //改变默认的页数
         this.currentPage=val
         this.getTemList()
-        console.log(this.currentPage,'this.curpage');
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
@@ -159,9 +192,10 @@ export default {
        this.butLoading = true;
       if (this.searchFrom.fromDate && this.searchFrom.toDate) {
         this.listLoading = true;
-       
-
-        const { userCode, userName, fromDate, toDate } = this.searchFrom;
+        let temRow = {...this.searchFrom}
+        temRow.fromDate = this.getDataTime(temRow.fromDate)
+        temRow.toDate = this.getDataTime(temRow.toDate)
+        const { userCode, userName, fromDate, toDate } = temRow;
         downlineCreditTxn({ userCode, userName, fromDate, toDate })
           .then((res) => {
              this.butLoading = false;
@@ -185,10 +219,16 @@ export default {
 .flex-box {
   display: flex;
   flex-wrap: wrap;
+  position: relative;
   .item {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+    
+  }
+  .item1{
+    position: absolute;
+    right:0;
   }
 }
 

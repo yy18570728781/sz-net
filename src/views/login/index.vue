@@ -139,13 +139,11 @@ export default {
           this.$store
             .dispatch("user/login", this.loginForm)
             .then((res) => {
-              console.log(res);
               this.$router.push({ path: this.redirect || "/" });
               
               this.loading = false;
             })
             .catch((err) => {
-              console.log(err);
               this.loading = false;
             });
         } else {

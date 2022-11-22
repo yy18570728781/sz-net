@@ -497,12 +497,10 @@ export default {
     },
 
     getList(gnuserId,fromDate,toDate) {
-      console.log(this.DetDialog,this.gnuserId,this.fromDate,this.toDate);
       if (this.fromDate && this.toDate) {
         this.listLoading = true;
         getWindingMemberDetail({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
-            console.log(res,'会员明细总结');
             this.memberList = res.data;
             this.totalCount = res.data.length
 
@@ -539,7 +537,6 @@ export default {
           // 游戏2
         getMemberTxnFB({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
-            console.log(res,'游戏2');
             this.memberList1 = res.data;
             this.totalCount1 = res.data.length
 
@@ -585,7 +582,6 @@ export default {
           // 积分转移
         getMemberTransferTxn({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
-            console.log(res,'积分转移');
             this.memberList2 = res.data;
             this.totalCount2 = res.data.length
 

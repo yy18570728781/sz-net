@@ -164,6 +164,24 @@ export default {
   },
   components: {},
   methods: {
+    // 时间格式转换
+    getDataTime(dataTime){
+      //this.dateTime  是需要转换的值
+      let date = new Date(dataTime)
+      let y = date.getFullYear()
+      let m = date.getMonth() + 1
+      m = m < 10 ? ('0' + m) : m
+      let d = date.getDate()
+      d = d < 10 ? ('0' + d) : d
+      let h = date.getHours()
+      let mm = date.getMinutes()
+      let ss = date.getSeconds()
+      h = h < 10 ? ('0' + h) : h
+      mm = mm < 10 ? ('0' + mm) : mm
+      ss = ss < 10 ? ('0' + ss) : ss
+      const time =  y + '-' + m + '-' + d + ' ' + h + ':' + mm + ':' +ss ;
+      return time
+    },
     // 获取昨天和上一个月
     getMonthDay() {
       let oneDay = 24 * 60 * 60 * 1000
@@ -202,11 +220,9 @@ export default {
     },
     //显示第几页
     handleCurrentChange(val) {
-      console.log(val,'val');
         //改变默认的页数
         this.currentPage=val
         this.getTemList()
-        console.log(this.currentPage,'this.curpage');
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
@@ -222,7 +238,10 @@ export default {
       this.butLoading = true
       if (this.searchFrom.fromDate && this.searchFrom.toDate) {
         this.listLoading = true;
-        const { userCode, userName, fromDate, toDate } = this.searchFrom;
+        let temRow = {...this.searchFrom}
+        temRow.fromDate = this.getDataTime(temRow.fromDate)
+        temRow.toDate = this.getDataTime(temRow.toDate)
+        const { userCode, userName, fromDate, toDate } = temRow;
 
         downlineTopupTxn({ userCode, userName, fromDate, toDate })
           .then((res) => {
@@ -235,7 +254,6 @@ export default {
           .catch((err) => {
             this.butLoading = false
             this.listLoading = false;
-            console.log(err);
           });
       } else {
         this.butLoading = false

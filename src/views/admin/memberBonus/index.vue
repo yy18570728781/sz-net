@@ -165,10 +165,8 @@ export default {
     .then((res) => {
       if(res.code == 0){
         this.gameList = res.data;
-        console.log(this.gameList,'gameList');
         this.searchFrom.bonusCode = this.gameList[0].code
         
-        console.log(res,'游戏类型列表');
         // this.getList()
         getDrlWeek()
         .then((res) => {
@@ -178,7 +176,6 @@ export default {
             this.searchFrom.fromDate = this.dataList[0].fromDate
             this.searchFrom.toDate = this.dataList[0].toDate
             
-            console.log(this.dataList,'时间列表');
             this.getList()
           }
           
@@ -198,14 +195,12 @@ export default {
       let proNum = this.dataList.findIndex((item, index) =>{
         return item.showDate == value
       })
-      console.log(proNum);
       this.searchFrom.fromDate = this.dataList[proNum].fromDate
       this.searchFrom.toDate = this.dataList[proNum].toDate
       // this.getList()
     },
 
     changeShow(row){
-      console.log(row);
       this.gametxnId = row.gametxnId
       this.bonusCode = row.bonusCode
       this.DetDialog = true
@@ -222,15 +217,13 @@ export default {
         // 注意：在改变每页显示的条数时，要将页码显示到第一页
         this.currentPage=1
         this.getTemList()
-        console.log(val,'条数');
     },
     //显示第几页
     handleCurrentChange(val) {
-      console.log(val,'val');
         //改变默认的页数
         this.currentPage=val
         this.getTemList()
-        console.log(this.currentPage,'this.curpage');
+        // console.log(this.currentPage,'this.curpage');
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
@@ -251,12 +244,12 @@ export default {
         getBonusContent({ bonusCode, fromDate, toDate })
           .then(async(res) => {
             this.butLoading = false
-            console.log(res,'游戏');
+            // console.log(res,'游戏');
             this.contentRow = res.data;
             // this.contentRow.content.replace(/\\r\\n/g, '<br/>')
             // this.contentRow.content.split(/\\r\\n/g).join('<br/>')
             this.contentRow.content = this.contentRow.content.replace(/\r\n/g, '<br/>')
-            console.log(this.contentRow.content);
+            // console.log(this.contentRow.content);
 
 
 

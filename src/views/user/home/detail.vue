@@ -152,7 +152,6 @@ export default {
         this.listLoading = true;
         getWindingMemberDetail({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
-            console.log(res,'会员明细总结');
             this.memberList = res.data;
             this.listLoading = false;
           })

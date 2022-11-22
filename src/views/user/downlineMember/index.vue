@@ -165,7 +165,7 @@
       </el-pagination>
     </div>
     <div>
-      <p>**玩家总结 = 输赢 + 会员提成 + 钱包 + 积分转移</p>
+      <p>**会员总结 = 输赢 + 会员提成 + 钱包 + 积分转移</p>
       <p>**我的总结 = 玩家总结 + 我的流水提成 + 我的利润提成</p>
     </div>
     <!-- 总结明细 -->
@@ -224,7 +224,6 @@ export default {
         this.searchFrom.fromDate = this.dataList[0].fromDate
         this.searchFrom.toDate = this.dataList[0].toDate
         
-        console.log(this.dataList,'时间列表');
         this.getList()
       }
     })
@@ -235,13 +234,11 @@ export default {
       let proNum = this.dataList.findIndex((item, index) =>{
         return item.showDate == value
       })
-      console.log(proNum);
       this.searchFrom.fromDate = this.dataList[proNum].fromDate
       this.searchFrom.toDate = this.dataList[proNum].toDate
       this.getList()
     },
     changeShow(row){
-      console.log(row);
       this.gnuserId = row.gnuserId
       this.DetDialog = true
       this.$refs.detail.getList(this.gnuserId,this.searchFrom.fromDate,this.searchFrom.toDate)
@@ -264,7 +261,6 @@ export default {
         //改变默认的页数
         this.currentPage=val
         this.getTemList()
-        console.log(this.currentPage,'this.curpage');
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
@@ -272,7 +268,6 @@ export default {
       this.$nextTick(()=>{
          this.temList.push(this.count)
       })
-      console.log(this.temList);
     },
 
     getList() {
@@ -283,7 +278,6 @@ export default {
         const { fromDate, toDate } = this.searchFrom;
         getWindingMember({ gnuserId:this.userInfo.gnuserId, fromDate, toDate })
           .then((res) => {
-            console.log(res,'下线会员总结');
             this.pointList = res.data;
             this.totalCount = res.data.length
             // this.pointList = [{gnuserId:'12121'}];

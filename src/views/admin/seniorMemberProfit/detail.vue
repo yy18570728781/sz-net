@@ -403,7 +403,6 @@ export default {
          this.temList.push(this.count)
       })
       // this.temList.unshift(this.count)
-      console.log(this.temList,'this.temList');
     },
   // --------------------------------------------------
     //每页显示的条数
@@ -416,7 +415,6 @@ export default {
     },
     //显示第几页
     handleCurrentChange1(val) {
-      console.log(val,'val');
         //改变默认的页数
         this.currentPage1=val
         this.getTemList1()
@@ -429,12 +427,10 @@ export default {
     },
 
     getList(gnuserId,fromDate,toDate) {
-      console.log(this.DetDialog,this.gnuserId,this.fromDate,this.toDate);
       if (this.fromDate && this.toDate) {
         this.listLoading = true;
         getDetAgentPlayerSum({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
-            console.log(res,'会员总结');
             this.memberList = res.data;
             this.totalCount = res.data.length;
 
@@ -487,7 +483,6 @@ export default {
 
         getDetAgentSum({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
-            console.log(res,'代理总结');
             this.agencypList = res.data;
             this.totalCount1 = res.data.length;
 

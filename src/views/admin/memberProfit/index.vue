@@ -207,7 +207,6 @@ export default {
         this.searchFrom.fromDate = this.dataList[0].fromDate
         this.searchFrom.toDate = this.dataList[0].toDate
         
-        console.log(this.dataList,'时间列表');
         this.getList()
       }
     })
@@ -217,7 +216,6 @@ export default {
         this.typeList = res.data;
         this.searchFrom.userType = this.typeList[0].value
         
-        console.log(this.typeList,'用户类型列表');
         // this.getList()
       }
     })
@@ -229,13 +227,11 @@ export default {
       let proNum = this.dataList.findIndex((item, index) =>{
         return item.showDate == value
       })
-      console.log(proNum);
       this.searchFrom.fromDate = this.dataList[proNum].fromDate
       this.searchFrom.toDate = this.dataList[proNum].toDate
     },
 
     changeShow(row){
-      console.log(row);
       this.gnuserId = row.gnuserId
       this.DetDialog = true
       this.$refs.detail.getList(this.gnuserId,this.searchFrom.fromDate,this.searchFrom.toDate)
@@ -254,11 +250,9 @@ export default {
     },
     //显示第几页
     handleCurrentChange(val) {
-      console.log(val,'val');
         //改变默认的页数
         this.currentPage=val
         this.getTemList()
-        console.log(this.currentPage,'this.curpage');
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
@@ -277,7 +271,6 @@ export default {
         getMemberProfit({ userType, fromDate, toDate })
           .then((res) => {
             this.butLoading = false
-            console.log(res,'会员总结');
             this.pointList = res.data;
             this.totalCount = res.data.length
             // this.pointList = [{gnuserId:'12121'}];
@@ -317,7 +310,6 @@ export default {
           })
           .catch((err) => {
             this.listLoading = false;
-            console.log(err);
           });
       } else {
         this.$message({ type: "info", message: "Please select time" }); 

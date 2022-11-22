@@ -1,6 +1,8 @@
 'use strict'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
+//打包配置自动忽略console.log等
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -49,6 +51,25 @@ module.exports = {
       }
     }
   },
+  // configureWebpack: config => {
+  //   if (process.env.NODE_ENV === 'development') {
+  //     return {
+  //       plugins: [
+  //         //打包环境去掉console.log
+  //         new UglifyJsPlugin({
+  //           uglifyOptions: {
+  //             compress: {
+  //               warnings: false,
+  //               drop_console: true,  //注释console
+  //               drop_debugger: true, //注释debugger
+  //               pure_funcs: ['console.log'], //移除console.log
+  //             },
+  //           },
+  //         }),
+  //       ],
+  //     }
+  //   }
+  // },
   chainWebpack(config) {
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin('preload').tap(() => [
@@ -84,6 +105,7 @@ module.exports = {
     config
       .when(process.env.NODE_ENV !== 'development',
         config => {
+          
           config
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
