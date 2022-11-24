@@ -6,7 +6,9 @@
         <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
       </div>
     </div>
-    <el-table
+    <div class="Pdiv">
+      <div class="Cdiv">
+        <el-table
       v-loading="listLoading"
       :data="
         temList.filter(
@@ -21,14 +23,13 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{   }"
+      :default-sort="{  }"
     >
 
       <el-table-column
         label="会员总结"
         align="center"
         sortable
-        show-overflow-tooltip
       >
         
         <el-table-column
@@ -36,10 +37,8 @@
           align="center"
           prop="userName"
           sortable
-          show-overflow-tooltip
         >
            <template slot-scope="scope">
-            
             <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
             <span v-else>{{scope.row.userName}} </span>
           </template>
@@ -50,7 +49,6 @@
           prop="turnover"
           sort-by="turnover"
           sortable
-          show-overflow-tooltip
         >
         </el-table-column>
 
@@ -61,7 +59,6 @@
           prop="playerProfitBonus"
           sort-by="playerProfitBonus"
           sortable
-          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -70,7 +67,6 @@
           prop="turnoverBonus"
           sort-by="turnoverBonus"
           sortable
-          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -79,7 +75,6 @@
           prop="profitBonus"
           sort-by="profitBonus"
           sortable
-          show-overflow-tooltip
         >
         </el-table-column>
 
@@ -89,7 +84,6 @@
           prop="wallet"
           sort-by="wallet"
           sortable
-          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -98,7 +92,6 @@
           prop="transfer"
           sort-by="transfer"
           sortable
-          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -107,7 +100,6 @@
           prop="winLose"
           sort-by="winLose"
           sortable
-          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -116,7 +108,6 @@
           prop="playerProfit"
           sort-by="playerProfit"
           sortable
-          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -125,13 +116,19 @@
           prop="profit"
           sort-by="profit"
           sortable
-          show-overflow-tooltip
         >
         </el-table-column>
 
       </el-table-column>
         
     </el-table>
+        <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList" :key="index">{{item}}</div>
+          </div>
+      </div>
+    </div>
+    
     <div class="page">
       <el-pagination 
         @size-change="handleSizeChange" 
@@ -149,7 +146,9 @@
         <el-input v-model="search1" placeholder="输入关键字搜索"> </el-input>
       </div>
     </div>
-    <el-table
+    <div class="Pdiv">
+      <div class="Cdiv">
+        <el-table
       v-loading="listLoading"
       :data="
         temList1.filter(
@@ -164,20 +163,18 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{   }"
+      :default-sort="{  }"
     >
       <el-table-column
         label="代理总结"
         align="center"
         sortable
-        show-overflow-tooltip
       >
       <el-table-column
         label="代理名"
         align="center"
         prop="userName"
         sortable
-        show-overflow-tooltip
       >
         <template slot-scope="scope">
           <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
@@ -190,7 +187,6 @@
         prop="turnover"
         sort-by="turnover"
         sortable
-        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -199,7 +195,6 @@
         prop="playerBonus"
         sort-by="playerBonus"
         sortable
-        show-overflow-tooltip
       >
       </el-table-column>
 
@@ -210,7 +205,6 @@
         prop=""
         sort-by=""
         sortable
-        show-overflow-tooltip
       >
 
         <el-table-column
@@ -219,7 +213,6 @@
           prop="agentTurnoverBonus"
           sort-by="agentTurnoverBonus"
           sortable
-          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -228,7 +221,6 @@
           prop="agentProfitBonus"
           sort-by="agentProfitBonus"
           sortable
-          show-overflow-tooltip
         >
         </el-table-column>
 
@@ -239,7 +231,6 @@
         prop=""
         sort-by=""
         sortable
-        show-overflow-tooltip
       >
 
         <el-table-column
@@ -248,7 +239,6 @@
           prop="turnoverBonus"
           sort-by="turnoverBonus"
           sortable
-          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
@@ -257,7 +247,6 @@
           prop="profitBonus"
           sort-by="profitBonus"
           sortable
-          show-overflow-tooltip
         >
         </el-table-column>
 
@@ -269,7 +258,6 @@
         prop="wallet"
         sort-by="wallet"
         sortable
-        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -278,7 +266,6 @@
         prop="transfer"
         sort-by="transfer"
         sortable
-        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -287,7 +274,6 @@
         prop="winLose"
         sort-by="winLose"
         sortable
-        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -296,7 +282,6 @@
         prop="agentProfit"
         sort-by="agentProfit"
         sortable
-        show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
@@ -305,13 +290,19 @@
         prop="profit"
         sort-by="profit"
         sortable
-        show-overflow-tooltip
       >
       </el-table-column>
 
       </el-table-column>
       
     </el-table>
+        <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList1" :key="index">{{item}}</div>
+          </div>
+      </div>
+    </div>
+    
     <div class="page">
       <el-pagination 
         @size-change="handleSizeChange1" 
@@ -382,6 +373,9 @@ export default {
       // 默认每页显示的条数（可修改）
       PageSize1:10,
       count1:{},//总计
+
+      countList:[],
+      countList1:[],
     };
   },
   created(){
@@ -426,7 +420,10 @@ export default {
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.push(this.count)
+      this.$nextTick(()=>{
+        //  this.temList.push(this.count)
+      })
+      // this.temList.unshift(this.count)
     },
   // --------------------------------------------------
     //每页显示的条数
@@ -446,21 +443,24 @@ export default {
     },
     getTemList1(){
       this.temList1 =  this.agencypList.slice((this.currentPage1-1)*this.PageSize1,this.currentPage1*this.PageSize1)
-      this.temList1.push(this.count1)
+      // this.temList1.push(this.count1)
+      
     },
 
     getList(gnuserId,fromDate,toDate) {
-      console.log(this.DetDialog,this.gnuserId,this.fromDate,this.toDate);
       if (this.fromDate && this.toDate) {
         this.listLoading = true;
         getDetAgentPlayerSum({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
             this.memberList = res.data;
-            this.totalCount = res.data.length
+            this.totalCount = res.data.length;
+
             let userCode = 0;
             let userName = 0;
             let playerProfitBonus = 0;
             let turnoverBonus = 0;
+            let playerBonus = 0;
+            let agentTurnoverBonus = 0;
             let profitBonus = 0;
             let turnover = 0;
             let winLose = 0;
@@ -475,6 +475,8 @@ export default {
               playerProfitBonus += Number(item.playerProfitBonus)
               turnoverBonus += Number(item.turnoverBonus)
               profitBonus += Number(item.profitBonus)
+              playerBonus += Number(item.playerBonus)
+              agentTurnoverBonus += Number(item.agentTurnoverBonus)
               turnover += Number(item.turnover)
               winLose += Number(item.winLose)
               wallet += Number(item.wallet)
@@ -487,15 +489,18 @@ export default {
             playerProfitBonus = Number(playerProfitBonus).toFixed(2)
             turnoverBonus = Number(turnoverBonus).toFixed(2)
             profitBonus = Number(profitBonus).toFixed(2)
+            playerBonus = Number(playerBonus).toFixed(2)
+            agentTurnoverBonus = Number(agentTurnoverBonus).toFixed(2)
             turnover = Number(turnover).toFixed(2)
             winLose = Number(winLose).toFixed(2)
             wallet = Number(wallet).toFixed(2)
             transfer = Number(transfer).toFixed(2)
             playerProfit = Number(playerProfit).toFixed(2)
             profit = Number(profit).toFixed(2)
-            this.count = {userCode,userName, playerProfitBonus,turnoverBonus,profitBonus, turnover,winLose,wallet,playerProfit,profit,transfer,tag}
+            this.count = {userCode,userName, playerProfitBonus,turnoverBonus,profitBonus,playerBonus, turnover,winLose,wallet,playerProfit,profit,transfer,tag}
             this.count.firstColumn = '总计' 
             this.getTemList()
+            this.countList = [turnover,playerProfitBonus,turnoverBonus,profitBonus,wallet,transfer,winLose,playerProfit,profit]
             
             this.listLoading = false;
           })
@@ -555,7 +560,7 @@ export default {
             this.count.firstColumn = '总计' 
             
             this.getTemList1()
-            
+            this.countList1 = [turnover,playerBonus,agentTurnoverBonus,agentProfitBonus,turnoverBonus,profitBonus,wallet,transfer,winLose,agentProfit,profit]
             this.listLoading = false;
           })
           .catch((err) => {
@@ -571,6 +576,54 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
+.Pdiv{
+  width:100%;overflow-x: auto;
+  .Cdiv{
+    min-width: 1040px;
+  }
+}
+::v-deep.el-table {
+  overflow-x: clip;
+}
+::v-deep.el-table--scrollable-x .el-table__body-wrapper{
+  overflow: clip !important;
+}
+.el-table__header-wrapper,
+.el-table__body-wrapper,
+.el-table__footer-wrapper {
+  min-width: 1040px !important; 
+  overflow: clip;
+}
+.el-table__body-wrapper, .el-table__footer-wrapper, .el-table__header-wrapper{
+  min-width: 1040px !important; 
+}
+.el-table::after {
+  position: relative;
+}
+.el-table--scrollable-x .el-table__body-wrapper {
+  overflow: clip;
+}
+.footer_div{
+  width: 100%;
+  min-width: 1040px;
+  border-left: 1px solid #EBEEF5;
+  border-bottom: 1px solid #EBEEF5;
+  display: flex;
+  background-color: #e2e2e2;
+  font-size: 14px;
+  
+  div{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // border-right: 1px solid #EBEEF5;
+    padding: 12px 0;
+    color: #606266;
+  }
+}
+
 .flex{
   width: 100%;
   display: flex;
@@ -601,14 +654,5 @@ export default {
   ::v-deep .el-table td{
     padding: 0 !important;
   }
-}
-@media screen and (max-width:1200px) {
-    ::v-deep .el-dialog{
-      width: 100% !important;
-    }
-    ::v-deep .el-table td, .el-table th{
-      padding: 0 !important;
-    }
-  
 }
 </style>

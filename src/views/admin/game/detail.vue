@@ -8,138 +8,147 @@
     </div>
     <!-- 牛牛 -->
     <div v-if="nowGame == 'G01' ">
-      <el-table
-        v-loading="listLoading"
-        :data="
-          temList.filter(
-            (data) =>
-              !search ||
-              data.playerName.toLowerCase().includes(search.toLowerCase()) ||
-              data.betType.toLowerCase().includes(search.toLowerCase()) ||
-              data.packetPoint.toLowerCase().includes(search.toLowerCase()) ||
-              data.packetType.toLowerCase().includes(search.toLowerCase()) ||
-              data.multiply.toLowerCase().includes(search.toLowerCase()) ||
-              data.status.toLowerCase().includes(search.toLowerCase()) ||
-              data.bet.toLowerCase().includes(search.toLowerCase()) 
-          )
-        "
-        element-loading-text="Loading"
-        border
-        fit
-        highlight-current-row
-        ref="filterTable"
-        :default-sort="{  }"
-      >
+      <div class="Pdiv">
+        <div class="Cdiv">
+          <el-table
+            v-loading="listLoading"
+            :data="
+              temList.filter(
+                (data) =>
+                  !search ||
+                  data.playerName.toLowerCase().includes(search.toLowerCase()) ||
+                  data.betType.toLowerCase().includes(search.toLowerCase()) ||
+                  data.packetPoint.toLowerCase().includes(search.toLowerCase()) ||
+                  data.packetType.toLowerCase().includes(search.toLowerCase()) ||
+                  data.multiply.toLowerCase().includes(search.toLowerCase()) ||
+                  data.status.toLowerCase().includes(search.toLowerCase()) ||
+                  data.bet.toLowerCase().includes(search.toLowerCase()) 
+              )
+            "
+            element-loading-text="Loading"
+            border
+            fit
+            highlight-current-row
+            ref="filterTable"
+            :default-sort="{  }"
+          >
 
-        <el-table-column
-          label="会员名"
-          align="center"
-          prop="playerName"
-          sortable
-        >
-          <template slot-scope="scope">
-            <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
-            <span v-else>{{scope.row.playerName}} </span>
-          </template>
-        </el-table-column>
+            <el-table-column
+              label="会员名"
+              align="center"
+              prop="playerName"
+              sortable
+            >
+              <template slot-scope="scope">
+                <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
+                <span v-else>{{scope.row.playerName}} </span>
+              </template>
+            </el-table-column>
 
-        <el-table-column
-          label="类型"
-          align="center"
-          prop="betType"
-          sortable
-        >
-        </el-table-column>
+            <el-table-column
+              label="类型"
+              align="center"
+              prop="betType"
+              sortable
+            >
+            </el-table-column>
 
-        <el-table-column
-          label="下注"
-          align="center"
-          prop="bet"
-          sortable
-        >
-        </el-table-column>
+            <el-table-column
+              label="下注"
+              align="center"
+              prop="bet"
+              sortable
+            >
+            </el-table-column>
 
-        <el-table-column
-          label="包点数"
-          align="center"
-          prop="packetPoint"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="包名称"
-          align="center"
-          prop="packetType"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="倍数"
-          align="center"
-          prop="multiply"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="结果"
-          align="center"
-          prop="status"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="输赢"
-          align="center"
-          prop="winLose"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="上庄费"
-          align="center"
-          prop="hostFee"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="服务费"
-          align="center"
-          prop="serviceFee"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="带包费"
-          align="center"
-          prop="packetFee"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="赢抽水"
-          align="center"
-          prop="winFee"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="总输赢"
-          align="center"
-          prop="totalWinLose"
-          sortable
-        >
-        </el-table-column>
+            <el-table-column
+              label="包点数"
+              align="center"
+              prop="packetPoint"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="包名称"
+              align="center"
+              prop="packetType"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="倍数"
+              align="center"
+              prop="multiply"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="结果"
+              align="center"
+              prop="status"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="输赢"
+              align="center"
+              prop="winLose"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="上庄费"
+              align="center"
+              prop="hostFee"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="服务费"
+              align="center"
+              prop="serviceFee"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="带包费"
+              align="center"
+              prop="packetFee"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="赢抽水"
+              align="center"
+              prop="winFee"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="总输赢"
+              align="center"
+              prop="totalWinLose"
+              sortable
+            >
+            </el-table-column>
 
-        <el-table-column
-          label="流水"
-          align="center"
-          prop="turnover"
-          sort-by="turnover"
-          sortable
-        >
-        </el-table-column>
-          
-      </el-table>
+            <el-table-column
+              label="流水"
+              align="center"
+              prop="turnover"
+              sort-by="turnover"
+              sortable
+            >
+            </el-table-column>
+              
+          </el-table>
+          <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList" :key="index">{{item}}</div>
+          </div>
+        </div>
+      </div>
+      
       <div class="page">
         <el-pagination 
           @size-change="handleSizeChange" 
@@ -153,7 +162,9 @@
     </div>
     <!-- 球网 -->
     <div v-if="nowGame == 'G02' ">
-      <el-table
+      <div class="Pdiv">
+        <div class="Cdiv">
+          <el-table
         v-loading="listLoading"
         :data="
           temList.filter(
@@ -241,7 +252,14 @@
         >
         </el-table-column>
           
-      </el-table>
+          </el-table>
+          <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList1" :key="index">{{item}}</div>
+          </div>
+        </div>
+      </div>
+      
       <div class="page">
         <el-pagination 
           @size-change="handleSizeChange" 
@@ -255,7 +273,9 @@
     </div>
     <!-- ETH -->
     <div v-if="nowGame == 'G03' ">
-      <el-table
+      <div class="Pdiv">
+        <div class="Cdiv">
+         <el-table
         v-loading="listLoading"
         :data="
           temList.filter(
@@ -336,6 +356,13 @@
         </el-table-column>
           
       </el-table>
+          <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList2" :key="index">{{item}}</div>
+          </div>
+        </div>
+      </div>
+      
       <div class="page">
         <el-pagination 
           @size-change="handleSizeChange" 
@@ -349,7 +376,9 @@
     </div>
     <!-- 麻将 -->
     <div v-if="nowGame == 'G04' ">
-      <el-table
+      <div class="Pdiv">
+        <div class="Cdiv">
+        <el-table
         v-loading="listLoading"
         :data="
           temList.filter(
@@ -411,6 +440,13 @@
         </el-table-column>
           
       </el-table>
+          <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList3" :key="index">{{item}}</div>
+          </div>
+        </div>
+      </div>
+      
       <div class="page">
         <el-pagination 
           @size-change="handleSizeChange" 
@@ -466,6 +502,10 @@ export default {
       PageSize:10,
 
       count:{},//总计
+      countList:[],
+      countList1:[],
+      countList2:[],
+      countList3:[],
 
       nowGame:'',
       search:'',
@@ -512,7 +552,7 @@ export default {
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.push(this.count)
+      // this.temList.push(this.count)
     },
 
     getList(gametxnId,gameCode,fromDate,toDate,nowGame) {
@@ -566,6 +606,10 @@ export default {
             this.count = {playerName,team, betType,packetType,multiply,status,bet,packetPoint,serviceFee,tag, turnover,winLose,odds,hostFee,packetFee,totalWinLose,winFee}
             this.count.firstColumn = '总计' 
             this.getTemList()
+            this.countList = [betType,bet,packetPoint,packetType,multiply,status,winLose,hostFee,serviceFee,packetFee,winFee,totalWinLose,turnover]
+            this.countList1 = [betType,team,bet,odds,status,winLose,turnover]
+            this.countList2 = [betType,bet,odds,status,winLose,turnover]
+            this.countList3 = [status,water,winLose,turnover]
 
             this.listLoading = false;
           })
@@ -581,6 +625,52 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.Pdiv{
+  width:100%;overflow-x: auto;
+  .Cdiv{
+    min-width: 1040px;
+  }
+}
+::v-deep.el-table {
+  overflow-x: clip;
+}
+::v-deep.el-table--scrollable-x .el-table__body-wrapper{
+  overflow: clip !important;
+}
+.el-table__header-wrapper,
+.el-table__body-wrapper,
+.el-table__footer-wrapper {
+  min-width: 1040px !important; 
+  overflow: clip;
+}
+.el-table__body-wrapper, .el-table__footer-wrapper, .el-table__header-wrapper{
+  min-width: 1040px !important; 
+}
+.el-table::after {
+  position: relative;
+}
+.el-table--scrollable-x .el-table__body-wrapper {
+  overflow: clip;
+}
+.footer_div{
+  width: 100%;
+  min-width: 1040px;
+  border-left: 1px solid #EBEEF5;
+  border-bottom: 1px solid #EBEEF5;
+  display: flex;
+  background-color: #e2e2e2;
+  font-size: 14px;
+  
+  div{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // border-right: 1px solid #EBEEF5;
+    padding: 12px 0;
+    color: #606266;
+  }
+}
 
 .flex_box {
   display: flex;

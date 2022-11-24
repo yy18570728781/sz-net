@@ -33,109 +33,117 @@
     </div>
     <!-- 牛牛 -->
     <div v-if="nowGame == 'G01' ">
-      <el-table
-        v-loading="listLoading"  
-        :data="
-          temList.filter(
-            (data) =>
-              !search ||
-              data.gameNo.toLowerCase().includes(search.toLowerCase()) ||
-              data.bankerWinFee.toLowerCase().includes(search.toLowerCase()) ||
-              data.totalPlayer.toLowerCase().includes(search.toLowerCase()) 
-          )
-        "
-        element-loading-text="Loading"
-        border
-        fit
-        highlight-current-row
-        ref="filterTable"
-        :default-sort="{   }"
-      >
-        <el-table-column
-          label="操作"
-          align="center"
-          prop=""
-          sortable
-        > 
-          <template slot-scope="scope">
-            <el-button v-if="scope.row.gametxnId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
-            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
-          </template>
-          
-        </el-table-column>
-        <el-table-column
-          label="场数"
-          align="center"
-          prop="gameNo"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="人数 "
-          align="center"
-          prop="totalPlayer"
-          sort-by="totalPlayer"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="上庄费"
-          align="center"
-          prop="hostFee"
-           sortable
-        >
-        </el-table-column>
+      <div style="width:100%;overflow-x: auto;">
+        <div style=" min-width: 1040px;">
+          <el-table
+            v-loading="listLoading"  
+            :data="
+              temList.filter(
+                (data) =>
+                  !search ||
+                  data.gameNo.toLowerCase().includes(search.toLowerCase()) ||
+                  data.bankerWinFee.toLowerCase().includes(search.toLowerCase()) ||
+                  data.totalPlayer.toLowerCase().includes(search.toLowerCase()) 
+              )
+            "
+            element-loading-text="Loading"
+            border
+            fit
+            highlight-current-row
+            ref="filterTable"
+            :default-sort="{   }"
+          >
+            <el-table-column
+              label="操作"
+              align="center"
+              prop=""
+              sortable
+            > 
+              <template slot-scope="scope">
+                <el-button v-if="scope.row.gametxnId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
+                <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+              </template>
+              
+            </el-table-column>
+            <el-table-column
+              label="场数"
+              align="center"
+              prop="gameNo"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="人数 "
+              align="center"
+              prop="totalPlayer"
+              sort-by="totalPlayer"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="上庄费"
+              align="center"
+              prop="hostFee"
+              sortable
+            >
+            </el-table-column>
 
-        <el-table-column
-          label="服务费"
-          align="center"
-          prop="serviceFee"
-           sortable
-        >
-        </el-table-column>
+            <el-table-column
+              label="服务费"
+              align="center"
+              prop="serviceFee"
+              sortable
+            >
+            </el-table-column>
 
-        <el-table-column
-          label="庄赢抽水"
-          align="center"
-          prop="bankerWinFee"
-          sort-by="bankerWinFee"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="闲赢抽水"
-          align="center"
-          prop="playerWinFee"
-          sort-by="playerWinFee"
-          sortable
-        >
-        </el-table-column>
+            <el-table-column
+              label="庄赢抽水"
+              align="center"
+              prop="bankerWinFee"
+              sort-by="bankerWinFee"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="闲赢抽水"
+              align="center"
+              prop="playerWinFee"
+              sort-by="playerWinFee"
+              sortable
+            >
+            </el-table-column>
 
-        <el-table-column
-          label="带包费"
-          align="center"
-          prop="packetFee"
-          sort-by="packetFee"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="流水"
-          align="center"
-          prop="turnover"
-          sort-by="turnover"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="时间"
-          align="center"
-          prop="drawDate"
-          sortable
-        >
-        </el-table-column>
-        
-      </el-table>
+            <el-table-column
+              label="带包费"
+              align="center"
+              prop="packetFee"
+              sort-by="packetFee"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="流水"
+              align="center"
+              prop="turnover"
+              sort-by="turnover"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="时间"
+              align="center"
+              prop="drawDate"
+              sortable
+            >
+            </el-table-column>
+            
+          </el-table>
+          <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList" :key="index">{{item}}</div>
+          </div>
+        </div>
+      </div>
       <div class="page">
         <el-pagination 
           @size-change="handleSizeChange" 
@@ -149,7 +157,9 @@
     </div>
     <!-- 球网 -->
     <div v-if="nowGame == 'G02' ">
-      <el-table
+      <div style="width:100%;overflow-x: auto;">
+        <div style=" min-width: 1040px;">
+          <el-table
         v-loading="listLoading"  
         :data="
           temList.filter(
@@ -251,7 +261,13 @@
         >
         </el-table-column>
         
-      </el-table>
+          </el-table>
+          <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList1" :key="index">{{item}}</div>
+          </div>
+        </div>
+      </div>
       <div class="page">
         <el-pagination 
           @size-change="handleSizeChange" 
@@ -265,78 +281,87 @@
     </div>
     <!-- ETH -->
     <div v-if="nowGame == 'G03' ">
-      <el-table
-        v-loading="listLoading"  
-        :data="
-          temList.filter(
-            (data) =>
-              !search ||
-              data.gameNo.toLowerCase().includes(search.toLowerCase()) ||
-              data.totalPlayer.toLowerCase().includes(search.toLowerCase()) ||
-              data.winlose.toLowerCase().includes(search.toLowerCase()) ||
-              data.turnover.toLowerCase().includes(search.toLowerCase()) 
-          )
-        "
-        element-loading-text="Loading"
-        border
-        fit
-        highlight-current-row
-        ref="filterTable"
-        :default-sort="{   }"
-      >
-        <el-table-column
-          label="操作"
-          align="center"
-          prop=""
-          sortable
-        > 
-          <template slot-scope="scope">
-            <el-button v-if="scope.row.gametxnId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
-            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
-          </template>
-          
-        </el-table-column>
-        <el-table-column
-          label="期数"
-          align="center"
-          prop="gameNo"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="人数 "
-          align="center"
-          prop="totalPlayer"
-          sort-by="totalPlayer"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="输赢"
-          align="center"
-          prop="winlose"
-          sort-by="winlose"
-          sortable
-        >
-        </el-table-column>
+      <div style="width:100%;overflow-x: auto;">
+        <div style=" min-width: 1040px;">
+          <el-table
+            v-loading="listLoading"  
+            :data="
+              temList.filter(
+                (data) =>
+                  !search ||
+                  data.gameNo.toLowerCase().includes(search.toLowerCase()) ||
+                  data.totalPlayer.toLowerCase().includes(search.toLowerCase()) ||
+                  data.winlose.toLowerCase().includes(search.toLowerCase()) ||
+                  data.turnover.toLowerCase().includes(search.toLowerCase()) 
+              )
+            "
+            element-loading-text="Loading"
+            border
+            fit
+            highlight-current-row
+            ref="filterTable"
+            :default-sort="{   }"
+          >
+            <el-table-column
+              label="操作"
+              align="center"
+              prop=""
+              sortable
+            > 
+              <template slot-scope="scope">
+                <el-button v-if="scope.row.gametxnId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
+                <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+              </template>
+              
+            </el-table-column>
+            <el-table-column
+              label="期数"
+              align="center"
+              prop="gameNo"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="人数 "
+              align="center"
+              prop="totalPlayer"
+              sort-by="totalPlayer"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="输赢"
+              align="center"
+              prop="winlose"
+              sort-by="winlose"
+              sortable
+            >
+            </el-table-column>
 
-        <el-table-column
-          label="流水"
-          align="center"
-          prop="turnover"
-          sort-by="turnover"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="时间"
-          align="center"
-          prop="drawDate"
-          sortable
-        >
-        </el-table-column>
-        
-      </el-table>
+            <el-table-column
+              label="流水"
+              align="center"
+              prop="turnover"
+              sort-by="turnover"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="时间"
+              align="center"
+              prop="drawDate"
+              sortable
+            >
+            </el-table-column>
+            
+          </el-table>
+          <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList2" :key="index">{{item}}</div>
+          </div>
+        </div>
+      </div>
+      
       <div class="page">
         <el-pagination 
           @size-change="handleSizeChange" 
@@ -350,78 +375,87 @@
     </div>
     <!-- 麻将 -->
     <div v-if="nowGame == 'G04' ">
-      <el-table
-        v-loading="listLoading"  
-        :data="
-          temList.filter(
-            (data) =>
-              !search ||
-              data.gameNo.toLowerCase().includes(search.toLowerCase()) ||
-              data.totalPlayer.toLowerCase().includes(search.toLowerCase()) ||
-              data.water.toLowerCase().includes(search.toLowerCase()) ||
-              data.turnover.toLowerCase().includes(search.toLowerCase()) 
-          )
-        "
-        element-loading-text="Loading"
-        border
-        fit
-        highlight-current-row
-        ref="filterTable"
-        :default-sort="{   }"
-      >
-        <el-table-column
-          label="操作"
-          align="center"
-          prop=""
-          sortable
-        > 
-          <template slot-scope="scope">
-            <el-button v-if="scope.row.gametxnId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
-            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
-          </template>
-          
-        </el-table-column>
-        <el-table-column
-          label="期数"
-          align="center"
-          prop="gameNo"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="人数 "
-          align="center"
-          prop="totalPlayer"
-          sort-by="totalPlayer"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="赢抽水"
-          align="center"
-          prop="water"
-          sort-by="water"
-          sortable
-        >
-        </el-table-column>
+      <div style="width:100%;overflow-x: auto;">
+        <div style=" min-width: 1040px;">
+          <el-table
+            v-loading="listLoading"  
+            :data="
+              temList.filter(
+                (data) =>
+                  !search ||
+                  data.gameNo.toLowerCase().includes(search.toLowerCase()) ||
+                  data.totalPlayer.toLowerCase().includes(search.toLowerCase()) ||
+                  data.water.toLowerCase().includes(search.toLowerCase()) ||
+                  data.turnover.toLowerCase().includes(search.toLowerCase()) 
+              )
+            "
+            element-loading-text="Loading"
+            border
+            fit
+            highlight-current-row
+            ref="filterTable"
+            :default-sort="{   }"
+          >
+            <el-table-column
+              label="操作"
+              align="center"
+              prop=""
+              sortable
+            > 
+              <template slot-scope="scope">
+                <el-button v-if="scope.row.gametxnId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
+                <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+              </template>
+              
+            </el-table-column>
+            <el-table-column
+              label="期数"
+              align="center"
+              prop="gameNo"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="人数 "
+              align="center"
+              prop="totalPlayer"
+              sort-by="totalPlayer"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="赢抽水"
+              align="center"
+              prop="water"
+              sort-by="water"
+              sortable
+            >
+            </el-table-column>
 
-        <el-table-column
-          label="流水"
-          align="center"
-          prop="turnover"
-          sort-by="turnover"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="时间"
-          align="center"
-          prop="drawDate"
-          sortable
-        >
-        </el-table-column>
-        
-      </el-table>
+            <el-table-column
+              label="流水"
+              align="center"
+              prop="turnover"
+              sort-by="turnover"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="时间"
+              align="center"
+              prop="drawDate"
+              sortable
+            >
+            </el-table-column>
+            
+          </el-table>
+          <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList3" :key="index">{{item}}</div>
+          </div>
+        </div>
+      </div>
+      
       <div class="page">
         <el-pagination 
           @size-change="handleSizeChange" 
@@ -482,6 +516,10 @@ export default {
       PageSize:10,
 
       count:{},//总计
+      countList:[],
+      countList1:[],
+      countList2:[],
+      countList3:[],
 
       search:'',
       
@@ -558,7 +596,7 @@ export default {
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.push(this.count)
+      // this.temList.push(this.count)
     },
     async yanGetList(){
       this.search = ''
@@ -596,6 +634,8 @@ export default {
             let winlose = 0;
             let water = 0;
             let drawDate = '';
+            let gameDate = '';
+            let resultDate = '';
             this.pointList.forEach(item=>{
               totalPlayer += Number(item.totalPlayer)
               hostFee += Number(item.hostFee)
@@ -619,6 +659,10 @@ export default {
             this.count = { league,scoreResult,awayTeam,homeTeam,gameNo,totalPlayer,hostFee,serviceFee, bankerWinFee,playerWinFee,turnover,winlose,water,packetFee,drawDate}
             this.count.firstColumn = '总计' 
             this.getTemList()
+            this.countList = [gameNo,totalPlayer,hostFee,serviceFee,bankerWinFee,playerWinFee,packetFee,turnover,drawDate]
+            this.countList1 = [league,homeTeam,awayTeam,scoreResult,totalPlayer,winlose,turnover,gameDate,resultDate]
+            this.countList2 = [gameNo,totalPlayer,winlose,turnover,drawDate]
+            this.countList3 = [gameNo,totalPlayer,water,turnover,drawDate]
             this.listLoading = false;
             
           })
@@ -632,6 +676,48 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
+::v-deep.el-table {
+  overflow-x: visible;
+}
+.el-table--scrollable-x .el-table__body-wrapper{
+  overflow: visible !important;
+}
+.el-table__header-wrapper,
+.el-table__body-wrapper,
+.el-table__footer-wrapper {
+  min-width: 1040px !important; 
+  overflow: visible;
+}
+.el-table__body-wrapper, .el-table__footer-wrapper, .el-table__header-wrapper{
+  min-width: 1040px !important; 
+}
+.el-table::after {
+  position: relative;
+}
+.el-table--scrollable-x .el-table__body-wrapper {
+  overflow: visible;
+}
+.footer_div{
+  width: 100%;
+  min-width: 1040px;
+  border-left: 1px solid #EBEEF5;
+  border-bottom: 1px solid #EBEEF5;
+  display: flex;
+  background-color: #e2e2e2;
+  font-size: 14px;
+  
+  div{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // border-right: 1px solid #EBEEF5;
+    padding: 12px 0;
+    color: #606266;
+  }
+}
+
 .numDiv{
   width: 100%;
   display: flex;

@@ -31,111 +31,119 @@
        </div>
       
     </div>
+    <div class="Pdiv">
+        <div class="Cdiv">
+          <el-table
+            v-loading="listLoading"
+            :data="
+              temList.filter(
+                (data) =>
+                  !search ||
+                  data.agentName.toLowerCase().includes(search.toLowerCase()) ||
+                  data.userName.toLowerCase().includes(search.toLowerCase()) ||
+                  data.turnover.toLowerCase().includes(search.toLowerCase()) ||
+                  data.profitBonus.toLowerCase().includes(search.toLowerCase())
+              )
+            "
+            element-loading-text="Loading"
+            border
+            fit
+            highlight-current-row
+            ref="filterTable"
+            :default-sort="{ }"
+          >
+            <el-table-column
+              label="操作"
+              align="center"
+              prop=""
+              sortable
+            > 
+              <template slot-scope="scope">
+                <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
+                <el-button v-else type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
+                
+              </template>
+              
+            </el-table-column>
+            <el-table-column
+              label="代理名"
+              align="center"
+              prop="agentName"
+              sortable
+            >
+            </el-table-column>
+            <!-- <el-table-column
+              label="会员 ID"
+              align="center"
+              prop="userCode"
+              sort-by="userCode"
+              sortable
+            >
+            </el-table-column> -->
+            <el-table-column
+              label="会员名"
+              align="center"
+              prop="userName"
+              sortable
+            >
+            </el-table-column>
 
-    <el-table
-      v-loading="listLoading"
-      :data="
-        temList.filter(
-          (data) =>
-            !search ||
-            data.agentName.toLowerCase().includes(search.toLowerCase()) ||
-            data.userName.toLowerCase().includes(search.toLowerCase()) ||
-            data.turnover.toLowerCase().includes(search.toLowerCase()) ||
-            data.profitBonus.toLowerCase().includes(search.toLowerCase())
-        )
-      "
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row
-      ref="filterTable"
-      :default-sort="{ }"
-    >
-       <el-table-column
-        label="操作"
-        align="center"
-        prop=""
-        sortable
-      > 
-        <template slot-scope="scope">
-          <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
-          <el-button v-else type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
-          
-        </template>
-        
-       </el-table-column>
-       <el-table-column
-        label="代理名"
-        align="center"
-        prop="agentName"
-        sortable
-      >
-      </el-table-column>
-      <!-- <el-table-column
-        label="会员 ID"
-        align="center"
-        prop="userCode"
-        sort-by="userCode"
-        sortable
-      >
-      </el-table-column> -->
-      <el-table-column
-        label="会员名"
-        align="center"
-        prop="userName"
-        sortable
-      >
-      </el-table-column>
+            <el-table-column
+              label="流水"
+              align="center"
+              prop="turnover"
+              sortable
+            >
+            </el-table-column>
 
-      <el-table-column
-        label="流水"
-        align="center"
-        prop="turnover"
-        sortable
-      >
-      </el-table-column>
+            <el-table-column
+              label="流水提成"
+              align="center"
+              prop="profitBonus"
+              sort-by="profitBonus"
+              sortable
+            >
+            </el-table-column>
 
-      <el-table-column
-        label="流水提成"
-        align="center"
-        prop="profitBonus"
-        sort-by="profitBonus"
-        sortable
-      >
-      </el-table-column>
-
-      <el-table-column
-        label="钱包"
-        align="center"
-        prop="wallet"
-        sort-by="wallet"
-        sortable
-      >
-      </el-table-column>
-      <el-table-column
-        label="积分转移"
-        align="center"
-        prop="transfer"
-        sort-by="transfer"
-        sortable
-      >
-      </el-table-column>
-      <el-table-column
-        label="输赢"
-        align="center"
-        prop="winLose"
-         sortable
-      >
-      </el-table-column>
-      <el-table-column
-        label="总结"
-        align="center"
-        prop="profit"
-         sortable
-      >
-      </el-table-column>
-      
-    </el-table>
+            <el-table-column
+              label="钱包"
+              align="center"
+              prop="wallet"
+              sort-by="wallet"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="积分转移"
+              align="center"
+              prop="transfer"
+              sort-by="transfer"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="输赢"
+              align="center"
+              prop="winLose"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              label="总结"
+              align="center"
+              prop="profit"
+              sortable
+            >
+            </el-table-column>
+            
+          </el-table>
+          <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList" :key="index">{{item}}</div>
+          </div>
+        </div>
+    </div>
+    
     <div class="page">
       <el-pagination 
         @size-change="handleSizeChange" 
@@ -191,6 +199,7 @@ export default {
       PageSize:10,
 
       count:{},//总计
+      countList:[],//总计
 
       search:'',
       
@@ -256,7 +265,7 @@ export default {
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.push(this.count)
+      // this.temList.push(this.count)
     },
     getList() {
       this.butLoading= true
@@ -275,8 +284,8 @@ export default {
             this.totalCount = res.data.length
             // this.pointList = [{gnuserId:'12121'}];
 
-            let agentName = 0;
-            let userName = 0;
+            let agentName = '';
+            let userName = '';
             let turnover = 0;
             let profitBonus = 0;
             let wallet = 0;
@@ -285,8 +294,6 @@ export default {
             let transfer = 0;
             let tag = true;
             this.pointList.forEach(item=>{
-              agentName += Number(item.agentName)
-              userName += Number(item.userName)
               turnover += Number(item.turnover)
               profitBonus += Number(item.profitBonus)
               wallet += Number(item.wallet)
@@ -294,8 +301,6 @@ export default {
               winLose += Number(item.winLose)
               profit += Number(item.profit)
             })
-            agentName = Number(agentName).toFixed(2)
-            userName = Number(userName).toFixed(2)
             turnover = Number(turnover).toFixed(2)
             profitBonus = Number(profitBonus).toFixed(2)
             wallet = Number(wallet).toFixed(2)
@@ -305,6 +310,7 @@ export default {
             this.count = { agentName,userName,turnover,profitBonus, wallet,transfer,winLose,profit,tag}
             this.count.firstColumn = '总计' 
             this.getTemList()
+            this.countList = [agentName,userName,turnover,profitBonus,wallet,transfer,winLose,profit,]
 
             this.listLoading = false;
           })
@@ -319,6 +325,54 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
+.Pdiv{
+  width:100%;overflow-x: auto;
+  .Cdiv{
+    min-width: 1040px;
+  }
+}
+::v-deep.el-table {
+  overflow-x: clip;
+}
+::v-deep.el-table--scrollable-x .el-table__body-wrapper{
+  overflow: clip !important;
+}
+.el-table__header-wrapper,
+.el-table__body-wrapper,
+.el-table__footer-wrapper {
+  min-width: 1040px !important; 
+  overflow: clip;
+}
+.el-table__body-wrapper, .el-table__footer-wrapper, .el-table__header-wrapper{
+  min-width: 1040px !important; 
+}
+.el-table::after {
+  position: relative;
+}
+.el-table--scrollable-x .el-table__body-wrapper {
+  overflow: clip;
+}
+.footer_div{
+  width: 100%;
+  min-width: 1040px;
+  border-left: 1px solid #EBEEF5;
+  border-bottom: 1px solid #EBEEF5;
+  display: flex;
+  background-color: #e2e2e2;
+  font-size: 14px;
+  
+  div{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // border-right: 1px solid #EBEEF5;
+    padding: 12px 0;
+    color: #606266;
+  }
+}
+
   .flex-box {
     display: flex;
     flex-wrap: wrap;

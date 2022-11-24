@@ -32,70 +32,79 @@
       </div>
       
     </div>
+    <div class="Pdiv">
+      <div class="Cdiv">
+        <el-table
+          v-loading="listLoading"  
+          :data="
+            temList.filter(
+              (data) =>
+                !search ||
+                data.userCode.toLowerCase().includes(search.toLowerCase()) ||
+                data.userName.toLowerCase().includes(search.toLowerCase()) ||
+                data.remarks.toLowerCase().includes(search.toLowerCase()) ||
+                data.point.toLowerCase().includes(search.toLowerCase()) 
+            )
+          "
+          element-loading-text="Loading"
+          border
+          fit
+          highlight-current-row
+          ref="filterTable"
+          :default-sort="{ }"
+        >
+          <el-table-column
+            label="会员ID"
+            align="center"
+            prop="userCode"
+            sortable
+          >
+            <template slot-scope="scope">
+              <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
+              <span v-else>{{scope.row.userCode}} </span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="会员名 "
+            align="center"
+            prop="userName"
+            sort-by="userName"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            label="积分"
+            align="center"
+            prop="point"
+            sortable
+          >
+          </el-table-column>
+
+          <el-table-column
+            label="备注"
+            align="center"
+            prop="remarks"
+            sortable
+          >
+          </el-table-column>
+
+          <el-table-column
+            label="时间"
+            align="center"
+            prop="createdDate"
+            sortable
+          >
+          </el-table-column>
+          
+        </el-table>
+        <div class="footer_div">
+          <div>总计</div>
+          <div v-for="(item,index) in countList" :key="index">{{item}}</div>
+        </div>
+      </div>
+    </div>
     <div>
-      <el-table
-        v-loading="listLoading"  
-        :data="
-          temList.filter(
-            (data) =>
-              !search ||
-              data.userCode.toLowerCase().includes(search.toLowerCase()) ||
-              data.userName.toLowerCase().includes(search.toLowerCase()) ||
-              data.remarks.toLowerCase().includes(search.toLowerCase()) ||
-              data.point.toLowerCase().includes(search.toLowerCase()) 
-          )
-        "
-        element-loading-text="Loading"
-        border
-        fit
-        highlight-current-row
-        ref="filterTable"
-        :default-sort="{ }"
-      >
-        <el-table-column
-          label="会员ID"
-          align="center"
-          prop="userCode"
-          sortable
-        >
-          <template slot-scope="scope">
-            <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
-            <span v-else>{{scope.row.userCode}} </span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="会员名 "
-          align="center"
-          prop="userName"
-          sort-by="userName"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          label="积分"
-          align="center"
-          prop="point"
-          sortable
-        >
-        </el-table-column>
-
-        <el-table-column
-          label="备注"
-          align="center"
-          prop="remarks"
-          sortable
-        >
-        </el-table-column>
-
-        <el-table-column
-          label="时间"
-          align="center"
-          prop="createdDate"
-          sortable
-        >
-        </el-table-column>
-        
-      </el-table>
+      
     </div>
   </div>
 </template>
@@ -143,6 +152,8 @@ export default {
       PageSize:10,
 
       count:{},//总计
+
+      countList:[],
 
       search:'',
       
@@ -221,7 +232,7 @@ export default {
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
       // this.temList.push(this.count)
-      this.pointList.push(this.count)
+      // this.pointList.push(this.count)
     },
     
     getList(){
@@ -242,6 +253,7 @@ export default {
             let userCode = '';
             let userName = '';
             let remarks = '';
+            let createdDate = '';
             let point = 0;
             let tag = true
             this.pointList.forEach(item=>{
@@ -251,6 +263,7 @@ export default {
             this.count = { userCode,userName,remarks,point,tag}
             // this.count.firstColumn = '总计' 
             await this.getTemList()
+            this.countList = [userName,point,remarks,createdDate,]
             this.totalCount = res.data.length
             
             this.listLoading = false;
@@ -264,6 +277,54 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
+.Pdiv{
+  width:100%;overflow-x: auto;
+  .Cdiv{
+    min-width: 1040px;
+  }
+}
+::v-deep.el-table {
+  overflow-x: clip;
+}
+::v-deep.el-table--scrollable-x .el-table__body-wrapper{
+  overflow: clip !important;
+}
+.el-table__header-wrapper,
+.el-table__body-wrapper,
+.el-table__footer-wrapper {
+  min-width: 1040px !important; 
+  overflow: clip;
+}
+.el-table__body-wrapper, .el-table__footer-wrapper, .el-table__header-wrapper{
+  min-width: 1040px !important; 
+}
+.el-table::after {
+  position: relative;
+}
+.el-table--scrollable-x .el-table__body-wrapper {
+  overflow: clip;
+}
+.footer_div{
+  width: 100%;
+  min-width: 1040px;
+  border-left: 1px solid #EBEEF5;
+  border-bottom: 1px solid #EBEEF5;
+  display: flex;
+  background-color: #e2e2e2;
+  font-size: 14px;
+  
+  div{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // border-right: 1px solid #EBEEF5;
+    padding: 12px 0;
+    color: #606266;
+  }
+}
+
 .numDiv{
   width: 100%;
   display: flex;

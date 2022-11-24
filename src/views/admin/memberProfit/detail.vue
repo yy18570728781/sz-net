@@ -6,7 +6,9 @@
         <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
       </div>
     </div>
-    <el-table
+    <div class="Pdiv">
+      <div class="Cdiv">
+        <el-table
       v-loading="listLoading"
       :data="
         temList.filter(
@@ -113,7 +115,14 @@
       >
       </el-table-column>
       </el-table-column>  
-    </el-table>
+        </el-table>
+        <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList" :key="index">{{item}}</div>
+          </div>
+      </div>
+    </div>
+    
     <div class="page">
       <el-pagination 
         @size-change="handleSizeChange" 
@@ -130,7 +139,9 @@
         <el-input v-model="search1" placeholder="输入关键字搜索"> </el-input>
       </div>
     </div>
-    <el-table
+    <div class="Pdiv">
+      <div class="Cdiv">
+        <el-table
       v-loading="listLoading"
       :data="
         temList1.filter(
@@ -239,6 +250,13 @@
       </el-table-column>
       </el-table-column>  
     </el-table>
+        <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList1" :key="index">{{item}}</div>
+          </div>
+      </div>
+    </div>
+    
     <div class="page">
       <el-pagination 
         @size-change="handleSizeChange1" 
@@ -255,7 +273,9 @@
         <el-input v-model="search2" placeholder="输入关键字搜索"> </el-input>
       </div>
     </div>
-    <el-table
+    <div class="Pdiv">
+      <div class="Cdiv">
+        <el-table
       v-loading="listLoading"
       :data="
         temList2.filter(
@@ -317,6 +337,13 @@
       </el-table-column>
       </el-table-column>  
     </el-table>
+        <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList2" :key="index">{{item}}</div>
+          </div>
+      </div>
+    </div>
+    
     <div class="page">
       <el-pagination 
         @size-change="handleSizeChange2" 
@@ -406,6 +433,10 @@ export default {
       PageSize2:10,
 
       count2:{},//总计
+
+      countList:[],
+      countList1:[],
+      countList2:[],
     };
   },
   created(){
@@ -450,7 +481,7 @@ export default {
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.push(this.count)
+      // this.temList.push(this.count)
     },
 
     // 111
@@ -472,7 +503,7 @@ export default {
     },
     getTemList1(){
       this.temList1 =  this.memberList1.slice((this.currentPage1-1)*this.PageSize1,this.currentPage1*this.PageSize1)
-      this.temList1.push(this.count1)
+      // this.temList1.push(this.count1)
     },
 
     // 222
@@ -493,7 +524,7 @@ export default {
     },
     getTemList2(){
       this.temList2 =  this.memberList2.slice((this.currentPage2-1)*this.PageSize2,this.currentPage2*this.PageSize2)
-      this.temList2.push(this.count2)
+      // this.temList2.push(this.count2)
     },
 
     getList(gnuserId,fromDate,toDate) {
@@ -504,22 +535,23 @@ export default {
             this.memberList = res.data;
             this.totalCount = res.data.length
 
-             let userCode = 0;
-            let userName = 0;
+             let userCode = '';
+            let userName = '';
             let bet = 0;
+            let odds = '';
             let turnover = 0;
             let winLose = 0;
             let wallet = 0;
+            let gameNo = '';
+            let type = '';
+            let time = '';
+            let status = '';
             this.memberList.forEach(item=>{
-              userCode += Number(item.userCode)
-              userName += Number(item.userName)
               bet += Number(item.bet)
               turnover += Number(item.turnover)
               winLose += Number(item.winLose)
               wallet += Number(item.wallet)
             })
-            userCode = Number(userCode).toFixed(2)
-            userName = Number(userName).toFixed(2)
             bet = Number(bet).toFixed(2)
             turnover = Number(turnover).toFixed(2)
             winLose = Number(winLose).toFixed(2)
@@ -527,6 +559,7 @@ export default {
             this.count = {userCode,userName, bet, turnover,winLose,wallet}
             this.count.firstColumn = '总计' 
             this.getTemList()
+            this.countList = [gameNo,type,bet,odds,status,wallet,turnover,winLose,time]
 
             this.listLoading = false;
           })
@@ -541,30 +574,23 @@ export default {
             this.totalCount1 = res.data.length
 
              let game = 0;
-            let gameNo = 0;
-            let type = 0;
-            let team = 0;
-            let odds = 0;
-            let status = 0;
+            let odds = '';
             let bet = 0;
+            let team = '';
             let turnover = 0;
             let winLose = 0;
+            let gameNo = '';
+            let type = '';
+            let time = '';
+            let status = '';
             this.memberList1.forEach(item=>{
               game += Number(item.game)
-              gameNo += Number(item.gameNo)
-              type += Number(item.type)
-              odds += Number(item.odds)
-              team += Number(item.team)
               status += Number(item.status)
               bet += Number(item.bet)
               turnover += Number(item.turnover)
               winLose += Number(item.winLose)
             })
             game = Number(game).toFixed(2)
-            gameNo = Number(gameNo).toFixed(2)
-            type = Number(type).toFixed(2)
-            odds = Number(odds).toFixed(2)
-            team = Number(team).toFixed(2)
             status = Number(status).toFixed(2)
             bet = Number(bet).toFixed(2)
             turnover = Number(turnover).toFixed(2)
@@ -572,6 +598,7 @@ export default {
             this.count1 = {game,gameNo,type,odds,team,status, bet, turnover,winLose}
             this.count1.firstColumn = '总计' 
             this.getTemList1()
+            this.countList1 = [gameNo,type,team,bet,odds,status,turnover,winLose,time]
 
             this.listLoading = false;
           })
@@ -586,20 +613,19 @@ export default {
             this.totalCount2 = res.data.length
 
              let game = 0;
-            let transferType = 0;
+            let transferType = '';
             let point = 0;
+            let time = '';
             this.memberList2.forEach(item=>{
               game += Number(item.game)
-              transferType += Number(item.transferType)
               point += Number(item.point)
             })
             game = Number(game).toFixed(2)
-            transferType = Number(transferType).toFixed(2)
             point = Number(point).toFixed(2)
             this.count2 = {game, transferType, point}
             this.count2.firstColumn = '总计' 
             this.getTemList2()
-
+            this.countList2 = [transferType,point,time,]
             this.listLoading = false;
           })
           .catch((err) => {
@@ -615,6 +641,54 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
+.Pdiv{
+  width:100%;overflow-x: auto;
+  .Cdiv{
+    min-width: 1040px;
+  }
+}
+::v-deep.el-table {
+  overflow-x: clip;
+}
+::v-deep.el-table--scrollable-x .el-table__body-wrapper{
+  overflow: clip !important;
+}
+.el-table__header-wrapper,
+.el-table__body-wrapper,
+.el-table__footer-wrapper {
+  min-width: 1040px !important; 
+  overflow: clip;
+}
+.el-table__body-wrapper, .el-table__footer-wrapper, .el-table__header-wrapper{
+  min-width: 1040px !important; 
+}
+.el-table::after {
+  position: relative;
+}
+.el-table--scrollable-x .el-table__body-wrapper {
+  overflow: clip;
+}
+.footer_div{
+  width: 100%;
+  min-width: 1040px;
+  border-left: 1px solid #EBEEF5;
+  border-bottom: 1px solid #EBEEF5;
+  display: flex;
+  background-color: #e2e2e2;
+  font-size: 14px;
+  
+  div{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // border-right: 1px solid #EBEEF5;
+    padding: 12px 0;
+    color: #606266;
+  }
+}
+
 .flex{
   width: 100%;
   display: flex;

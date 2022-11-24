@@ -33,7 +33,9 @@
       
     </div>
     <div>
-      <el-table
+      <div class="Pdiv">
+        <div class="Cdiv">
+          <el-table
         v-loading="listLoading"  
         :data="
           pointList.filter(
@@ -99,6 +101,13 @@
         </el-table-column>
         
       </el-table>
+          <div class="footer_div">
+            <div>总计</div>
+            <div v-for="(item,index) in countList" :key="index">{{item}}</div>
+          </div>
+        </div>
+      </div>
+      
       <el-dialog
       :title="companyTitle"
       :visible.sync="dialogComVisible"
@@ -177,6 +186,7 @@ export default {
       PageSize:10,
 
       count:{},//总计
+      countList:[],
 
       search:'',
       
@@ -273,7 +283,7 @@ export default {
     getTemList(){
       // this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
       // this.temList.push(this.count)
-      this.pointList.push(this.count)
+      // this.pointList.push(this.count)
     },
     
     getList(){
@@ -303,6 +313,7 @@ export default {
             this.count = { note,amount,createdDate,tag}
             // this.count.firstColumn = '总计' 
             await this.getTemList()
+            this.countList = [amount,createdDate,'']
             this.totalCount = res.data.length
             
             this.listLoading = false;
@@ -318,6 +329,54 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
+.Pdiv{
+  width:100%;overflow-x: auto;
+  .Cdiv{
+    min-width: 1040px;
+  }
+}
+::v-deep.el-table {
+  overflow-x: clip;
+}
+::v-deep.el-table--scrollable-x .el-table__body-wrapper{
+  overflow: clip !important;
+}
+.el-table__header-wrapper,
+.el-table__body-wrapper,
+.el-table__footer-wrapper {
+  min-width: 1040px !important; 
+  overflow: clip;
+}
+.el-table__body-wrapper, .el-table__footer-wrapper, .el-table__header-wrapper{
+  min-width: 1040px !important; 
+}
+.el-table::after {
+  position: relative;
+}
+.el-table--scrollable-x .el-table__body-wrapper {
+  overflow: clip;
+}
+.footer_div{
+  width: 100%;
+  min-width: 1040px;
+  border-left: 1px solid #EBEEF5;
+  border-bottom: 1px solid #EBEEF5;
+  display: flex;
+  background-color: #e2e2e2;
+  font-size: 14px;
+  
+  div{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // border-right: 1px solid #EBEEF5;
+    padding: 12px 0;
+    color: #606266;
+  }
+}
+
 .numDiv{
   width: 100%;
   display: flex;

@@ -16,8 +16,9 @@
         <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
       </div>
     </div>
-
-    <el-table
+    <div style="width:100%;overflow-x: auto;">
+      <div style=" min-width: 1040px;">
+      <el-table
       v-loading="listLoading"
       :data="temList.filter(
         (data) =>
@@ -47,7 +48,7 @@
       > 
         <template slot-scope="scope">
           <el-button v-if="scope.row.gnuserId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
-          <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+          <span v-else>总计</span>
         </template>
         
        </el-table-column> 
@@ -182,6 +183,15 @@
       </el-table-column>
       
     </el-table>
+    <!-- <div style="width:100%;overflow-x: auto;"> -->
+      <div class="footer_div">
+        <div>总计</div>
+        <div v-for="(item,index) in countList" :key="index">{{item}}</div>
+      </div>
+    <!-- </div> -->
+    </div>
+    </div>
+    
     
     <div class="page">
       <el-pagination 
@@ -239,6 +249,7 @@ export default {
       PageSize:10,
 
       count:{},//总计
+      countList:[],//总计
     };
   },
   created(){
@@ -292,7 +303,7 @@ export default {
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.temList.push(this.count)
+      // this.temList.push(this.count)
     },
 
     getList() {
@@ -306,7 +317,7 @@ export default {
             this.pointList = res.data;
             // this.pointList = [{gnuserId:'12121'}];
              let userCode = 0;
-            let userName = 0;
+            let userName = '';
             let turnover = 0;
             let agentTurnoverBonus = 0;
             let agentProfitBonus = 0;
@@ -320,7 +331,6 @@ export default {
             let profit = 0;
             this.pointList.forEach(item=>{
               userCode += Number(item.userCode)
-              userName += Number(item.userName)
               turnover += Number(item.turnover)
               agentTurnoverBonus += Number(item.agentTurnoverBonus)
               agentProfitBonus += Number(item.agentProfitBonus)
@@ -334,7 +344,6 @@ export default {
               profit += Number(item.profit)
             })
             userCode = Number(userCode).toFixed(2)
-            userName = Number(userName).toFixed(2)
             turnover = Number(turnover).toFixed(2)
             agentTurnoverBonus = Number(agentTurnoverBonus).toFixed(2)
             agentProfitBonus = Number(agentProfitBonus).toFixed(2)
@@ -349,6 +358,7 @@ export default {
             this.count = {userCode,userName, turnover,agentTurnoverBonus,profitBonus,transfer,playerBonus,agentProfitBonus,turnoverBonus, wallet,winLose,agentProfit,profit}
             this.count.firstColumn = '总计' 
             this.getTemList()
+            this.countList = [userName, turnover,playerBonus,agentTurnoverBonus,agentProfitBonus,turnoverBonus,profitBonus,wallet,transfer,winLose,agentProfit,profit]
 
             this.listLoading = false;
           })
@@ -364,6 +374,47 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+::v-deep.el-table {
+  overflow-x: visible;
+}
+.el-table--scrollable-x .el-table__body-wrapper{
+  overflow: visible !important;
+}
+.el-table__header-wrapper,
+.el-table__body-wrapper,
+.el-table__footer-wrapper {
+  min-width: 1040px !important; 
+  overflow: visible;
+}
+.el-table__body-wrapper, .el-table__footer-wrapper, .el-table__header-wrapper{
+  min-width: 1040px !important; 
+}
+.el-table::after {
+  position: relative;
+}
+.el-table--scrollable-x .el-table__body-wrapper {
+  overflow: visible;
+}
+.footer_div{
+  width: 100%;
+  min-width: 1040px;
+  border-left: 1px solid #EBEEF5;
+  border-bottom: 1px solid #EBEEF5;
+  display: flex;
+  background-color: #e2e2e2;
+  font-size: 14px;
+  
+  div{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // border-right: 1px solid #EBEEF5;
+    padding: 12px 0;
+    color: #606266;
+  }
+}
+
 
 .flex-box {
   display: flex;

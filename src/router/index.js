@@ -70,7 +70,7 @@ export const asyncRoutes = [
       meta: {
         title: '会员',
         icon: 'hy',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -90,7 +90,7 @@ export const asyncRoutes = [
         meta: {
           title: '高级会员',
           icon: 'suser',
-          roles: ["admin", "staff",]
+          roles: ["admin", "staff","user"]
         }
       },
 
@@ -107,7 +107,7 @@ export const asyncRoutes = [
       meta: {
         title: '上下分明细',
         icon: 'point',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -121,7 +121,7 @@ export const asyncRoutes = [
       meta: {
         title: '信用额度明细',
         icon: 'credit',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -135,7 +135,7 @@ export const asyncRoutes = [
       meta: {
         title: '机器人',
         icon: 'credit',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -149,7 +149,7 @@ export const asyncRoutes = [
       meta: {
         title: '会员总结',
         icon: 'zj',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -163,7 +163,7 @@ export const asyncRoutes = [
       meta: {
         title: '代理总结',
         icon: 'zj',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -177,7 +177,7 @@ export const asyncRoutes = [
       meta: {
         title: '游戏',
         icon: 'game',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -191,7 +191,7 @@ export const asyncRoutes = [
       meta: {
         title: '积分转移明细',
         icon: 'pointTransferDetail',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -205,7 +205,7 @@ export const asyncRoutes = [
       meta: {
         title: '公司利润',
         icon: 'companyProfit',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -219,7 +219,7 @@ export const asyncRoutes = [
       meta: {
         title: '会员奖励',
         icon: 'memberBonus',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -233,7 +233,7 @@ export const asyncRoutes = [
       meta: {
         title: '公司费用',
         icon: 'companyExpenses',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -248,7 +248,7 @@ export const asyncRoutes = [
       meta: {
         title: '我的总结',
         icon: 'home',
-        roles: ["user"]
+        roles: ["user",]
       }
     }]
   },
@@ -262,7 +262,7 @@ export const asyncRoutes = [
       meta: {
         title: '我的信息',
         icon: 'user',
-        roles: ["user"]
+        roles: ["user",]
       }
     }]
   },
@@ -277,7 +277,7 @@ export const asyncRoutes = [
       meta: {
         title: '下线',
         icon: 'downline',
-        roles: ["user"]
+        roles: ["user",]
       }
     }]
   },
@@ -291,7 +291,7 @@ export const asyncRoutes = [
       meta: {
         title: '上下分明细',
         icon: 'point',
-        roles: ["user"]
+        roles: ["user",]
       }
     }]
   },
@@ -305,7 +305,7 @@ export const asyncRoutes = [
       meta: {
         title: '信用额度明细',
         icon: 'credit',
-        roles: ["user"]
+        roles: ["user",]
       }
     }]
   },
@@ -319,7 +319,7 @@ export const asyncRoutes = [
   //     meta: {
   //       title: '编辑下线信息',
   //       icon: 'edit',
-  //       roles: ["user"]
+  //       roles: ["user",]
   //     }
   //   }]
   // },
@@ -333,7 +333,7 @@ export const asyncRoutes = [
       meta: {
         title: '下线代理总结',
         icon: 'zj',
-        roles: ["user"]
+        roles: ["user",]
       }
     }]
   },
@@ -347,7 +347,7 @@ export const asyncRoutes = [
       meta: {
         title: '下线会员总结',
         icon: 'zj',
-        roles: ["user"]
+        roles: ["user",]
       }
     }]
   },

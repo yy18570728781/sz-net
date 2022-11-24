@@ -200,6 +200,7 @@ export default {
       PageSize:10,
 
       count:{},//总计
+      countList:[],//总计
     };
   },
   created() {
