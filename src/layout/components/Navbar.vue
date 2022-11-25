@@ -20,10 +20,12 @@
             <!-- home -->
           </router-link>
 
-          <el-dropdown-item divided @click.native="changePwd">
-            <span style="display: block">修改密码</span>
-            <!-- Change Password -->
-          </el-dropdown-item>
+          <template v-if="role == 'admin' || role == 'staff' ">
+            <el-dropdown-item  divided @click.native="changePwd" >
+              <span  style="display: block">修改密码</span>
+              <!-- Change Password -->
+            </el-dropdown-item>
+          </template>
 
           <el-dropdown-item divided @click.native="logout">
             <span style="display: block;width:100%;text-align:center;">退出</span>
@@ -97,7 +99,12 @@ export default {
         newPass:'',
         confirmPass:'',
       },
+      role:'',
     }
+  },
+  created(){},
+  mounted(){
+    this.role = JSON.parse(localStorage.getItem('roles'))[0]
   },
   methods: {
     changePwd(){
