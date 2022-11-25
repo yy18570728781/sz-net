@@ -16,16 +16,21 @@
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
-            <el-dropdown-item> Home </el-dropdown-item>
+            <el-dropdown-item> <span style="display: block;width:100%;text-align:center;">首页</span> </el-dropdown-item>
+            <!-- home -->
           </router-link>
 
-          <el-dropdown-item divided @click.native="logout">
-            <span style="display: block">Log Out</span>
+          <el-dropdown-item divided @click.native="changePwd">
+            <span style="display: block">修改密码</span>
+            <!-- Change Password -->
           </el-dropdown-item>
 
-          <el-dropdown-item divided @click.native="changePwd">
-            <span style="display: block">Change Password</span>
+          <el-dropdown-item divided @click.native="logout">
+            <span style="display: block;width:100%;text-align:center;">退出</span>
+            <!-- Log Out -->
           </el-dropdown-item>
+
+          
 
         </el-dropdown-menu>
       </el-dropdown>
