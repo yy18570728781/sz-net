@@ -232,6 +232,7 @@ export default {
     },
 
     getList() {
+      this.currentPage = 1
       this.butLoading = true;
       this.listLoading = true;
       const { userCode, userName, uplineCode, uplineName } = this.searchFrom;

@@ -196,3 +196,12 @@ export function deleteCompanyExpenses(data) {
     data
   })
 }
+
+// 修改密码
+export function UpdatePassword(data) {
+  return request({
+    url: '/WebC/api/UpdatePassword',
+    method: 'post',
+    data
+  })
+}

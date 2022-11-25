@@ -450,6 +450,7 @@ export default {
     },
 
     getList(gnuserId,fromDate,toDate) {
+      this.currentPage = 1
       console.log(this.DetDialog,this.gnuserId,this.fromDate,this.toDate);
       if (this.fromDate && this.toDate) {
         this.listLoading = true;

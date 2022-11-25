@@ -603,6 +603,7 @@ export default {
       await this.getList()
     },
     getList(){
+      this.currentPage = 1
       this.nowGame = this.searchFrom.gameCode
       this.butLoading = true
       this.listLoading = true;

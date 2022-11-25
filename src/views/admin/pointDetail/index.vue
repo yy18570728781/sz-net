@@ -235,6 +235,7 @@ export default {
 
     // 获取数据
     getList() {
+      this.currentPage = 1
       this.butLoading = true
       if (this.searchFrom.fromDate && this.searchFrom.toDate) {
         this.listLoading = true;
@@ -248,7 +249,7 @@ export default {
             this.butLoading = false
             this.memberList = res.data;
             this.totalCount = res.data.length
-            this.getTemList()
+            this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
             this.listLoading = false;
           })
           .catch((err) => {

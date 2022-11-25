@@ -332,6 +332,7 @@ export default {
     },
 
     getList() {
+      this.currentPage = 1
       this.listLoading = true;
       getDownline()
         .then((res) => {

@@ -236,6 +236,7 @@ export default {
     },
     
     getList(){
+      this.currentPage = 1
       this.nowGame = this.searchFrom.gameCode
       this.butLoading = true
       let _this = this

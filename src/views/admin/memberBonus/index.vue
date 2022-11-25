@@ -232,6 +232,7 @@ export default {
     },
     
     getList(){
+      this.currentPage = 1
       this.nowGame = this.searchFrom.bonusCode
       this.butLoading = true
       let _this = this

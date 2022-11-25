@@ -313,6 +313,7 @@ export default {
     },
 
     getList() {
+      this.currentPage = 1
       this.butLoading = true
 
       if (this.searchFrom.fromDate && this.searchFrom.toDate) {

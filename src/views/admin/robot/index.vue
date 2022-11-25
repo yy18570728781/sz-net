@@ -324,6 +324,7 @@ export default {
       // console.log(this.temList);
     },
     getList() {
+      this.currentPage = 1
       this.listLoading = true;
 
       getRobot()

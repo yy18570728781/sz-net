@@ -528,6 +528,7 @@ export default {
     },
 
     getList(gnuserId,fromDate,toDate) {
+      this.currentPage = 1
       if (this.fromDate && this.toDate) {
         this.listLoading = true;
         getWindingMemberDetail({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })

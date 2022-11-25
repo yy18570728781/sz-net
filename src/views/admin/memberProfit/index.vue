@@ -268,6 +268,7 @@ export default {
       // this.temList.push(this.count)
     },
     getList() {
+      this.currentPage = 1
       this.butLoading= true
       // let index1 = this.searchFrom.showDate.indexOf(" - ")
       // this.searchFrom.fromDate = this.searchFrom.showDate.substring(0,index1);

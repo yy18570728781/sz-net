@@ -202,6 +202,7 @@ export default {
     },
 
     getList() {
+      this.currentPage = 1
       this.listLoading = true;
       this.butLoading = true;
       // console.log(this.searchFrom);

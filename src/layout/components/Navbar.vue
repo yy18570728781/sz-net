@@ -22,9 +22,49 @@
           <el-dropdown-item divided @click.native="logout">
             <span style="display: block">Log Out</span>
           </el-dropdown-item>
+
+          <el-dropdown-item divided @click.native="changePwd">
+            <span style="display: block">Change Password</span>
+          </el-dropdown-item>
+
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <!-- 修改密码开始 -->
+    <el-dialog
+      title="修改密码"
+      :visible.sync="dialogEditVisible"
+      width="40%"
+      v-loading="loading"
+    >
+      <el-form :model="pwdRow">
+        <el-form-item label="当前密码" :label-width="formLabelWidth">
+          <el-input
+            v-model="pwdRow.currentPass"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="新密码" :label-width="formLabelWidth">
+          <el-input
+            v-model="pwdRow.newPass"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" :label-width="formLabelWidth">
+          <el-input
+            v-model="pwdRow.confirmPass"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+
+        
+        
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="editPwd">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 修改密码开结束 -->
   </div>
 </template>
 
@@ -33,6 +73,7 @@ import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
 import { removeToken, removeRole } from "@/utils/auth";
+import { UpdatePassword } from "@/api/member";
 export default {
   components: {
     Breadcrumb,
@@ -41,7 +82,45 @@ export default {
   computed: {
     ...mapGetters(["sidebar", "avatar"]),
   },
+  data(){
+    return{
+      loading:false,
+      dialogEditVisible:false,
+      formLabelWidth:'120px',
+      pwdRow:{
+        currentPass:'',
+        newPass:'',
+        confirmPass:'',
+      },
+    }
+  },
   methods: {
+    changePwd(){
+      this.dialogEditVisible = true
+      this.pwdRow = {}
+    },
+    editPwd(){
+      this.loading = true
+      UpdatePassword(this.pwdRow).then(res=>{
+        console.log(res);
+        if(res.data.remark == '' || res.data.status == 'success'){
+          this.$message({
+            type:'success',
+            message:res.message
+          })
+          this.pwdRow = {}
+          this.loading = false
+          this.dialogEditVisible = false
+        }else{
+          this.$message({
+            type:'error',
+            message:res.data.remark
+          })
+          this.loading = false
+        }
+      })
+    },
+    
     toggleSideBar() {
       this.$store.dispatch("app/toggleSideBar");
     },

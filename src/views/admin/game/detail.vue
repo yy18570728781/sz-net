@@ -556,6 +556,7 @@ export default {
     },
 
     getList(gametxnId,gameCode,fromDate,toDate,nowGame) {
+      this.currentPage = 1
       this.search = ''
       this.nowGame = nowGame
       let _this = this
