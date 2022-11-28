@@ -26,7 +26,7 @@ export function updateRebate(data) {
 // 上下分明细
 export function downlineTopupTxn(params) {
   return request({
-    url: '/WebC/api/TopupTxn',
+    url: '/WebC/api/DownlineTopupTxn',
     method: 'get',
     params
   })
@@ -181,6 +181,24 @@ export function getMemberTxnFB(params) {
 export function getMemberTransferTxn(params) {
   return request({
     url: '/WebC/api/GetMemberTransferTxn',
+    method: 'get',
+    params
+  })
+}
+
+// 积分转移明细-游戏下拉
+export function getTransferGame(params) {
+  return request({
+    url: '/WebC/api/DrlPointTransferGame',
+    method: 'get',
+    params
+  })
+}
+
+// 积分转移明细
+export function getTransferTxn(params) {
+  return request({
+    url: '/WebC/api/DownlineTransferTxn',
     method: 'get',
     params
   })

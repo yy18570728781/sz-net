@@ -41,8 +41,9 @@
         <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
       </div>
     </div>
-
-    <el-table
+    <div class="Pdiv">
+      <div class="Cdiv">
+        <el-table
       v-loading="listLoading"
       :data="
         temList.filter(
@@ -113,6 +114,13 @@
       >
       </el-table-column>
     </el-table>
+        <div class="footer_div">
+          <div>总计</div>
+          <div v-for="(item,index) in countList" :key="index">{{item}}</div>
+        </div>
+      </div>
+    </div>
+    
     <div class="page">
       <el-pagination 
         @size-change="handleSizeChange" 
@@ -155,6 +163,7 @@ export default {
       PageSize:10,
 
       count:{},//总计
+      countList:[],
 
       butLoading:false,
     };
@@ -249,7 +258,18 @@ export default {
             this.butLoading = false
             this.memberList = res.data;
             this.totalCount = res.data.length
-            this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+
+            let userName = '';
+            let remarks = '';
+            let createdDate = '';
+            let topup = 0;
+            this.pointList.forEach(item=>{
+              topup += Number(item.topup)
+            })
+            topup = Number(topup).toFixed(2)
+
+            this.getTemList()
+            this.countList = [userName,topup,remarks,createdDate,]
             this.listLoading = false;
           })
           .catch((err) => {
@@ -264,17 +284,67 @@ export default {
   },
 };
 </script>
-<style lang="sass" scoped>
-.pointDetail
-  .flex-box
-    display: flex
-    flex-wrap: wrap
-    position: relative
-    .item
-      margin-right: 10px
-      margin-top: 10px
-      margin-bottom: 10px
-    .item1
-      position: absolute
-      right:0
+<style lang="scss" scoped>
+.Pdiv{
+  width:100%;overflow-x: auto;
+  .Cdiv{
+    min-width: 1040px;
+  }
+}
+::v-deep.el-table {
+  overflow-x: clip;
+}
+::v-deep.el-table--scrollable-x .el-table__body-wrapper{
+  overflow: clip !important;
+}
+.el-table__header-wrapper,
+.el-table__body-wrapper,
+.el-table__footer-wrapper {
+  min-width: 1040px !important; 
+  overflow: clip;
+}
+.el-table__body-wrapper, .el-table__footer-wrapper, .el-table__header-wrapper{
+  min-width: 1040px !important; 
+}
+.el-table::after {
+  position: relative;
+}
+.el-table--scrollable-x .el-table__body-wrapper {
+  overflow: clip;
+}
+.footer_div{
+  width: 100%;
+  min-width: 1040px;
+  border-left: 1px solid #EBEEF5;
+  border-bottom: 1px solid #EBEEF5;
+  display: flex;
+  background-color: #e2e2e2;
+  font-size: 14px;
+  
+  div{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // border-right: 1px solid #EBEEF5;
+    padding: 12px 0;
+    color: #606266;
+  }
+}
+
+  .flex-box {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    .item {
+      
+      margin-right: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .item1{
+      position: absolute;
+      right:0;
+    }
+  }
 </style>

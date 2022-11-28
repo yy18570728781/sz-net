@@ -351,6 +351,20 @@ export const asyncRoutes = [
       }
     }]
   },
+  {
+    path: '/user/pointTransferDetail',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'pointTransferDetail',
+      component: () => import('@/views/user/pointTransferDetail/index'),
+      meta: {
+        title: '积分转移明细',
+        icon: 'pointTransferDetail',
+        roles: ["user"]
+      }
+    }]
+  },
   // 404 page must be placed at the end !!!
   {
     path: '*',

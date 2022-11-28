@@ -51,11 +51,11 @@
       </el-table-column> -->
       <el-table-column
         class-name="status-col"
-        label="类型"
+        label="积分"
         align="center"
         sortable
-        prop="userType"
-        sort-by="userType"
+        prop="point"
+        sort-by="point"
       >
       </el-table-column>
       <el-table-column

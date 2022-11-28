@@ -41,73 +41,8 @@
         <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
       </div>
     </div>
-
-    <el-table
-      v-loading="listLoading"
-      :data="
-        temList.filter(
-          (data) =>
-            !search ||
-            data.userCode.toLowerCase().includes(search.toLowerCase()) ||
-            data.userName.toLowerCase().includes(search.toLowerCase()) ||
-            data.topup.toLowerCase().includes(search.toLowerCase()) ||
-            data.remarks.toLowerCase().includes(search.toLowerCase())
-        )
-      "
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row
-      ref="filterTable"
-      :default-sort="{   }"
-    >
-      <el-table-column
-        label="会员 ID"
-        align="center"
-        prop="userCode"
-        sort-by="userCode"
-        sortable
-        show-overflow-tooltip
-      >
-      </el-table-column>
-      <el-table-column
-        label="会员名"
-        align="center"
-        prop="userName"
-        sort-by="userName"
-        sortable
-        show-overflow-tooltip
-      >
-      </el-table-column>
-      <el-table-column
-        label="上下分"
-        align="center"
-        prop="topup"
-        sort-by="topup"
-        sortable
-        show-overflow-tooltip
-      >
-      </el-table-column>
-      <el-table-column
-        label="备注"
-        align="center"
-        prop="remarks"
-        sort-by="remarks"
-        sortable
-        show-overflow-tooltip
-      >
-      </el-table-column>
-      <el-table-column
-        class-name="status-col"
-        label="时间"
-        align="center"
-        prop="createdDate"
-        sort-by="createdDate"
-        sortable
-        show-overflow-tooltip
-      >
-      </el-table-column>
-    </el-table>
+    
+    
     <div class="page">
       <el-pagination 
         @size-change="handleSizeChange" 
@@ -150,6 +85,7 @@ export default {
       PageSize:10,
 
       count:{},//总计
+      countList:[],
 
       search:'',
     };
@@ -216,33 +152,78 @@ export default {
             this.butLoading = false
             // console.log(res);
             this.pointList = res.data;
+            let userName = '';
+            let remarks = '';
+            let createdDate = '';
+            let topup = 0;
+            this.pointList.forEach(item=>{
+              topup += Number(item.topup)
+            })
+            topup = Number(topup).toFixed(2)
+
             this.getTemList()
+            this.countList = [userName,topup,remarks,createdDate,]
             this.totalCount = res.data.length
             this.listLoading = false;
           }
         );
-      // if (this.searchFrom.fromDate && this.searchFrom.toDate) {
-      //   // uplineId  登录回馈的 gnuserId  + searchFrom
-      //   const { userCode, userName, fromDate, toDate } = this.searchFrom;
-      //   downlineTopupTxn({ userCode, userName, fromDate, toDate }).then(
-      //     (res) => {
-      //       console.log(res);
-      //       this.pointList = res.data;
-      //       this.listLoading = false;
-      //     }
-      //   );
-      // } else {
-      //   this.listLoading = false;
-      //   this.$message({ type: "info", message: "请选择开始/结束时间" });
-      // }
     },
   },
 };
 </script>
 <style lang="scss" scoped>
+
+.Pdiv{
+  width:100%;overflow-x: auto;
+  .Cdiv{
+    min-width: 1040px;
+  }
+}
+::v-deep.el-table {
+  overflow-x: clip;
+}
+::v-deep.el-table--scrollable-x .el-table__body-wrapper{
+  overflow: clip !important;
+}
+.el-table__header-wrapper,
+.el-table__body-wrapper,
+.el-table__footer-wrapper {
+  min-width: 1040px !important; 
+  overflow: clip;
+}
+.el-table__body-wrapper, .el-table__footer-wrapper, .el-table__header-wrapper{
+  min-width: 1040px !important; 
+}
+.el-table::after {
+  position: relative;
+}
+.el-table--scrollable-x .el-table__body-wrapper {
+  overflow: clip;
+}
+.footer_div{
+  width: 100%;
+  min-width: 1040px;
+  border-left: 1px solid #EBEEF5;
+  border-bottom: 1px solid #EBEEF5;
+  display: flex;
+  background-color: #e2e2e2;
+  font-size: 14px;
+  
+  div{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // border-right: 1px solid #EBEEF5;
+    padding: 12px 0;
+    color: #606266;
+  }
+}
+
   .flex-box {
     display: flex;
     flex-wrap: wrap;
+    position: relative;
     .item {
       
       margin-right: 10px;
