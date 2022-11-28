@@ -44,76 +44,76 @@
     <div class="Pdiv">
       <div class="Cdiv">
         <el-table
-      v-loading="listLoading"
-      :data="
-        temList.filter(
-          (data) =>
-            !search ||
-            data.userCode.toLowerCase().includes(search.toLowerCase()) ||
-            data.topup.toLowerCase().includes(search.toLowerCase()) ||
-            data.createdByName.toLowerCase().includes(search.toLowerCase()) ||
-            data.remarks.toLowerCase().includes(search.toLowerCase()) ||
-            data.userName.toLowerCase().includes(search.toLowerCase()) 
-        )
-      "
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row
-      ref="filterTable"
-      :default-sort="{}"
-    >
-      <el-table-column
-        label="会员 ID"
-        align="center"
-        prop="userCode"
-        sort-by="userCode"
-        sortable
-      >
-      </el-table-column>
-      <el-table-column
-        label="会员名"
-        align="center"
-        prop="userName"
-        sort-by="userName"
-        sortable
-      >
-      </el-table-column>
-      <el-table-column
-        label="上下分"
-        align="center"
-        prop="topup"
-        sort-by="topup"
-        sortable
-      >
-      </el-table-column>
-      <el-table-column
-        label="备注"
-        align="center"
-        prop="remarks"
-        sort-by="remarks"
-        sortable
-      >
-      </el-table-column>
-      <el-table-column
-        class-name="status-col"
-        label="创建者"
-        align="center"
-        prop="createdByName"
-        sort-by="createdByName"
-        sortable
-      >
-      </el-table-column>
-      <el-table-column
-        class-name="status-col"
-        label="时间"
-        align="center"
-        prop="createdDate"
-        sort-by="createdDate"
-        sortable
-      >
-      </el-table-column>
-    </el-table>
+          v-loading="listLoading"
+          :data="
+            temList.filter(
+              (data) =>
+                !search ||
+                data.userCode.toLowerCase().includes(search.toLowerCase()) ||
+                data.topup.toLowerCase().includes(search.toLowerCase()) ||
+                data.createdByName.toLowerCase().includes(search.toLowerCase()) ||
+                data.remarks.toLowerCase().includes(search.toLowerCase()) ||
+                data.userName.toLowerCase().includes(search.toLowerCase()) 
+            )
+          "
+          element-loading-text="Loading"
+          border
+          fit
+          highlight-current-row
+          ref="filterTable"
+          :default-sort="{}"
+        >
+          <el-table-column
+            label="会员 ID"
+            align="center"
+            prop="userCode"
+            sort-by="userCode"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            label="会员名"
+            align="center"
+            prop="userName"
+            sort-by="userName"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            label="上下分"
+            align="center"
+            prop="topup"
+            sort-by="topup"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            label="备注"
+            align="center"
+            prop="remarks"
+            sort-by="remarks"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            class-name="status-col"
+            label="创建者"
+            align="center"
+            prop="createdByName"
+            sort-by="createdByName"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            class-name="status-col"
+            label="时间"
+            align="center"
+            prop="createdDate"
+            sort-by="createdDate"
+            sortable
+          >
+          </el-table-column>
+        </el-table>
         <div class="footer_div">
           <div>总计</div>
           <div v-for="(item,index) in countList" :key="index">{{item}}</div>
@@ -235,7 +235,6 @@ export default {
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      
       // this.$nextTick(()=>{
       //    this.temList.unshift(this.count)
       // })
@@ -246,35 +245,37 @@ export default {
     getList() {
       this.currentPage = 1
       this.butLoading = true
-      if (this.searchFrom.fromDate && this.searchFrom.toDate) {
-        this.listLoading = true;
-        let temRow = {...this.searchFrom}
-        temRow.fromDate = this.getDataTime(temRow.fromDate)
-        temRow.toDate = this.getDataTime(temRow.toDate)
+      let _this = this
+      if (_this.searchFrom.fromDate && _this.searchFrom.toDate) {
+        _this.listLoading = true;
+        let temRow = {..._this.searchFrom}
+        temRow.fromDate = _this.getDataTime(temRow.fromDate)
+        temRow.toDate = _this.getDataTime(temRow.toDate)
         const { userCode, userName, fromDate, toDate } = temRow;
 
         downlineTopupTxn({ userCode, userName, fromDate, toDate })
           .then((res) => {
-            this.butLoading = false
-            this.memberList = res.data;
-            this.totalCount = res.data.length
-
+            _this.butLoading = false
+            _this.memberList = res.data;
+            _this.totalCount = res.data.length
+            
             let userName = '';
             let remarks = '';
             let createdDate = '';
             let topup = 0;
-            this.pointList.forEach(item=>{
+            _this.memberList.forEach(item=>{
               topup += Number(item.topup)
             })
             topup = Number(topup).toFixed(2)
-
-            this.getTemList()
-            this.countList = [userName,topup,remarks,createdDate,]
-            this.listLoading = false;
+            
+            _this.getTemList()
+            
+            _this.countList = [userName,topup,remarks,createdDate,]
+            _this.listLoading = false;
           })
           .catch((err) => {
-            this.butLoading = false
-            this.listLoading = false;
+            _this.butLoading = false
+            _this.listLoading = false;
           });
       } else {
         this.butLoading = false

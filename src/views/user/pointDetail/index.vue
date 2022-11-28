@@ -41,7 +41,66 @@
         <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
       </div>
     </div>
-    
+    <div class="Pdiv">
+      <div class="Cdiv">
+        <el-table
+          v-loading="listLoading"
+          :data="
+            temList.filter(
+              (data) =>
+                !search ||
+                data.userCode.toLowerCase().includes(search.toLowerCase()) ||
+                data.topup.toLowerCase().includes(search.toLowerCase()) ||
+                data.userName.toLowerCase().includes(search.toLowerCase()) 
+            )
+          "
+          element-loading-text="Loading"
+          border
+          fit
+          highlight-current-row
+          ref="filterTable"
+          :default-sort="{}"
+        >
+          <el-table-column
+            label="下线ID"
+            align="center"
+            prop="userCode"
+            sort-by="userCode"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            label="下线名"
+            align="center"
+            prop="userName"
+            sort-by="userName"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            label="上下分"
+            align="center"
+            prop="topup"
+            sort-by="topup"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            class-name="status-col"
+            label="时间"
+            align="center"
+            prop="createdDate"
+            sort-by="createdDate"
+            sortable
+          >
+          </el-table-column>
+        </el-table>
+        <div class="footer_div">
+          <div>总计</div>
+          <div v-for="(item,index) in countList" :key="index">{{item}}</div>
+        </div>
+      </div>
+    </div>
     
     <div class="page">
       <el-pagination 
@@ -162,7 +221,7 @@ export default {
             topup = Number(topup).toFixed(2)
 
             this.getTemList()
-            this.countList = [userName,topup,remarks,createdDate,]
+            this.countList = [userName,topup,createdDate,]
             this.totalCount = res.data.length
             this.listLoading = false;
           }

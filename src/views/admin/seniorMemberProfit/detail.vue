@@ -14,7 +14,15 @@
         temList.filter(
           (data) =>
             !search ||
-            data.userCode.toLowerCase().includes(search.toLowerCase()) ||
+            data.turnover.toLowerCase().includes(search.toLowerCase()) ||
+            data.playerProfitBonus.toLowerCase().includes(search.toLowerCase()) ||
+            data.turnoverBonus.toLowerCase().includes(search.toLowerCase()) ||
+            data.profitBonus.toLowerCase().includes(search.toLowerCase()) ||
+            data.wallet.toLowerCase().includes(search.toLowerCase()) ||
+            data.transfer.toLowerCase().includes(search.toLowerCase()) ||
+            data.winLose.toLowerCase().includes(search.toLowerCase()) ||
+            data.playerProfit.toLowerCase().includes(search.toLowerCase()) ||
+            data.profit.toLowerCase().includes(search.toLowerCase()) ||
             data.userName.toLowerCase().includes(search.toLowerCase()) 
         )
       "
@@ -154,8 +162,18 @@
         temList1.filter(
           (data) =>
             !search1 ||
-            data.userCode.toLowerCase().includes(search1.toLowerCase()) ||
-            data.userName.toLowerCase().includes(search1.toLowerCase()) 
+            data.userName.toLowerCase().includes(search1.toLowerCase()) ||
+            data.turnover.toLowerCase().includes(search1.toLowerCase()) ||
+            data.playerBonus.toLowerCase().includes(search1.toLowerCase()) ||
+            data.agentTurnoverBonus.toLowerCase().includes(search1.toLowerCase()) ||
+            data.agentProfitBonus.toLowerCase().includes(search1.toLowerCase()) ||
+            data.turnoverBonus.toLowerCase().includes(search1.toLowerCase()) ||
+            data.profitBonus.toLowerCase().includes(search1.toLowerCase()) ||
+            data.transfer.toLowerCase().includes(search1.toLowerCase()) ||
+            data.winLose.toLowerCase().includes(search1.toLowerCase()) ||
+            data.agentProfit.toLowerCase().includes(search1.toLowerCase()) ||
+            data.profit.toLowerCase().includes(search1.toLowerCase()) ||
+            data.wallet.toLowerCase().includes(search1.toLowerCase())
         )
       "
       element-loading-text="Loading"

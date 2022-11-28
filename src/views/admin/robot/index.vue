@@ -22,7 +22,8 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{  }"
+      :default-sort="{prop: lockProp, order: lockOrder}"
+      @sort-change="pointSort"
     >
       <el-table-column
         label="机器人 ID"
@@ -41,21 +42,13 @@
         sort-by="userName"
       >
       </el-table-column>
-      <!-- <el-table-column
-        label="邀请码"
-        align="center"
-        sortable
-        prop="inviteCode"
-        sort-by="inviteCode"
-      >
-      </el-table-column> -->
       <el-table-column
         class-name="status-col"
         label="积分"
         align="center"
-        sortable
         prop="point"
         sort-by="point"
+        sortable
       >
       </el-table-column>
       <el-table-column
@@ -91,7 +84,7 @@
     </div>
 
     <!-- 更多信息 -->
-    <el-dialog title="上下分" :visible.sync="dialogMoreVisible" width="40%">
+    <el-dialog title="上下分" :visible.sync="dialogMoreVisible" width="40%" @close="closeEdit">
       <el-form label-position="left" label-width="120px">
 
         <el-form-item label="下线名:">
@@ -166,13 +159,25 @@ export default {
       PageSize:10,
 
       count:{},//总计
+
+      lockIndex:'',//锁定页数
+      lockProp:'',//锁定排序字段
+      lockOrder:'',//锁定排序方式
     };
   },
   created() {
-    this.getList();
+    this.lockProp = ''
+    this.lockOrder = ''
+    this.getList(0);
   },
   components: {},
   methods: {
+    pointSort( {column,prop,order}){
+      console.log(prop,order );
+      this.lockProp = prop
+      this.lockOrder = order
+      
+    },
     // 上下分
     moreInfo(row) {
       this.userName = row.userName
@@ -213,7 +218,7 @@ export default {
               type:'success',
               message:res.message
             })
-            this.getList()
+            this.getList(1)
             this.dialogEditVisible = false
           }else{
             this.$message({
@@ -234,7 +239,7 @@ export default {
     },
     closeEdit() {
       this.dialogEditVisible = false;
-      this.getList();
+      this.getList(1);
     },
 
     // 上分
@@ -312,6 +317,7 @@ export default {
       console.log(val,'val');
         //改变默认的页数
         this.currentPage=val
+        this.lockIndex = val
         this.getTemList()
         console.log(this.currentPage,'this.curpage');
     },
@@ -323,8 +329,13 @@ export default {
       // })
       // console.log(this.temList);
     },
-    getList() {
-      this.currentPage = 1
+    getList(judge) {
+      if(judge){
+        this.currentPage = this.lockIndex
+      }else{
+        this.currentPage = 1
+      }
+      
       this.listLoading = true;
 
       getRobot()

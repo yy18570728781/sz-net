@@ -15,7 +15,15 @@
           (data) =>
             !search ||
             data.userCode.toLowerCase().includes(search.toLowerCase()) ||
-            data.userName.toLowerCase().includes(search.toLowerCase()) 
+            data.game.toLowerCase().includes(search.toLowerCase()) ||
+            data.gameNo.toLowerCase().includes(search.toLowerCase()) ||
+            data.type.toLowerCase().includes(search.toLowerCase()) ||
+            data.bet.toLowerCase().includes(search.toLowerCase()) ||
+            data.odds.toLowerCase().includes(search.toLowerCase()) ||
+            data.status.toLowerCase().includes(search.toLowerCase()) ||
+            data.wallet.toLowerCase().includes(search.toLowerCase()) ||
+            data.winLose.toLowerCase().includes(search.toLowerCase()) ||
+            data.turnover.toLowerCase().includes(search.toLowerCase()) 
         )
       "
       element-loading-text="Loading"
@@ -150,6 +158,12 @@
             data.game.toLowerCase().includes(search1.toLowerCase()) ||
             data.team.toLowerCase().includes(search1.toLowerCase()) ||
             data.type.toLowerCase().includes(search1.toLowerCase()) ||
+            data.bet.toLowerCase().includes(search1.toLowerCase()) ||
+            data.odds.toLowerCase().includes(search1.toLowerCase()) ||
+            data.status.toLowerCase().includes(search1.toLowerCase()) ||
+            data.turnover.toLowerCase().includes(search1.toLowerCase()) ||
+            data.winLose.toLowerCase().includes(search1.toLowerCase()) ||
+            data.time.toLowerCase().includes(search1.toLowerCase()) ||
             data.gameNo.toLowerCase().includes(search1.toLowerCase()) 
         )
       "
@@ -283,6 +297,7 @@
             !search2 ||
             data.game.toLowerCase().includes(search2.toLowerCase()) ||
             data.transferType.toLowerCase().includes(search2.toLowerCase()) ||
+            data.time.toLowerCase().includes(search2.toLowerCase()) ||
             data.point.toLowerCase().includes(search2.toLowerCase()) 
         )
       "
