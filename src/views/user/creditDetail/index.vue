@@ -218,6 +218,7 @@ export default {
     },
 
     getList() {
+      this.search = '';
       this.currentPage = 1
        this.butLoading = true;
       if (this.searchFrom.fromDate && this.searchFrom.toDate) {

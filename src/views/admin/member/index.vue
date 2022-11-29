@@ -85,15 +85,6 @@
         sortable
       >
       </el-table-column>
-      <!-- <el-table-column
-        class-name="status-col"
-        label="邀请码"
-        align="center"
-        prop="inviteCode"
-        sort-by="inviteCode"
-        sortable
-      >
-      </el-table-column> -->
       <el-table-column
         class-name="status-col"
         label="信用额度"
@@ -206,7 +197,7 @@ export default {
       count:{},//总计
       countList:[],//总计
 
-      loginInd
+      searchList:[],//搜索列表
     };
   },
   created() {
@@ -271,6 +262,7 @@ export default {
     },
 
     getList() {
+      this.search = '';
       this.currentPage = 1
       this.butLoading = true;
       this.listLoading = true;

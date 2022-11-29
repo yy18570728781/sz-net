@@ -280,6 +280,7 @@ export default {
     },
     
     getList(){
+      this.search = '';
       this.currentPage = 1
       this.nowGame = this.searchFrom.gameCode
       this.butLoading = true

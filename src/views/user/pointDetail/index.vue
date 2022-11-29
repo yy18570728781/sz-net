@@ -238,6 +238,7 @@ export default {
     },
 
     getList() {
+      this.search = '';
       this.currentPage = 1
       this.listLoading = true;
       this.butLoading = true;

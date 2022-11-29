@@ -289,6 +289,7 @@ export default {
 
     // 获取数据
     getList() {
+      this.search = '';
       this.currentPage = 1
       this.butLoading = true
       let _this = this
