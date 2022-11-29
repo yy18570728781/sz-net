@@ -28,7 +28,7 @@
       </div>
 
       <div class="item item1">
-        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
       </div>
       
     </div>
@@ -43,6 +43,7 @@
                 data.userCode.toLowerCase().includes(search.toLowerCase()) ||
                 data.userName.toLowerCase().includes(search.toLowerCase()) ||
                 data.remarks.toLowerCase().includes(search.toLowerCase()) ||
+                data.createdDate.toLowerCase().includes(search.toLowerCase()) ||
                 data.point.toLowerCase().includes(search.toLowerCase()) 
             )
           "
@@ -156,6 +157,7 @@ export default {
       countList:[],
 
       search:'',
+      searchList:[],//搜索列表
       
     };
   },
@@ -221,18 +223,60 @@ export default {
         this.PageSize=val
         // 注意：在改变每页显示的条数时，要将页码显示到第一页
         this.currentPage=1
-        this.getTemList()
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
     },
     //显示第几页
     handleCurrentChange(val) {
         //改变默认的页数
         this.currentPage=val
-        this.getTemList()
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
       // this.temList.push(this.count)
       // this.pointList.push(this.count)
+    },
+    // 搜索List
+    searchTable(){
+      if(this.search == ''){
+        this.countDeatil(this.pointList)
+      }else{
+        this.searchList = this.pointList.filter(
+          (data) =>
+              !this.search ||
+              data.userCode.toLowerCase().includes(this.search.toLowerCase()) ||
+                data.userName.toLowerCase().includes(this.search.toLowerCase()) ||
+                data.remarks.toLowerCase().includes(this.search.toLowerCase()) ||
+                data.createdDate.toLowerCase().includes(this.search.toLowerCase()) ||
+                data.point.toLowerCase().includes(this.search.toLowerCase())
+
+        )
+        this.countDeatil(this.searchList)
+      }
+    },
+    // 计算总计
+    countDeatil(list){
+      this.totalCount = list.length
+
+      let userCode = '';
+      let userName = '';
+      let remarks = '';
+      let createdDate = '';
+      let point = 0;
+      list.forEach(item=>{
+        point += Number(item.point)
+      })
+      point = Number(point).toFixed(2)
+      this.temList =  list.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+      this.countList = [userName,point,remarks,createdDate,]
     },
     
     getList(){

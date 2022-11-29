@@ -28,7 +28,8 @@
       </div>
 
       <div class="item item1">
-        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+        <el-input v-model="search" placeholder="输入关键字搜索"
+        @input="searchTable"> </el-input>
       </div>
       
     </div>
@@ -189,6 +190,7 @@ export default {
       countList:[],
 
       search:'',
+      searchList:[],//搜索列表
       
     };
   },
@@ -284,6 +286,28 @@ export default {
       // this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
       // this.temList.push(this.count)
       // this.pointList.push(this.count)
+    },
+    // 搜索List
+    searchTable(){
+      if(this.search == ''){
+        // this.totalCount = this.list.length
+      }else{
+        this.searchList = this.pointList.filter(
+          (data) =>
+            !this.search ||
+            data.note.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.amount.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.createdDate.toLowerCase().includes(this.search.toLowerCase())
+        )
+        let amount = 0;
+        let createdDate = '';
+        this.searchList.forEach(item=>{
+          amount += Number(item.amount)
+        })
+        amount = Number(amount).toFixed(2)
+        amount = amount.toString()
+        this.countList = [amount,createdDate,'']
+      }
     },
     
     getList(){

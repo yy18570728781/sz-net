@@ -183,11 +183,9 @@ export default {
     },
     //显示第几页
     handleCurrentChange(val) {
-      console.log(val,'val');
         //改变默认的页数
         this.currentPage=val
         this.getTemList()
-        console.log(this.currentPage,'this.curpage');
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
@@ -196,12 +194,10 @@ export default {
 
     getList(gnuserId,fromDate,toDate) {
       this.currentPage = 1
-      console.log(this.DetDialog,this.gnuserId,this.fromDate,this.toDate);
       if (this.fromDate && this.toDate) {
         this.listLoading = true;
         getWindingMemberDetail({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })
           .then((res) => {
-            console.log(res,'会员明细总结');
             this.memberList = res.data;
             this.totalCount = res.data.length;
             let bet = 0;

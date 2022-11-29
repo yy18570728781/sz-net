@@ -442,7 +442,6 @@ export default {
         //改变默认的页数
         this.currentPage1=val
         this.getTemList1()
-        console.log(this.currentPage1,'this.curpage');
     },
     getTemList1(){
       this.temList1 =  this.agencypList.slice((this.currentPage1-1)*this.PageSize1,this.currentPage1*this.PageSize1)
@@ -451,7 +450,6 @@ export default {
 
     getList(gnuserId,fromDate,toDate) {
       this.currentPage = 1
-      console.log(this.DetDialog,this.gnuserId,this.fromDate,this.toDate);
       if (this.fromDate && this.toDate) {
         this.listLoading = true;
         getDetAgentPlayerSum({ gnuserId:gnuserId, fromDate:fromDate, toDate:toDate })

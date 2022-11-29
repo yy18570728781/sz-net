@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="flex-box">
       <div class="item">
-        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
       </div>
     </div>
     <el-table
@@ -11,11 +11,14 @@
         list.filter(
           (data) =>
             !search ||
-            data.gnuserId.toLowerCase().includes(search.toLowerCase()) ||
+            data.userCode.toLowerCase().includes(search.toLowerCase()) ||
             data.userName.toLowerCase().includes(search.toLowerCase()) ||
-            data.inviteCode.toLowerCase().includes(search.toLowerCase()) ||
+            data.userRemark.toLowerCase().includes(search.toLowerCase()) ||
             data.creditLimit.toLowerCase().includes(search.toLowerCase()) ||
             data.turnoverRebate.toLowerCase().includes(search.toLowerCase()) ||
+            data.turnoverRebateFb.toLowerCase().includes(search.toLowerCase()) ||
+            data.profitRebate.toLowerCase().includes(search.toLowerCase()) ||
+            data.loginInd.toLowerCase().includes(search.toLowerCase()) ||
             data.userType.toLowerCase().includes(search.toLowerCase())
         )
       "
@@ -24,7 +27,7 @@
       fit
       highlight-current-row
       ref="filterTable"
-      :default-sort="{ prop: 'gnuserId', order: 'descending' }"
+      :default-sort="{ prop: '', order: '' }"
     >
       <el-table-column
         label="会员 ID"
@@ -247,12 +250,37 @@ export default {
       formLabelWidth: "120px",
 
       search: "",
+      searchList:[],//搜索列表
     };
   },
   created() {
     this.fetchData();
   },
   methods: {
+    // 搜索List
+    searchTable(){
+      if(this.search == ''){
+        // this.totalCount = this.list.length
+      }else{
+        this.searchList = this.list.filter(
+          (data) =>
+              !this.search ||
+              data.userCode.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.userName.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.userRemark.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.creditLimit.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.turnoverRebate.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.turnoverRebateFb.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.profitRebate.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.loginInd.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.userType.toLowerCase().includes(this.search.toLowerCase())
+
+        )
+        // this.countDeatil(this.searchList)
+        // this.totalCount = this.searchList.length
+        this.temList =  this.searchList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+      }
+    },
     fetchData() {
       this.listLoading = true;
       getList()

@@ -24,7 +24,8 @@
         </el-select>
       </div>
       <div class="item item1">
-        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+        <el-input v-model="search" placeholder="输入关键字搜索"
+        @input="searchTable"> </el-input>
       </div>
       <!-- <div class="item">
         <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
@@ -42,8 +43,14 @@
                 (data) =>
                   !search ||
                   data.gameNo.toLowerCase().includes(search.toLowerCase()) ||
+                  data.totalPlayer.toLowerCase().includes(search.toLowerCase()) ||
+                  data.hostFee.toLowerCase().includes(search.toLowerCase()) ||
+                  data.serviceFee.toLowerCase().includes(search.toLowerCase()) ||
                   data.bankerWinFee.toLowerCase().includes(search.toLowerCase()) ||
-                  data.totalPlayer.toLowerCase().includes(search.toLowerCase()) 
+                  data.playerWinFee.toLowerCase().includes(search.toLowerCase()) ||
+                  data.packetFee.toLowerCase().includes(search.toLowerCase()) ||
+                  data.turnover.toLowerCase().includes(search.toLowerCase()) ||
+                  data.drawDate.toLowerCase().includes(search.toLowerCase()) 
               )
             "
             element-loading-text="Loading"
@@ -168,6 +175,11 @@
               data.league.toLowerCase().includes(search.toLowerCase()) ||
               data.homeTeam.toLowerCase().includes(search.toLowerCase()) ||
               data.scoreResult.toLowerCase().includes(search.toLowerCase()) ||
+              data.totalPlayer.toLowerCase().includes(search.toLowerCase()) ||
+              data.winlose.toLowerCase().includes(search.toLowerCase()) ||
+              data.turnover.toLowerCase().includes(search.toLowerCase()) ||
+              data.gameDate.toLowerCase().includes(search.toLowerCase()) ||
+              data.resultDate.toLowerCase().includes(search.toLowerCase()) ||
               data.awayTeam.toLowerCase().includes(search.toLowerCase()) 
           )
         "
@@ -292,6 +304,7 @@
                   data.gameNo.toLowerCase().includes(search.toLowerCase()) ||
                   data.totalPlayer.toLowerCase().includes(search.toLowerCase()) ||
                   data.winlose.toLowerCase().includes(search.toLowerCase()) ||
+                  data.drawDate.toLowerCase().includes(search.toLowerCase()) ||
                   data.turnover.toLowerCase().includes(search.toLowerCase()) 
               )
             "
@@ -386,6 +399,7 @@
                   data.gameNo.toLowerCase().includes(search.toLowerCase()) ||
                   data.totalPlayer.toLowerCase().includes(search.toLowerCase()) ||
                   data.water.toLowerCase().includes(search.toLowerCase()) ||
+                  data.drawDate.toLowerCase().includes(search.toLowerCase()) ||
                   data.turnover.toLowerCase().includes(search.toLowerCase()) 
               )
             "
@@ -522,6 +536,7 @@ export default {
       countList3:[],
 
       search:'',
+      searchList:[],//搜索列表
       
     };
   },
@@ -585,18 +600,135 @@ export default {
         this.PageSize=val
         // 注意：在改变每页显示的条数时，要将页码显示到第一页
         this.currentPage=1
-        this.getTemList()
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
     },
     //显示第几页
     handleCurrentChange(val) {
       console.log(val,'val');
         //改变默认的页数
         this.currentPage=val
-        this.getTemList()
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
       // this.temList.push(this.count)
+    },
+    // 搜索List
+    searchTable(){
+      if(this.search == ''){
+        this.countDeatil(this.pointList)
+      }else{
+        if(this.nowGame == 'G01'){
+          this.searchList = this.pointList.filter(
+          (data) =>
+            !this.search ||
+            data.gameNo.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.totalPlayer.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.hostFee.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.serviceFee.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.bankerWinFee.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.playerWinFee.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.packetFee.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.turnover.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.drawDate.toLowerCase().includes(this.search.toLowerCase())  
+
+          )
+        }
+        if(this.nowGame == 'G02'){
+          this.searchList = this.pointList.filter(
+          (data) =>
+            !this.search ||
+            data.league.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.homeTeam.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.scoreResult.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.totalPlayer.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.winlose.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.turnover.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.gameDate.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.resultDate.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.awayTeam.toLowerCase().includes(this.search.toLowerCase())
+          )
+        }
+        if(this.nowGame == 'G03'){
+          this.searchList = this.pointList.filter(
+          (data) =>
+            !this.search ||
+            data.gameNo.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.totalPlayer.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.winlose.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.drawDate.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.turnover.toLowerCase().includes(this.search.toLowerCase())
+          )
+        }
+        if(this.nowGame == 'G04'){
+          this.searchList = this.pointList.filter(
+          (data) =>
+            !this.search ||
+            data.gameNo.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.totalPlayer.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.water.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.drawDate.toLowerCase().includes(this.search.toLowerCase()) ||
+                  data.turnover.toLowerCase().includes(this.search.toLowerCase())
+          )
+        }
+        this.countDeatil(this.searchList)
+      }
+    },
+    // 计算总计
+    countDeatil(list){
+      this.totalCount = list.length
+
+      let gameNo = '';
+            let league = '';
+            let awayTeam = '';
+            let scoreResult = '';
+            let homeTeam = '';
+            let totalPlayer = 0;
+            let hostFee = 0;
+            let serviceFee = 0;
+            let bankerWinFee = 0;
+            let playerWinFee = 0;
+            let packetFee = 0;
+            let turnover = 0;
+            let winlose = 0;
+            let water = 0;
+            let drawDate = '';
+            let gameDate = '';
+            let resultDate = '';
+            list.forEach(item=>{
+              totalPlayer += Number(item.totalPlayer)
+              hostFee += Number(item.hostFee)
+              serviceFee += Number(item.serviceFee)
+              bankerWinFee += Number(item.bankerWinFee)
+              playerWinFee += Number(item.playerWinFee)
+              turnover += Number(item.turnover)
+              winlose += Number(item.winlose) 
+              water += Number(item.water)
+              packetFee += Number(item.packetFee)
+            })
+            totalPlayer = Number(totalPlayer).toFixed(2)
+            hostFee = Number(hostFee).toFixed(2)
+            serviceFee = Number(serviceFee).toFixed(2)
+            bankerWinFee = Number(bankerWinFee).toFixed(2)
+            playerWinFee = Number(playerWinFee).toFixed(2)
+            turnover = Number(turnover).toFixed(2)
+            winlose = Number(winlose).toFixed(2)
+            water = Number(water).toFixed(2)
+            packetFee = Number(packetFee).toFixed(2)
+
+            this.temList =  list.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+            this.countList = [gameNo,totalPlayer,hostFee,serviceFee,bankerWinFee,playerWinFee,packetFee,turnover,drawDate]
+            this.countList1 = [league,homeTeam,awayTeam,scoreResult,totalPlayer,winlose,turnover,gameDate,resultDate]
+            this.countList2 = [gameNo,totalPlayer,winlose,turnover,drawDate]
+            this.countList3 = [gameNo,totalPlayer,water,turnover,drawDate]
     },
     async yanGetList(){
       this.search = ''

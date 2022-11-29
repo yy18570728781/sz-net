@@ -3,7 +3,7 @@
   <el-dialog title="会员总结明细" :visible="DetDialog_" center width="98%"  @close="closeEdit">
    <div class="flex">
       <div class="item">
-        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
       </div>
     </div>
     <div class="Pdiv">
@@ -14,7 +14,6 @@
         temList.filter(
           (data) =>
             !search ||
-            data.userCode.toLowerCase().includes(search.toLowerCase()) ||
             data.game.toLowerCase().includes(search.toLowerCase()) ||
             data.gameNo.toLowerCase().includes(search.toLowerCase()) ||
             data.type.toLowerCase().includes(search.toLowerCase()) ||
@@ -23,6 +22,7 @@
             data.status.toLowerCase().includes(search.toLowerCase()) ||
             data.wallet.toLowerCase().includes(search.toLowerCase()) ||
             data.winLose.toLowerCase().includes(search.toLowerCase()) ||
+            data.time.toLowerCase().includes(search.toLowerCase()) ||
             data.turnover.toLowerCase().includes(search.toLowerCase()) 
         )
       "
@@ -144,7 +144,7 @@
 
     <div class="flex">
       <div class="item">
-        <el-input v-model="search1" placeholder="输入关键字搜索"> </el-input>
+        <el-input v-model="search1" placeholder="输入关键字搜索" @input="searchTable1"> </el-input>
       </div>
     </div>
     <div class="Pdiv">
@@ -156,6 +156,7 @@
           (data) =>
             !search1 ||
             data.game.toLowerCase().includes(search1.toLowerCase()) ||
+            data.gameNo.toLowerCase().includes(search1.toLowerCase()) ||
             data.team.toLowerCase().includes(search1.toLowerCase()) ||
             data.type.toLowerCase().includes(search1.toLowerCase()) ||
             data.bet.toLowerCase().includes(search1.toLowerCase()) ||
@@ -163,8 +164,7 @@
             data.status.toLowerCase().includes(search1.toLowerCase()) ||
             data.turnover.toLowerCase().includes(search1.toLowerCase()) ||
             data.winLose.toLowerCase().includes(search1.toLowerCase()) ||
-            data.time.toLowerCase().includes(search1.toLowerCase()) ||
-            data.gameNo.toLowerCase().includes(search1.toLowerCase()) 
+            data.time.toLowerCase().includes(search1.toLowerCase()) 
         )
       "
       element-loading-text="Loading"
@@ -284,7 +284,7 @@
 
     <div class="flex">
       <div class="item">
-        <el-input v-model="search2" placeholder="输入关键字搜索"> </el-input>
+        <el-input v-model="search2" placeholder="输入关键字搜索" @input="searchTable2"> </el-input>
       </div>
     </div>
     <div class="Pdiv">
@@ -322,7 +322,6 @@
       >
         <template slot-scope="scope">
           <span v-if="scope.row.time">{{scope.row.game}} </span>
-          <span v-else style="font-size:20px;font-weight: bold;">总计</span>
         </template>
       </el-table-column>
 
@@ -452,6 +451,10 @@ export default {
       countList:[],
       countList1:[],
       countList2:[],
+
+      searchList:[],//搜索列表
+      searchList1:[],//搜索列表
+      searchList2:[],//搜索列表
     };
   },
   created(){
@@ -484,19 +487,82 @@ export default {
         this.PageSize=val
         // 注意：在改变每页显示的条数时，要将页码显示到第一页
         this.currentPage=1
-        this.getTemList()
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
+        
     },
     //显示第几页
     handleCurrentChange(val) {
       console.log(val,'val');
         //改变默认的页数
         this.currentPage=val
-        this.getTemList()
-        console.log(this.currentPage,'this.curpage');
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
       // this.temList.push(this.count)
+    },
+
+    // 搜索List
+    searchTable(){
+
+      if(this.search){
+        this.searchList = this.memberList.filter(
+          (data) =>
+              !this.search ||
+              data.game.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.gameNo.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.type.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.bet.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.odds.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.status.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.wallet.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.winLose.toLowerCase().includes(this.search.toLowerCase()) ||
+              data.turnover.toLowerCase().includes(this.search.toLowerCase()) 
+
+        )
+        this.countDeatil(this.searchList)
+        
+      }else{
+        this.countDeatil(this.memberList)
+      }
+    },
+    // 计算总计
+    countDeatil(list){
+      this.totalCount = list.length
+        
+        let userCode = '';
+        let userName = '';
+        let bet = 0;
+        let odds = '';
+        let turnover = 0;
+        let winLose = 0;
+        let wallet = 0;
+        let gameNo = '';
+        let type = '';
+        let time = '';
+        let status = '';
+        list.forEach(item=>{
+          bet += Number(item.bet)
+          turnover += Number(item.turnover)
+          winLose += Number(item.winLose)
+          wallet += Number(item.wallet)
+        })
+        bet = Number(bet).toFixed(2)
+        turnover = Number(turnover).toFixed(2)
+        winLose = Number(winLose).toFixed(2)
+        wallet = Number(wallet).toFixed(2)
+        this.count = {userCode,userName, bet, turnover,winLose,wallet}
+        this.count.firstColumn = '总计' 
+        this.temList =  list.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+        this.countList = [gameNo,type,bet,odds,status,wallet,turnover,winLose,time]
     },
 
     // 111
@@ -520,6 +586,62 @@ export default {
       this.temList1 =  this.memberList1.slice((this.currentPage1-1)*this.PageSize1,this.currentPage1*this.PageSize1)
       // this.temList1.push(this.count1)
     },
+    // 搜索List
+    searchTable1(){
+
+      if(this.search1){
+        this.searchList1 = this.memberList1.filter(
+          (data) =>
+              !this.search1 ||
+            data.game.toLowerCase().includes(search1.toLowerCase()) ||
+            data.gameNo.toLowerCase().includes(search1.toLowerCase()) ||
+            data.team.toLowerCase().includes(search1.toLowerCase()) ||
+            data.type.toLowerCase().includes(search1.toLowerCase()) ||
+            data.bet.toLowerCase().includes(search1.toLowerCase()) ||
+            data.odds.toLowerCase().includes(search1.toLowerCase()) ||
+            data.status.toLowerCase().includes(search1.toLowerCase()) ||
+            data.turnover.toLowerCase().includes(search1.toLowerCase()) ||
+            data.winLose.toLowerCase().includes(search1.toLowerCase()) ||
+            data.time.toLowerCase().includes(search1.toLowerCase()) 
+
+        )
+        this.countDeatil1(this.searchList1)
+        
+      }else{
+        this.countDeatil1(this.memberList1)
+      }
+    },
+    // 计算总计
+    countDeatil1(list){
+      this.totalCount1 = list.length
+        
+      let game = 0;
+      let odds = '';
+      let bet = 0;
+      let team = '';
+      let turnover = 0;
+      let winLose = 0;
+      let gameNo = '';
+      let type = '';
+      let time = '';
+      let status = '';
+      list.forEach(item=>{
+        game += Number(item.game)
+        status += Number(item.status)
+        bet += Number(item.bet)
+        turnover += Number(item.turnover)
+        winLose += Number(item.winLose)
+      })
+      game = Number(game).toFixed(2)
+      status = Number(status).toFixed(2)
+      bet = Number(bet).toFixed(2)
+      turnover = Number(turnover).toFixed(2)
+      winLose = Number(winLose).toFixed(2)
+      this.count1 = {game,gameNo,type,odds,team,status, bet, turnover,winLose}
+      this.count1.firstColumn = '总计' 
+      this.temList1 =  list.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+      this.countList1 = [gameNo,type,team,bet,odds,status,turnover,winLose,time]
+    },
 
     // 222
     //每页显示的条数
@@ -541,6 +663,43 @@ export default {
       this.temList2 =  this.memberList2.slice((this.currentPage2-1)*this.PageSize2,this.currentPage2*this.PageSize2)
       // this.temList2.push(this.count2)
     },
+    // 搜索List
+    searchTable2(){
+
+      if(this.search2){
+        this.searchList2 = this.memberList2.filter(
+          (data) =>
+              !this.search2 ||
+            data.game.toLowerCase().includes(search2.toLowerCase()) ||
+            data.transferType.toLowerCase().includes(search2.toLowerCase()) ||
+            data.time.toLowerCase().includes(search2.toLowerCase()) ||
+            data.point.toLowerCase().includes(search2.toLowerCase())  
+
+        )
+        this.countDeatil1(this.searchList2)
+        
+      }else{
+        this.countDeatil1(this.memberList2)
+      }
+    },
+    // 计算总计
+    countDeatil2(list){
+      this.totalCount2 = list.length
+        
+      let game = 0;
+      let transferType = '';
+      let point = 0;
+      let time = '';
+      list.forEach(item=>{
+        game += Number(item.game)
+        point += Number(item.point)
+      })
+      game = Number(game).toFixed(2)
+      point = Number(point).toFixed(2)
+      this.count2 = {game, transferType, point}
+      this.temList2 =  list.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+      this.countList2 = [transferType,point,time,]
+    },
 
     getList(gnuserId,fromDate,toDate) {
       this.currentPage = 1
@@ -551,7 +710,7 @@ export default {
             this.memberList = res.data;
             this.totalCount = res.data.length
 
-             let userCode = '';
+            let userCode = '';
             let userName = '';
             let bet = 0;
             let odds = '';
@@ -628,7 +787,7 @@ export default {
             this.memberList2 = res.data;
             this.totalCount2 = res.data.length
 
-             let game = 0;
+            let game = 0;
             let transferType = '';
             let point = 0;
             let time = '';

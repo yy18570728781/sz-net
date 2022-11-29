@@ -3,7 +3,7 @@
   <el-dialog title="总结明细" :visible="DetDialog_" center width="98%"  @close="closeEdit">
     <div class="flex">
       <div class="item">
-        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
       </div>
     </div>
     <div class="Pdiv">
@@ -151,7 +151,7 @@
 
     <div class="flex">
       <div class="item">
-        <el-input v-model="search1" placeholder="输入关键字搜索"> </el-input>
+        <el-input v-model="search1" placeholder="输入关键字搜索" @input="searchTable1"> </el-input>
       </div>
     </div>
     <div class="Pdiv">
@@ -394,6 +394,9 @@ export default {
 
       countList:[],
       countList1:[],
+
+      searchList:[],//搜索列表
+      searchList1:[],//搜索列表
     };
   },
   created(){
@@ -426,23 +429,103 @@ export default {
         this.PageSize=val
         // 注意：在改变每页显示的条数时，要将页码显示到第一页
         this.currentPage=1
-        this.getTemList()
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
     },
     //显示第几页
     handleCurrentChange(val) {
       console.log(val,'val');
         //改变默认的页数
         this.currentPage=val
-        this.getTemList()
-        console.log(this.currentPage,'this.curpage');
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
-      this.$nextTick(()=>{
-        //  this.temList.push(this.count)
-      })
+      // this.$nextTick(()=>{
+      //   //  this.temList.push(this.count)
+      // })
       // this.temList.unshift(this.count)
     },
+    // 搜索List
+    searchTable(){
+      if(this.search == ''){
+        this.countDeatil(this.memberList)
+      }else{
+        this.searchList = this.memberList.filter(
+          (data) =>
+              !this.search ||
+            data.turnover.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.playerProfitBonus.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.turnoverBonus.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.profitBonus.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.wallet.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.transfer.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.winLose.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.playerProfit.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.profit.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.userName.toLowerCase().includes(this.search.toLowerCase())  
+
+        )
+        this.countDeatil(this.searchList)
+      }
+    },
+    // 计算总计
+    countDeatil(list){
+      this.totalCount = list.length
+
+      let userCode = 0;
+      let userName = 0;
+      let playerProfitBonus = 0;
+      let turnoverBonus = 0;
+      let playerBonus = 0;
+      let agentTurnoverBonus = 0;
+      let profitBonus = 0;
+      let turnover = 0;
+      let winLose = 0;
+      let wallet = 0;
+      let playerProfit = 0;
+      let profit = 0;
+      let transfer = 0;
+      list.forEach(item=>{
+        userCode += Number(item.userCode)
+        userName += Number(item.userName)
+        playerProfitBonus += Number(item.playerProfitBonus)
+        turnoverBonus += Number(item.turnoverBonus)
+        profitBonus += Number(item.profitBonus)
+        playerBonus += Number(item.playerBonus)
+        agentTurnoverBonus += Number(item.agentTurnoverBonus)
+        turnover += Number(item.turnover)
+        winLose += Number(item.winLose)
+        wallet += Number(item.wallet)
+        transfer += Number(item.transfer)
+        playerProfit += Number(item.playerProfit)
+        profit += Number(item.profit)
+      })
+      userCode = Number(userCode).toFixed(2)
+      userName = Number(userName).toFixed(2)
+      playerProfitBonus = Number(playerProfitBonus).toFixed(2)
+      turnoverBonus = Number(turnoverBonus).toFixed(2)
+      profitBonus = Number(profitBonus).toFixed(2)
+      playerBonus = Number(playerBonus).toFixed(2)
+      agentTurnoverBonus = Number(agentTurnoverBonus).toFixed(2)
+      turnover = Number(turnover).toFixed(2)
+      winLose = Number(winLose).toFixed(2)
+      wallet = Number(wallet).toFixed(2)
+      transfer = Number(transfer).toFixed(2)
+      playerProfit = Number(playerProfit).toFixed(2)
+      profit = Number(profit).toFixed(2)
+      this.temList =  list.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+      this.countList = [turnover,playerProfitBonus,turnoverBonus,profitBonus,wallet,transfer,winLose,playerProfit,profit]
+    },
+
+
   // --------------------------------------------------
     //每页显示的条数
     handleSizeChange1(val) {
@@ -450,20 +533,98 @@ export default {
         this.PageSize1=val
         // 注意：在改变每页显示的条数时，要将页码显示到第一页
         this.currentPage1=1
-        this.getTemList1()
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
     },
     //显示第几页
     handleCurrentChange1(val) {
         //改变默认的页数
         this.currentPage1=val
-        this.getTemList1()
-        console.log(this.currentPage1,'this.curpage');
+        if(this.search){
+          this.searchTable1()
+        }else{
+          this.getTemList1()
+        }
     },
     getTemList1(){
       this.temList1 =  this.agencypList.slice((this.currentPage1-1)*this.PageSize1,this.currentPage1*this.PageSize1)
       // this.temList1.push(this.count1)
-      
     },
+
+    // 搜索List
+    searchTable1(){
+      if(this.search1 == ''){
+        this.countDeatil1(this.agencypList)
+      }else{
+        this.searchList1 = this.agencypList.filter(
+          (data) =>
+              !this.search1 ||
+            data.turnover.toLowerCase().includes(this.search1.toLowerCase()) ||
+            data.playerProfitBonus.toLowerCase().includes(this.search1.toLowerCase()) ||
+            data.turnoverBonus.toLowerCase().includes(this.search1.toLowerCase()) ||
+            data.profitBonus.toLowerCase().includes(this.search1.toLowerCase()) ||
+            data.wallet.toLowerCase().includes(this.search1.toLowerCase()) ||
+            data.transfer.toLowerCase().includes(this.search1.toLowerCase()) ||
+            data.winLose.toLowerCase().includes(this.search1.toLowerCase()) ||
+            data.playerProfit.toLowerCase().includes(this.search1.toLowerCase()) ||
+            data.profit.toLowerCase().includes(this.search1.toLowerCase()) ||
+            data.userName.toLowerCase().includes(this.search1.toLowerCase())  
+
+        )
+        this.countDeatil1(this.searchList1)
+      }
+    },
+    // 计算总计
+    countDeatil1(list){
+      this.totalCount1 = list.length
+
+      let userCode = 0;
+      let userName = 0;
+      let agentTurnoverBonus = 0;
+      let turnoverBonus = 0;
+      let playerBonus = 0;
+      let agentProfitBonus = 0;
+      let profitBonus = 0;
+      let agentProfit = 0;
+      let winLose = 0;
+      let wallet = 0;
+      let profit = 0;
+      let turnover = 0;
+      let transfer = 0;
+      list.forEach(item=>{
+        userCode += Number(item.userCode)
+        userName += Number(item.userName)
+        agentTurnoverBonus += Number(item.agentTurnoverBonus)
+        turnoverBonus += Number(item.turnoverBonus)
+        playerBonus += Number(item.playerBonus)
+        agentProfitBonus += Number(item.agentProfitBonus)
+        profitBonus += Number(item.profitBonus)
+        agentProfit += Number(item.agentProfit)
+        winLose += Number(item.winLose)
+        wallet += Number(item.wallet)
+        transfer += Number(item.transfer)
+        profit += Number(item.profit)
+        turnover += Number(item.turnover)
+      })
+      userCode = Number(userCode).toFixed(2)
+      userName = Number(userName).toFixed(2)
+      agentTurnoverBonus = Number(agentTurnoverBonus).toFixed(2)
+      turnoverBonus = Number(turnoverBonus).toFixed(2)
+      playerBonus = Number(playerBonus).toFixed(2)
+      agentProfitBonus = Number(agentProfitBonus).toFixed(2)
+      profitBonus = Number(profitBonus).toFixed(2)
+      agentProfit = Number(agentProfit).toFixed(2)
+      winLose = Number(winLose).toFixed(2)
+      wallet = Number(wallet).toFixed(2)
+      transfer = Number(transfer).toFixed(2)
+      profit = Number(profit).toFixed(2)
+      turnover = Number(turnover).toFixed(2)
+      this.countList1 = [turnover,playerBonus,agentTurnoverBonus,agentProfitBonus,turnoverBonus,profitBonus,wallet,transfer,winLose,agentProfit,profit]
+    },
+
 
     getList(gnuserId,fromDate,toDate) {
       this.currentPage = 1

@@ -114,7 +114,6 @@ export default {
     editPwd(){
       this.loading = true
       UpdatePassword(this.pwdRow).then(res=>{
-        console.log(res);
         if(res.data.remark == '' || res.data.status == 'success'){
           this.$message({
             type:'success',

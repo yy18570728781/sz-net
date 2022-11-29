@@ -13,7 +13,7 @@
         </el-select>
       </div>
        <div class="item">
-        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
       </div>
     </div>
     <div style="width:100%;overflow-x: auto;">
@@ -23,12 +23,16 @@
       :data="temList.filter(
         (data) =>
           !search ||
-          data.userCode.toLowerCase().includes(search.toLowerCase()) ||
           data.userName.toLowerCase().includes(search.toLowerCase()) ||
           data.turnover.toLowerCase().includes(search.toLowerCase()) ||
+          data.playerBonus.toLowerCase().includes(search.toLowerCase()) ||
           data.agentTurnoverBonus.toLowerCase().includes(search.toLowerCase()) ||
           data.agentProfitBonus.toLowerCase().includes(search.toLowerCase()) ||
+          data.turnoverBonus.toLowerCase().includes(search.toLowerCase()) ||
+          data.profitBonus.toLowerCase().includes(search.toLowerCase()) ||
           data.wallet.toLowerCase().includes(search.toLowerCase()) ||
+          data.transfer.toLowerCase().includes(search.toLowerCase()) ||
+          data.winLose.toLowerCase().includes(search.toLowerCase()) ||
           data.agentProfit.toLowerCase().includes(search.toLowerCase()) ||
           data.profit.toLowerCase().includes(search.toLowerCase()) 
       )"
@@ -250,6 +254,8 @@ export default {
 
       count:{},//总计
       countList:[],//总计
+
+      searchList:[],//搜索列表
     };
   },
   created(){
@@ -292,20 +298,98 @@ export default {
         this.PageSize=val
         // 注意：在改变每页显示的条数时，要将页码显示到第一页
         this.currentPage=1
-        this.getTemList()
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
     },
     //显示第几页
     handleCurrentChange(val) {
       console.log(val,'val');
         //改变默认的页数
         this.currentPage=val
-        this.getTemList()
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
     },
     getTemList(){
       this.temList =  this.pointList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
       // this.temList.push(this.count)
     },
+    // 搜索List
+    searchTable(){
+      if(this.search == ''){
+        this.countDeatil(this.pointList)
+      }else{
+        this.searchList = this.pointList.filter(
+          (data) =>
+            !this.search ||
+            data.userName.toLowerCase().includes(search.toLowerCase()) ||
+            data.turnover.toLowerCase().includes(search.toLowerCase()) ||
+            data.playerBonus.toLowerCase().includes(search.toLowerCase()) ||
+            data.agentTurnoverBonus.toLowerCase().includes(search.toLowerCase()) ||
+            data.agentProfitBonus.toLowerCase().includes(search.toLowerCase()) ||
+            data.turnoverBonus.toLowerCase().includes(search.toLowerCase()) ||
+            data.profitBonus.toLowerCase().includes(search.toLowerCase()) ||
+            data.wallet.toLowerCase().includes(search.toLowerCase()) ||
+            data.transfer.toLowerCase().includes(search.toLowerCase()) ||
+            data.winLose.toLowerCase().includes(search.toLowerCase()) ||
+            data.agentProfit.toLowerCase().includes(search.toLowerCase()) ||
+            data.profit.toLowerCase().includes(search.toLowerCase()) 
 
+        )
+        this.countDeatil(this.searchList)
+      }
+    },
+    // 计算总计
+    countDeatil(list){
+      this.totalCount = list.length
+
+      let userCode = 0;
+      let userName = '';
+      let turnover = 0;
+      let agentTurnoverBonus = 0;
+      let agentProfitBonus = 0;
+      let turnoverBonus = 0;
+      let profitBonus = 0;
+      let playerBonus = 0;
+      let transfer = 0;
+      let wallet = 0;
+      let winLose = 0;
+      let agentProfit = 0;
+      let profit = 0;
+      list.forEach(item=>{
+        userCode += Number(item.userCode)
+        turnover += Number(item.turnover)
+        agentTurnoverBonus += Number(item.agentTurnoverBonus)
+        agentProfitBonus += Number(item.agentProfitBonus)
+        turnoverBonus += Number(item.turnoverBonus)
+        profitBonus += Number(item.profitBonus)
+        playerBonus += Number(item.playerBonus)
+        transfer += Number(item.transfer)
+        wallet += Number(item.wallet)
+        winLose += Number(item.winLose)
+        agentProfit += Number(item.agentProfit)
+        profit += Number(item.profit)
+      })
+      userCode = Number(userCode).toFixed(2)
+      turnover = Number(turnover).toFixed(2)
+      agentTurnoverBonus = Number(agentTurnoverBonus).toFixed(2)
+      agentProfitBonus = Number(agentProfitBonus).toFixed(2)
+      turnoverBonus = Number(turnoverBonus).toFixed(2)
+      profitBonus = Number(profitBonus).toFixed(2)
+      playerBonus = Number(playerBonus).toFixed(2)
+      transfer = Number(transfer).toFixed(2)
+      wallet = Number(wallet).toFixed(2)
+      winLose = Number(winLose).toFixed(2)
+      agentProfit = Number(agentProfit).toFixed(2)
+      profit = Number(profit).toFixed(2)
+      this.temList =  list.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+      this.countList = [userName, turnover,playerBonus,agentTurnoverBonus,agentProfitBonus,turnoverBonus,profitBonus,wallet,transfer,winLose,agentProfit,profit]
+    },
     getList() {
       this.currentPage = 1
       if (this.searchFrom.fromDate && this.searchFrom.toDate) {
@@ -316,7 +400,7 @@ export default {
           .then((res) => {
             this.pointList = res.data;
             // this.pointList = [{gnuserId:'12121'}];
-             let userCode = 0;
+            let userCode = 0;
             let userName = '';
             let turnover = 0;
             let agentTurnoverBonus = 0;

@@ -33,7 +33,7 @@
         <el-button type="primary" @click="getList"  v-loading.fullscreen.lock="butLoading">搜索</el-button>
       </div>
       <div class="item item1">
-        <el-input v-model="search" placeholder="输入关键字搜索"> </el-input>
+        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
       </div>
     </div>
 
@@ -44,6 +44,10 @@
           (data) =>
             !search ||
             data.userCode.toLowerCase().includes(search.toLowerCase()) ||
+            data.userName.toLowerCase().includes(search.toLowerCase()) ||
+            data.profitRebate.toLowerCase().includes(search.toLowerCase()) ||
+            data.uplineUserCode.toLowerCase().includes(search.toLowerCase()) ||
+            data.userType.toLowerCase().includes(search.toLowerCase()) ||
             data.level.toLowerCase().includes(search.toLowerCase()) ||
             data.creditLimit.toLowerCase().includes(search.toLowerCase()) ||
             data.turnoverRebate.toLowerCase().includes(search.toLowerCase()) ||
@@ -201,6 +205,8 @@ export default {
 
       count:{},//总计
       countList:[],//总计
+
+      loginInd
     };
   },
   created() {
@@ -214,13 +220,21 @@ export default {
         this.PageSize=val
         // 注意：在改变每页显示的条数时，要将页码显示到第一页
         this.currentPage=1
-        this.getTemList()
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
     },
     //显示第几页
     handleCurrentChange(val) {
         //改变默认的页数
         this.currentPage=val
-        this.getTemList()
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
     },
     getTemList(){
       this.temList =  this.memberList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
@@ -229,6 +243,31 @@ export default {
       //    this.temList.unshift(this.count)
       // })
       // console.log(this.temList);
+    },
+    // 搜索List
+    searchTable(){
+      if(this.search == ''){
+        this.totalCount = this.memberList.length
+        this.getTemList()
+      }else{
+        this.searchList = this.memberList.filter(
+          (data) =>
+              !this.search ||
+              data.userCode.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.userName.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.profitRebate.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.uplineUserCode.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.userType.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.level.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.creditLimit.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.turnoverRebate.toLowerCase().includes(this.search.toLowerCase()) ||
+            data.turnoverRebateFb.toLowerCase().includes(this.search.toLowerCase())
+
+        )
+        // this.countDeatil(this.searchList)
+        this.totalCount = this.searchList.length
+        this.temList =  this.searchList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+      }
     },
 
     getList() {
