@@ -309,6 +309,7 @@ export default {
               data.playerProfit.toLowerCase().includes(this.search.toLowerCase())
 
         )
+        this.currentPage=1
         this.countDeatil(this.searchList)
       }
     },

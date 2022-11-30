@@ -218,6 +218,7 @@ export default {
                 data.createdDate.toLowerCase().includes(this.search.toLowerCase()) ||
                 data.userName.toLowerCase().includes(this.search.toLowerCase())   
         )
+        this.currentPage=1
         this.countDeatil(this.searchList)
       }
     },

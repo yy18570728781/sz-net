@@ -159,7 +159,7 @@ export default {
 
       count:{},//总计
 
-      lockIndex:'',//锁定页数
+      lockIndex:1,//锁定页数
       lockProp:'',//锁定排序字段
       lockOrder:'',//锁定排序方式
     };
@@ -347,6 +347,7 @@ export default {
             data.userName.toLowerCase().includes(this.search.toLowerCase()) ||
             data.point.toLowerCase().includes(this.search.toLowerCase()) 
         )
+        this.currentPage=1
         // this.countDeatil(this.searchList)
         this.totalCount = this.searchList.length
         this.temList =  this.searchList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)

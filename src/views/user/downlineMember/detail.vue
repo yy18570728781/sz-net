@@ -528,6 +528,7 @@ export default {
               data.turnover.toLowerCase().includes(this.search.toLowerCase()) 
 
         )
+        this.currentPage=1
         this.countDeatil(this.searchList)
         
       }else{
@@ -605,6 +606,7 @@ export default {
             data.time.toLowerCase().includes(search1.toLowerCase()) 
 
         )
+        this.currentPage=1
         this.countDeatil1(this.searchList1)
         
       }else{
@@ -676,6 +678,7 @@ export default {
             data.point.toLowerCase().includes(search2.toLowerCase())  
 
         )
+        this.currentPage=1
         this.countDeatil1(this.searchList2)
         
       }else{

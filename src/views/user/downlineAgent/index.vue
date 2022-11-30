@@ -341,6 +341,7 @@ export default {
             data.profit.toLowerCase().includes(search.toLowerCase()) 
 
         )
+        this.currentPage=1
         this.countDeatil(this.searchList)
       }
     },

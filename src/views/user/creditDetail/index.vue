@@ -211,6 +211,7 @@ export default {
             data.creditLimit.toLowerCase().includes(this.search.toLowerCase()) 
 
         )
+        this.currentPage=1
         // this.countDeatil(this.searchList)
         this.totalCount = this.searchList.length
         this.temList =  this.searchList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)

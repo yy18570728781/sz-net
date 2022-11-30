@@ -267,24 +267,27 @@ export default {
                 data.userName.toLowerCase().includes(this.search.toLowerCase())  
 
         )
+        this.currentPage=1
         this.countDeatil(this.searchList)
       }
     },
     // 计算总计
     countDeatil(list){
       this.totalCount = list.length
+      
 
       let userName = '';
-            let remarks = '';
-            let createdByName = '';
-            let createdDate = '';
-            let topup = 0;
-            list.forEach(item=>{
-              topup += Number(item.topup)
-            })
-            topup = Number(topup).toFixed(2)
+      let remarks = '';
+      let createdByName = '';
+      let createdDate = '';
+      let topup = 0;
+      list.forEach(item=>{
+        topup += Number(item.topup)
+      })
+      topup = Number(topup).toFixed(2)
       this.temList =  list.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
       this.countList = [userName,topup,remarks,createdByName,createdDate]
+      console.log(this.temList);
     },
 
     // 获取数据

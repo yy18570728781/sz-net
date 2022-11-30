@@ -473,6 +473,7 @@ export default {
             data.userName.toLowerCase().includes(this.search.toLowerCase())  
 
         )
+        this.currentPage=1
         this.countDeatil(this.searchList)
       }
     },
@@ -574,6 +575,7 @@ export default {
             data.userName.toLowerCase().includes(this.search1.toLowerCase())  
 
         )
+        this.currentPage=1
         this.countDeatil1(this.searchList1)
       }
     },
