@@ -8,7 +8,7 @@
     <el-table
       v-loading="listLoading"
       :data="
-        list.filter(
+        temList.filter(
           (data) =>
             !search ||
             data.userCode.toLowerCase().includes(search.toLowerCase()) ||
@@ -136,6 +136,16 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="page">
+      <el-pagination 
+        @size-change="handleSizeChange" 
+        @current-change="handleCurrentChange" 
+        :current-page="currentPage" 
+        :page-sizes="pageSizes" 
+        :page-size="PageSize" layout="total, sizes, prev, pager, next, jumper" 
+        :total="totalCount">
+      </el-pagination>
+    </div>
     <!-- 修改 Edit -->
     <el-dialog
       title="修改 Edit"
@@ -249,6 +259,22 @@ export default {
       dialogFormVisibleMinus: false,
       formLabelWidth: "120px",
 
+      // 分页
+      // 总数据
+      memberList: [],
+      // 展示数据
+      temList:[],
+      // 默认显示第几页
+      currentPage:1,
+      // 总条数，根据接口获取数据长度(注意：这里不能为空)
+      totalCount:1,
+      // 个数选择器（可修改）
+      pageSizes:[5,10,20,30],
+      // 默认每页显示的条数（可修改）
+      PageSize:10,
+
+      count:{},//总计
+
       search: "",
       searchList:[],//搜索列表
     };
@@ -257,10 +283,40 @@ export default {
     this.fetchData();
   },
   methods: {
+    //每页显示的条数
+    handleSizeChange(val) {
+        // 改变每页显示的条数 
+        this.PageSize=val
+        // 注意：在改变每页显示的条数时，要将页码显示到第一页
+        this.currentPage=1
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
+    },
+    //显示第几页
+    handleCurrentChange(val) {
+        //改变默认的页数
+        this.currentPage=val
+        if(this.search){
+          this.searchTable()
+        }else{
+          this.getTemList()
+        }
+    },
+    getTemList(){
+      this.temList =  this.list.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
+      
+      // this.$nextTick(()=>{
+      //    this.temList.unshift(this.count)
+      // })
+      // console.log(this.temList);
+    },
     // 搜索List
     searchTable(){
       if(this.search == ''){
-        // this.totalCount = this.list.length
+        this.totalCount = this.list.length
       }else{
         this.searchList = this.list.filter(
           (data) =>
@@ -277,15 +333,20 @@ export default {
 
         )
         // this.countDeatil(this.searchList)
-        // this.totalCount = this.searchList.length
+        this.totalCount = this.searchList.length
+        this.currentPage=1
         this.temList =  this.searchList.slice((this.currentPage-1)*this.PageSize,this.currentPage*this.PageSize)
       }
     },
     fetchData() {
       this.listLoading = true;
+      this.search = '';
+      this.currentPage = 1
       getList()
         .then((res) => {
           this.list = res.data;
+          this.totalCount = res.data.length
+          this.getTemList()
           this.listLoading = false;
         })
         .catch((err) => {

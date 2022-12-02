@@ -63,13 +63,15 @@ const actions = {
         }).then(res=>{ 
           console.log(res,'用户信息');
           const {data} = res
-          
+
           if(data.code == 0){
             const userWalletUuid = data.data.wallet_uuid
             localStorage.setItem('userWalletUuid', JSON.stringify(userWalletUuid)) // 将用户钱包ID存储在本地
 
             return new Promise((resolve, reject) => {
               login({walletUuid:userWalletUuid}).then(response => {
+                
+                if(res.data.remark == '' && res.data.status == 'success'){
                   console.log(response,'login-response')
                   const {role,token,userName} = response.data
                   localStorage.setItem('userInfo', JSON.stringify(response.data)) // 将用户角色存储在本地
@@ -79,7 +81,14 @@ const actions = {
                   setToken(token);
                   resolve();
                   location.reload()
-                })
+                }else{
+                  Message({
+                    type:'error',
+                    message:'The account or password is incorrect. Please confirm and re-enter it'
+                  })
+                }
+                  
+              })
             })
           }else{
             Message({
