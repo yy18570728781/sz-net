@@ -71,26 +71,29 @@ const actions = {
             return new Promise((resolve, reject) => {
               login({walletUuid:userWalletUuid}).then(response => {
                 
-                if(res.data.remark == '' && res.data.status == 'success'){
-                  console.log(response,'login-response')
-                  const {role,token,userName} = response.data
-                  localStorage.setItem('userInfo', JSON.stringify(response.data)) // 将用户角色存储在本地
-                  let roles = [role]
-                  localStorage.setItem('roles', JSON.stringify(roles)) // 将用户角色存储在本地
-                  commit("SET_ROLE", roles);
-                  setToken(token);
-                  resolve();
-                  location.reload()
-                }else{
+                if(res.data.status == 'Failed'){
+                  console.log('登录错');
                   Message({
                     type:'error',
                     message:'The account or password is incorrect. Please confirm and re-enter it'
                   })
+                  return
                 }
+                
+                console.log(response,'login-response')
+                const {role,token,userName} = response.data
+                localStorage.setItem('userInfo', JSON.stringify(response.data)) // 将用户角色存储在本地
+                let roles = [role]
+                localStorage.setItem('roles', JSON.stringify(roles)) // 将用户角色存储在本地
+                commit("SET_ROLE", roles);
+                setToken(token);
+                resolve();
+                location.reload()
                   
               })
             })
           }else{
+            console.log('校验');
             Message({
               type:'error',
               message:'The account or password is incorrect. Please confirm and re-enter it'
