@@ -96,35 +96,6 @@ export const asyncRoutes = [
 
     ]
   },
-  
-  {
-    path: '/admin/pointDetail',
-    component: Layout,
-    children: [{
-      path: 'index',
-      name: 'adminPointDetail',
-      component: () => import('@/views/admin/pointDetail/index'),
-      meta: {
-        title: '上下分明细',
-        icon: 'point',
-        roles: ["admin", "staff",]
-      }
-    }]
-  },
-  {
-    path: '/admin/creditDetail',
-    component: Layout,
-    children: [{
-      path: 'index',
-      name: 'adminCreditDetail',
-      component: () => import('@/views/admin/creditDetail/index'),
-      meta: {
-        title: '信用额度明细',
-        icon: 'credit',
-        roles: ["admin", "staff",]
-      }
-    }]
-  },
   {
     path: '/admin/robot',
     component: Layout,
@@ -140,15 +111,15 @@ export const asyncRoutes = [
     }]
   },
   {
-    path: '/admin/memberProfit',
+    path: '/admin/companyProfit',
     component: Layout,
     children: [{
       path: 'index',
-      name: 'memberProfit',
-      component: () => import('@/views/admin/memberProfit/index'),
+      name: 'companyProfit',
+      component: () => import('@/views/admin/companyProfit/index'),
       meta: {
-        title: '会员总结',
-        icon: 'zj',
+        title: '公司利润',
+        icon: 'companyProfit',
         roles: ["admin","staff",]
       }
     }]
@@ -168,6 +139,20 @@ export const asyncRoutes = [
     }]
   },
   {
+    path: '/admin/memberProfit',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'memberProfit',
+      component: () => import('@/views/admin/memberProfit/index'),
+      meta: {
+        title: '会员总结',
+        icon: 'zj',
+        roles: ["admin","staff",]
+      }
+    }]
+  },
+  {
     path: '/admin/game',
     component: Layout,
     children: [{
@@ -178,6 +163,22 @@ export const asyncRoutes = [
         title: '游戏',
         icon: 'game',
         roles: ["admin","staff",]
+      }
+    }]
+  },
+  
+  
+  {
+    path: '/admin/pointDetail',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'adminPointDetail',
+      component: () => import('@/views/admin/pointDetail/index'),
+      meta: {
+        title: '上下分明细',
+        icon: 'point',
+        roles: ["admin", "staff",]
       }
     }]
   },
@@ -196,19 +197,24 @@ export const asyncRoutes = [
     }]
   },
   {
-    path: '/admin/companyProfit',
+    path: '/admin/creditDetail',
     component: Layout,
     children: [{
       path: 'index',
-      name: 'companyProfit',
-      component: () => import('@/views/admin/companyProfit/index'),
+      name: 'adminCreditDetail',
+      component: () => import('@/views/admin/creditDetail/index'),
       meta: {
-        title: '公司利润',
-        icon: 'companyProfit',
-        roles: ["admin","staff",]
+        title: '信用额度明细',
+        icon: 'credit',
+        roles: ["admin", "staff",]
       }
     }]
   },
+  
+  
+  
+  
+  
   {
     path: '/admin/memberBonus',
     component: Layout,
@@ -239,6 +245,20 @@ export const asyncRoutes = [
   },
   // 用户路由
   {
+    path: '/user/profile',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'profile',
+      component: () => import('@/views/user/profile/index'),
+      meta: {
+        title: '我的信息',
+        icon: 'user',
+        roles: ["user",]
+      }
+    }]
+  },
+  {
     path: '/user/home',
     component: Layout,
     children: [{
@@ -253,19 +273,34 @@ export const asyncRoutes = [
     }]
   },
   {
-    path: '/user/profile',
+    path: '/user/downlineAgent',
     component: Layout,
     children: [{
       path: 'index',
-      name: 'profile',
-      component: () => import('@/views/user/profile/index'),
+      name: 'downlineAgent',
+      component: () => import('@/views/user/downlineAgent/index'),
       meta: {
-        title: '我的信息',
-        icon: 'user',
+        title: '下线代理总结',
+        icon: 'zj',
         roles: ["user",]
       }
     }]
   },
+  {
+    path: '/user/downlineMember',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'downlineMember',
+      component: () => import('@/views/user/downlineMember/index'),
+      meta: {
+        title: '下线会员总结',
+        icon: 'zj',
+        roles: ["user",]
+      }
+    }]
+  },
+  
  
   {
     path: '/user/downline',
@@ -292,6 +327,20 @@ export const asyncRoutes = [
         title: '上下分明细',
         icon: 'point',
         roles: ["user",]
+      }
+    }]
+  },
+  {
+    path: '/user/pointTransferDetail',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'pointTransferDetail',
+      component: () => import('@/views/user/pointTransferDetail/index'),
+      meta: {
+        title: '积分转移明细',
+        icon: 'pointTransferDetail',
+        roles: ["user"]
       }
     }]
   },
@@ -323,48 +372,8 @@ export const asyncRoutes = [
   //     }
   //   }]
   // },
-  {
-    path: '/user/downlineAgent',
-    component: Layout,
-    children: [{
-      path: 'index',
-      name: 'downlineAgent',
-      component: () => import('@/views/user/downlineAgent/index'),
-      meta: {
-        title: '下线代理总结',
-        icon: 'zj',
-        roles: ["user",]
-      }
-    }]
-  },
-  {
-    path: '/user/downlineMember',
-    component: Layout,
-    children: [{
-      path: 'index',
-      name: 'downlineMember',
-      component: () => import('@/views/user/downlineMember/index'),
-      meta: {
-        title: '下线会员总结',
-        icon: 'zj',
-        roles: ["user",]
-      }
-    }]
-  },
-  {
-    path: '/user/pointTransferDetail',
-    component: Layout,
-    children: [{
-      path: 'index',
-      name: 'pointTransferDetail',
-      component: () => import('@/views/user/pointTransferDetail/index'),
-      meta: {
-        title: '积分转移明细',
-        icon: 'pointTransferDetail',
-        roles: ["user"]
-      }
-    }]
-  },
+  
+  
   // 404 page must be placed at the end !!!
   {
     path: '*',
