@@ -300,8 +300,6 @@ export const asyncRoutes = [
       }
     }]
   },
-  
- 
   {
     path: '/user/downline',
     component: Layout,
