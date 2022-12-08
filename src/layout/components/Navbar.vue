@@ -106,10 +106,13 @@
         
         
       </el-form>
-      <div style="width:100%;text-align: center;">
+      <div style="width:100%; display: flex;
+      padding-right:15px;
+  justify-content: center;
+  align-items: center;">
          <el-button
           type="primary"
-          style="width: 400px;"
+          style="width: 100%;"
           @click.native.prevent="editPwd"
         >确 定</el-button
       >
@@ -218,6 +221,7 @@ export default {
   position: relative;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+ 
 
   .hamburger-container {
     line-height: 46px;
@@ -389,5 +393,25 @@ $cursor: #fff;
     background-color: transparent;
     
   }
+@media only screen and (max-width: 1200px) {
+  ::v-deep .el-form{
+    width: 320px !important;
+    margin: 0 !important;
+  }
+  ::v-deep .el-dialog{
+    width: 375px !important;
+  }
+	.el-form-item {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    color: #454545;
+    width: 300px;
+    margin: 20px auto;
+  }
+  .el-button{
+    width: 300px !important;
+  }
+}
 // }
 </style>
