@@ -837,4 +837,38 @@ export default {
     padding: 0 !important;
   }
 }
+@media only screen and (max-width: 1200px) {
+    ::v-deep .el-form{
+      width: 320px !important;
+      margin: 0 !important;
+      .el-button{
+      
+      }
+    }
+    ::v-deep .el-dialog{
+      width: 100% !important;
+    }
+    ::v-deep .el-table td{
+      padding: 0 !important;
+    }
+    .el-form-item {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      // background: rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      color: #454545;
+      width: 300px;
+      margin: 20px auto;
+    }
+    .el-pagination {
+        white-space: nowrap;
+        padding: 2px 5px;
+        color: #303133;
+        font-weight: 700;
+        overflow-x: auto;
+    }
+    .item1{
+      width: 110px;
+    }
+    
+} 
 </style>

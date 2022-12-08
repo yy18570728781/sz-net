@@ -123,6 +123,7 @@
         fixed="right"
       >
         <template slot-scope="scope">
+          <div class="but_box">
           <el-button
             type="primary"
             icon="el-icon-edit"
@@ -138,6 +139,7 @@
             :disabled="scope.row.cashInd !== 'N'"
             @click="moreInfo(scope.row)"
           ></el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -580,16 +582,35 @@ export default {
     margin-bottom: 10px;
   }
 }
-@media screen and (max-width:1200px) {
-  .downline{
-    ::v-deep .el-dialog{
-      width: 100% !important;
-    }
-    ::v-deep .el-table td, .el-table th{
+@media only screen and (max-width: 1200px) {
+  ::v-deep .el-form{
+    width: 320px !important;
+    margin: 0 !important;
+  }
+  ::v-deep .el-dialog{
+    width: 375px !important;
+  }
+  ::v-deep .el-table td{
       padding: 0 !important;
     }
+	.el-form-item {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    // background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    color: #454545;
+    width: 300px;
+    margin: 20px auto;
   }
-  
+  .el-button{
+    margin: 0;
+  }
+  .el-pagination {
+        white-space: nowrap;
+        padding: 2px 5px;
+        color: #303133;
+        font-weight: 700;
+        overflow-x: auto;
+    }
 }
 
    

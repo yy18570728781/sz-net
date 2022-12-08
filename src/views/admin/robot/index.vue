@@ -376,13 +376,46 @@ export default {
   },
 };
 </script>
-<style lang="sass" scoped>
-.flex-box
-  display: flex
-  justify-content: end
-  .item
-    margin-right: 10px
-    margin-top: 10px
-    margin-bottom: 10px
+<style lang="scss" scoped>
+.flex-box{
+  display: flex;
+  justify-content: end;
+  .item{
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }  
+}
+.but_box{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow-x: auto;
+}
+@media only screen and (max-width: 1200px) {
+  .app-container{
+    ::v-deep .el-form{
+      width: 320px !important;
+      margin: 0 !important;
+      .el-button{
+      
+      }
+    }
+    ::v-deep .el-dialog{
+      width: 375px !important;
+    }
+    ::v-deep .el-table td{
+      padding: 0 !important;
+    }
+    .el-form-item {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      // background: rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      color: #454545;
+      width: 300px;
+      margin: 20px auto;
+    }
     
+  }
+}  
 </style>
