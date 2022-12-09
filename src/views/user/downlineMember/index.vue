@@ -49,7 +49,7 @@
         align="center"
         prop=""
         sortable
-        show-overflow-tooltip
+        
       > 
         <template slot-scope="scope">
           <el-button v-if="scope.row.gnuserId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
@@ -62,7 +62,7 @@
         align="center"
         prop="userName"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -70,7 +70,7 @@
         align="center"
         prop="userRemark"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
 
@@ -79,7 +79,7 @@
         align="center"
         prop="turnover"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
 
@@ -89,7 +89,7 @@
         align="center"
         prop="playerProfitBonus"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -98,7 +98,7 @@
         prop="turnoverBonus"
         sort-by="turnoverBonus"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -107,7 +107,7 @@
         prop="profitBonus"
         sort-by="profitBonus"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
 
@@ -117,7 +117,7 @@
         prop="wallet"
         sort-by="wallet"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -126,7 +126,7 @@
         prop="transfer"
         sort-by="transfer"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -134,7 +134,7 @@
         align="center"
         prop="winLose"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -142,7 +142,7 @@
         align="center"
         prop="playerProfit"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -150,7 +150,7 @@
         align="center"
         prop="profit"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       

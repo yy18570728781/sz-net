@@ -427,7 +427,7 @@ export default {
     margin: 0;
   }
   .item1{
-    width: 110px;
+    position: static !important;
   }
   .el-pagination {
         white-space: nowrap;
@@ -436,6 +436,12 @@ export default {
         font-weight: 700;
         overflow-x: auto;
     }
+    .Cdiv{
+    min-width:600px !important;
+  }
+  .footer_div{
+    min-width: 600px;
+  }
   
 }
 </style>

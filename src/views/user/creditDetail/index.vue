@@ -67,7 +67,7 @@
         prop="userCode"
         sort-by="userCode"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -76,7 +76,7 @@
         prop="userName"
         sort-by="userName"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -85,7 +85,7 @@
         prop="creditLimit"
         sort-by="creditLimit"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -95,7 +95,7 @@
         prop="createdDate"
         sort-by="createdDate"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
     </el-table>
@@ -287,7 +287,7 @@ export default {
     margin: 0;
   }
   .item1{
-    width: 110px;
+    position: static !important;
   }
   .el-pagination {
         white-space: nowrap;

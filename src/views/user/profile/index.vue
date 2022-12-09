@@ -102,8 +102,8 @@ export default {
         overflow-x: auto;
     }
     .item1{
-      width: 110px;
-    }
+    position: static !important;
+  }
     
 } 
 </style>

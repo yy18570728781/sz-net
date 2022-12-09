@@ -407,6 +407,12 @@ export default {
 }
 @media only screen and (max-width: 1200px) {
   // .app-container{
+    .Cdiv{
+      min-width:600px !important;
+    }
+    .footer_div{
+      min-width: 600px;
+    }
     ::v-deep .el-form{
       width: 320px !important;
       margin: 0 !important;
@@ -436,7 +442,8 @@ export default {
         overflow-x: auto;
     }
     .item1{
-      width: 110px;
+      position: static !important;
+      
     }
     
     

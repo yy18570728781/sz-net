@@ -465,7 +465,14 @@ export default {
         overflow-x: auto;
     }
     .item1{
-      width: 110px;
+      position: static !important;
+      
+    }
+    .Cdiv{
+      min-width:600px !important;
+    }
+    .footer_div{
+      min-width: 600px;
     }
     
 } 

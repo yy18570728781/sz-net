@@ -415,6 +415,13 @@ export default {
       width: 300px;
       margin: 20px auto;
     }
+    .el-pagination {
+        white-space: nowrap;
+        padding: 2px 5px;
+        color: #303133;
+        font-weight: 700;
+        overflow-x: auto;
+    }
     
   }
 }  

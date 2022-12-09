@@ -360,11 +360,20 @@ export default {
     margin: 0;
   }
   .el-pagination {
-        white-space: nowrap;
-        padding: 2px 5px;
-        color: #303133;
-        font-weight: 700;
-        overflow-x: auto;
-    }
+      white-space: nowrap;
+      padding: 2px 5px;
+      color: #303133;
+      font-weight: 700;
+      overflow-x: auto;
+  }
+  .item1{
+    position: static !important;
+  }
+  .Cdiv{
+    min-width:600px !important;
+  }
+  .footer_div{
+    min-width: 600px;
+  }
 }
 </style>

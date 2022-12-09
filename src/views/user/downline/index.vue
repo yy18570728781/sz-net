@@ -35,7 +35,7 @@
         prop="userCode"
         sort-by="userCode"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -44,7 +44,7 @@
         prop="userName"
         sort-by="userName"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -53,7 +53,7 @@
         prop="userRemark"
         sort-by="userRemark"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       
@@ -65,7 +65,7 @@
         prop="creditLimit"
         sort-by="creditLimit"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -74,7 +74,7 @@
         prop="turnoverRebateFb"
         sort-by="turnoverRebateFb"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       
@@ -85,7 +85,7 @@
         prop="turnoverRebate"
         sort-by="turnoverRebate"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -95,7 +95,7 @@
         prop="profitRebate"
         sort-by="profitRebate"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <!-- <el-table-column
@@ -113,7 +113,7 @@
         prop="loginInd"
         sort-by="loginInd"
         sortable
-        show-overflow-tooltip
+        
       >
       </el-table-column>
       <el-table-column
@@ -580,7 +580,17 @@ export default {
      margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+    
   }
+}
+.but_box{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  .el-button{
+      margin: 0;
+    }
 }
 @media only screen and (max-width: 1200px) {
   ::v-deep .el-form{
@@ -601,16 +611,15 @@ export default {
     width: 300px;
     margin: 20px auto;
   }
-  .el-button{
-    margin: 0;
-  }
+  
   .el-pagination {
-        white-space: nowrap;
-        padding: 2px 5px;
-        color: #303133;
-        font-weight: 700;
-        overflow-x: auto;
-    }
+    white-space: nowrap;
+    padding: 2px 5px;
+    color: #303133;
+    font-weight: 700;
+    overflow-x: auto;
+  }
+  
 }
 
    
