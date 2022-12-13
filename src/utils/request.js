@@ -30,11 +30,11 @@ service.interceptors.request.use(
       // please modify it according to the actual situation
       config.headers['token'] = getToken()
 
-      // if(Cookies.get('language') == 'zh'){
-      //   config.headers['language'] = 'CH' //语言 CH || EN
-      // }else if(Cookies.get('language') == 'en'){
-      //   config.headers['language'] = 'CH' //语言 CH || EN
-      // }
+      if(Cookies.get('language') == 'zh'){
+        config.headers['language'] = 'CH' //语言 CH || EN
+      }else if(Cookies.get('language') == 'en'){
+        config.headers['language'] = 'EN' //语言 CH || EN
+      }
       
     }
     
