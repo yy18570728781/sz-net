@@ -127,7 +127,7 @@ export const asyncRoutes = [
       meta: {
         title: routesName.Member,
         icon: 'hy',
-        roles: ["admin", "staff","user"]
+        roles: ["admin", "staff",]
       }
     }]
   },
@@ -148,7 +148,7 @@ export const asyncRoutes = [
           // title: '高级会员',
           title:routesName.SeniorMember,
           icon: 'suser',
-          roles: ["admin", "staff","user"]
+          roles: ["admin", "staff",]
         }
       },
 
@@ -165,7 +165,7 @@ export const asyncRoutes = [
         // title: '机器人',
         title:routesName.Robot,
         icon: 'credit',
-        roles: ["admin", "staff","user"]
+        roles: ["admin", "staff",]
       }
     }]
   },
@@ -180,7 +180,7 @@ export const asyncRoutes = [
         // title: '公司利润',
         title:routesName.CompanyProfit,
         icon: 'companyProfit',
-        roles: ["admin","staff","user"]
+        roles: ["admin","staff",]
       }
     }]
   },
@@ -195,7 +195,7 @@ export const asyncRoutes = [
         // title: '代理总结',
         title:routesName.AgentProfit,
         icon: 'zj',
-        roles: ["admin","staff","user"]
+        roles: ["admin","staff",]
       }
     }]
   },
@@ -210,7 +210,7 @@ export const asyncRoutes = [
         // title: '会员总结',
         title:routesName.MemberProfit,
         icon: 'zj',
-        roles: ["admin","staff","user"]
+        roles: ["admin","staff",]
       }
     }]
   },
@@ -225,7 +225,7 @@ export const asyncRoutes = [
         // title: '游戏',
         title:routesName.Game,
         icon: 'game',
-        roles: ["admin","staff","user"]
+        roles: ["admin","staff",]
       }
     }]
   },
@@ -242,7 +242,7 @@ export const asyncRoutes = [
         // title: '上下分明细',
         title:routesName.TopupWithdraw,
         icon: 'point',
-        roles: ["admin", "staff","user"]
+        roles: ["admin", "staff",]
       }
     }]
   },
@@ -257,7 +257,7 @@ export const asyncRoutes = [
         // title: '积分转移明细',
         title:routesName.PointTransfer,
         icon: 'pointTransferDetail',
-        roles: ["admin","staff","user"]
+        roles: ["admin","staff",]
       }
     }]
   },
@@ -272,7 +272,7 @@ export const asyncRoutes = [
         // title: '信用额度明细',
         title:routesName.CreditLimit,
         icon: 'credit',
-        roles: ["admin", "staff","user"]
+        roles: ["admin", "staff",]
       }
     }]
   },
@@ -292,7 +292,7 @@ export const asyncRoutes = [
         // title: '会员奖励',
         title:routesName.MemberBonus,
         icon: 'memberBonus',
-        roles: ["admin","staff","user"]
+        roles: ["admin","staff",]
       }
     }]
   },
@@ -307,7 +307,7 @@ export const asyncRoutes = [
         // title: '公司费用',
         title:routesName.CompanyExpenses,
         icon: 'companyExpenses',
-        roles: ["admin","staff","user"]
+        roles: ["admin","staff",]
       }
     }]
   },
