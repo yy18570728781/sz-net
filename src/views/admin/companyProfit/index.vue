@@ -13,7 +13,7 @@
         </el-select>
       </div>
       <div class="item">
-        <el-button type="primary" @click="getFenTong" >分桶额</el-button>
+        <el-button type="primary" @click="getFenTong" >{{$t('DividedAmount')}}</el-button>
       </div>
 
       <!-- <div class="item">
@@ -45,7 +45,7 @@
             :default-sort="{  }"
           >
             <el-table-column
-              label="项目 "
+              :label="$t('Project')"
               align="center"
               prop="item"
               sort-by="item"
@@ -57,7 +57,7 @@
               </template>
             </el-table-column>
             <el-table-column
-              label="现金"
+              :label="$t('CashAmount')"
               align="center"
               prop="cashAmount"
               
@@ -65,7 +65,7 @@
             </el-table-column>
 
             <el-table-column
-              label="信用"
+              :label="$t('CreditAmount')"
               align="center"
               prop="creditAmount"
               
@@ -73,7 +73,7 @@
             </el-table-column>
 
             <el-table-column
-              label="共计"
+              :label="$t('TotalAmount')"
               align="center"
               prop="totalAmount"
               
@@ -82,18 +82,18 @@
             
           </el-table>
           <div class="footer_div">
-            <div>总计</div>
+            <div>{{$t('TotalOf')}}</div>
             <div v-for="(item,index) in countList" :key="index">{{item}}</div>
           </div>
         </div>
       </div>
       <el-dialog
-      title="分桶额"
+      :title="$t('DividedAmount')"
       :visible.sync="FTvzb"
       width="40%"
     >
       <el-form :model="searchFrom">
-        <el-form-item label="分桶额" label-width="100px">
+        <el-form-item :label="$t('DividedAmount')" label-width="100px">
           <el-input
             v-model="FTValue"
             autocomplete="off"
@@ -102,7 +102,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <!-- <el-button @click="closeEdit">取 消</el-button> -->
-        <el-button type="primary" @click="editFT">确 定</el-button>
+        <el-button type="primary" @click="editFT">{{$t('Determine')}}</el-button>
       </div>
     </el-dialog>
     </div>
@@ -220,7 +220,7 @@ export default {
         this.butLoading = false
         this.$message({
           type: "info",
-          message: "只能填写最多7位数整数，限2位小数",
+          message: this.$t('CreditLimitTip'),
         });
       }
       

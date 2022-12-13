@@ -24,7 +24,7 @@
         </el-select>
       </div>
       <div class="item item1">
-        <el-input v-model="search" placeholder="输入关键字搜索"
+        <el-input v-model="search" :placeholder="$t('InputTip.SearchKey')"
         @input="searchTable"> </el-input>
       </div>
       <!-- <div class="item">
@@ -61,26 +61,25 @@
             :default-sort="{   }"
           >
             <el-table-column
-              label="操作"
+              :label="$t('Operation')"
               align="center"
               prop=""
               sortable
             > 
               <template slot-scope="scope">
-                <el-button v-if="scope.row.gametxnId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
-                <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+                <el-button  type="primary" round size="small" @click="changeShow(scope.row)">{{$t('Detail')}}</el-button>
               </template>
               
             </el-table-column>
             <el-table-column
-              label="场数"
+              :label="$t('Games')"
               align="center"
               prop="gameNo"
               sortable
             >
             </el-table-column>
             <el-table-column
-              label="人数 "
+              :label="$t('NumberPeople')"
               align="center"
               prop="totalPlayer"
               sort-by="totalPlayer"
@@ -88,7 +87,7 @@
             >
             </el-table-column>
             <el-table-column
-              label="上庄费"
+              :label="$t('HostFee')"
               align="center"
               prop="hostFee"
               sortable
@@ -96,7 +95,7 @@
             </el-table-column>
 
             <el-table-column
-              label="服务费"
+              :label="$t('ServiceFee')"
               align="center"
               prop="serviceFee"
               sortable
@@ -104,7 +103,7 @@
             </el-table-column>
 
             <el-table-column
-              label="庄赢抽水"
+              :label="$t('BankerWinFee')"
               align="center"
               prop="bankerWinFee"
               sort-by="bankerWinFee"
@@ -112,7 +111,7 @@
             >
             </el-table-column>
             <el-table-column
-              label="闲赢抽水"
+              :label="$t('PlayerWinFee')"
               align="center"
               prop="playerWinFee"
               sort-by="playerWinFee"
@@ -121,7 +120,7 @@
             </el-table-column>
 
             <el-table-column
-              label="带包费"
+              :label="$t('PacketFee')"
               align="center"
               prop="packetFee"
               sort-by="packetFee"
@@ -129,7 +128,7 @@
             >
             </el-table-column>
             <el-table-column
-              label="流水"
+              :label="$t('Turnover')"
               align="center"
               prop="turnover"
               sort-by="turnover"
@@ -137,7 +136,7 @@
             >
             </el-table-column>
             <el-table-column
-              label="时间"
+              :label="$t('Time')"
               align="center"
               prop="drawDate"
               sortable
@@ -146,7 +145,7 @@
             
           </el-table>
           <div class="footer_div">
-            <div>总计</div>
+            <div>{{$t('TotalOf')}}</div>
             <div v-for="(item,index) in countList" :key="index">{{item}}</div>
           </div>
         </div>
@@ -191,26 +190,25 @@
         :default-sort="{   }"
       >
         <el-table-column
-          label="操作"
+          :label="$t('Operation')"
           align="center"
           prop=""
           sortable
         > 
           <template slot-scope="scope">
-            <el-button v-if="scope.row.gametxnId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
-            <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+            <el-button type="primary" round size="small" @click="changeShow(scope.row)">{{$t('Detail')}}</el-button>
           </template>
           
         </el-table-column>
         <el-table-column
-          label="联赛"
+          :label="$t('League')"
           align="center"
           prop="league"
           sortable
         >
         </el-table-column>
         <el-table-column
-          label="主队 "
+          :label="$t('HomeTeam')"
           align="center"
           prop="homeTeam"
           sort-by="homeTeam"
@@ -218,7 +216,7 @@
         >
         </el-table-column>
         <el-table-column
-          label="客队"
+          :label="$t('AwayTeam')"
           align="center"
           prop="awayTeam"
           sortable
@@ -226,7 +224,7 @@
         </el-table-column>
 
         <el-table-column
-          label="比分"
+          :label="$t('ScoreResult')"
           align="center"
           prop="scoreResult"
           sortable
@@ -234,7 +232,7 @@
         </el-table-column>
 
         <el-table-column
-          label="下注人数"
+          :label="$t('TotalPlayer')"
           align="center"
           prop="totalPlayer"
           sort-by="totalPlayer"
@@ -242,7 +240,7 @@
         >
         </el-table-column>
         <el-table-column
-          label="输赢"
+          :label="$t('WinLose')"
           align="center"
           prop="winlose"
           sort-by="winlose"
@@ -251,7 +249,7 @@
         </el-table-column>
 
         <el-table-column
-          label="流水"
+          :label="$t('Turnover')"
           align="center"
           prop="turnover"
           sort-by="turnover"
@@ -259,14 +257,14 @@
         >
         </el-table-column>
         <el-table-column
-          label="球赛时间"
+          :label="$t('GameDate')"
           align="center"
           prop="gameDate"
           sortable
         >
         </el-table-column>
         <el-table-column
-          label="结算时间"
+          :label="$t('ResultDate')"
           align="center"
           prop="resultDate"
           sortable
@@ -275,7 +273,7 @@
         
           </el-table>
           <div class="footer_div">
-            <div>总计</div>
+            <div>{{$t('TotalOf')}}</div>
             <div v-for="(item,index) in countList1" :key="index">{{item}}</div>
           </div>
         </div>
@@ -316,26 +314,25 @@
             :default-sort="{   }"
           >
             <el-table-column
-              label="操作"
+              :label="$t('Operation')"
               align="center"
               prop=""
               sortable
             > 
               <template slot-scope="scope">
-                <el-button v-if="scope.row.gametxnId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
-                <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+                <el-button  type="primary" round size="small" @click="changeShow(scope.row)">{{$t('Detail')}}</el-button>
               </template>
               
             </el-table-column>
             <el-table-column
-              label="期数"
+              :label="$t('Nper')"
               align="center"
               prop="gameNo"
               sortable
             >
             </el-table-column>
             <el-table-column
-              label="人数 "
+              :label="$t('NumberPeople')"
               align="center"
               prop="totalPlayer"
               sort-by="totalPlayer"
@@ -343,7 +340,7 @@
             >
             </el-table-column>
             <el-table-column
-              label="输赢"
+              :label="$t('WinLose')"
               align="center"
               prop="winlose"
               sort-by="winlose"
@@ -352,7 +349,7 @@
             </el-table-column>
 
             <el-table-column
-              label="流水"
+              :label="$t('Turnover')"
               align="center"
               prop="turnover"
               sort-by="turnover"
@@ -360,7 +357,7 @@
             >
             </el-table-column>
             <el-table-column
-              label="时间"
+              :label="$t('Time')"
               align="center"
               prop="drawDate"
               sortable
@@ -369,7 +366,7 @@
             
           </el-table>
           <div class="footer_div">
-            <div>总计</div>
+            <div>{{$t('TotalOf')}}</div>
             <div v-for="(item,index) in countList2" :key="index">{{item}}</div>
           </div>
         </div>
@@ -411,26 +408,25 @@
             :default-sort="{   }"
           >
             <el-table-column
-              label="操作"
+              :label="$t('Operation')"
               align="center"
               prop=""
               sortable
             > 
               <template slot-scope="scope">
-                <el-button v-if="scope.row.gametxnId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
-                <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+                <el-button  type="primary" round size="small" @click="changeShow(scope.row)">{{$t('Detail')}}</el-button>
               </template>
               
             </el-table-column>
             <el-table-column
-              label="期数"
+              :label="$t('Nper')"
               align="center"
               prop="gameNo"
               sortable
             >
             </el-table-column>
             <el-table-column
-              label="人数 "
+              :label="$t('NumberPeople')"
               align="center"
               prop="totalPlayer"
               sort-by="totalPlayer"
@@ -438,7 +434,7 @@
             >
             </el-table-column>
             <el-table-column
-              label="赢抽水"
+              :label="$t('Water')"
               align="center"
               prop="water"
               sort-by="water"
@@ -447,7 +443,7 @@
             </el-table-column>
 
             <el-table-column
-              label="流水"
+              :label="$t('Turnover')"
               align="center"
               prop="turnover"
               sort-by="turnover"
@@ -455,7 +451,7 @@
             >
             </el-table-column>
             <el-table-column
-              label="时间"
+              :label="$t('Time')"
               align="center"
               prop="drawDate"
               sortable
@@ -464,7 +460,7 @@
             
           </el-table>
           <div class="footer_div">
-            <div>总计</div>
+            <div>{{$t('TotalOf')}}</div>
             <div v-for="(item,index) in countList3" :key="index">{{item}}</div>
           </div>
         </div>

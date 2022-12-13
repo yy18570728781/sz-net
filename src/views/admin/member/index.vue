@@ -2,38 +2,38 @@
   <div class="member">
     <div class="flex-box">
       <div class="item">
-        <el-input v-model="searchFrom.userCode" placeholder="请输入会员 ID">
+        <el-input v-model="searchFrom.userCode" :placeholder="$t('InputTip.SearchUsercode')">
           <!-- <el-button slot="append" icon="el-icon-search" @click="getList"
             >搜索</el-button
           > -->
         </el-input>
       </div>
       <div class="item">
-        <el-input v-model="searchFrom.userName" placeholder="请输入会员名">
+        <el-input v-model="searchFrom.userName" :placeholder="$t('InputTip.SearchUserName')">
           <!-- <el-button slot="append" icon="el-icon-search" @click="getList"
             >搜索</el-button
           > -->
         </el-input>
       </div>
       <div class="item">
-        <el-input v-model="searchFrom.uplineCode" placeholder="请输入上线 ID">
+        <el-input v-model="searchFrom.uplineCode" :placeholder="$t('InputTip.SearchUplineCode')">
           <!-- <el-button slot="append" icon="el-icon-search" @click="getList"
             >搜索</el-button
           > -->
         </el-input>
       </div>
       <div class="item">
-        <el-input v-model="searchFrom.uplineName" placeholder="请输入上线名">
+        <el-input v-model="searchFrom.uplineName" :placeholder="$t('InputTip.SearchUplineName')">
           <!-- <el-button slot="append" icon="el-icon-search" @click="getList"
             >搜索</el-button
           > -->
         </el-input>
       </div>
       <div class="item">
-        <el-button type="primary" @click="getList"  v-loading.fullscreen.lock="butLoading">搜索</el-button>
+        <el-button type="primary" @click="getList"  v-loading.fullscreen.lock="butLoading">{{$t('Search')}}</el-button>
       </div>
       <div class="item item1">
-        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
+        <el-input v-model="search" :placeholder="$t('InputTip.SearchKey')" @input="searchTable"> </el-input>
       </div>
     </div>
 
@@ -62,15 +62,16 @@
       :default-sort="{}"
     >
       <el-table-column
-        label="会员 ID"
+        :label="$t('UserCode')"
         align="center"
         prop="userCode"
         sort-by="userCode"
         sortable
       >
+      
       </el-table-column>
       <el-table-column
-        label="会员名 "
+        :label="$t('UserName')"
         align="center"
         prop="userName"
         sort-by="userName"
@@ -78,7 +79,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="层次"
+        :label="$t('Level')"
         align="center"
         prop="level"
         sort-by="level"
@@ -87,7 +88,7 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="信用额度"
+        :label="$t('CreditLimit')"
         align="center"
         prop="creditLimit"
         sort-by="creditLimit"
@@ -96,7 +97,7 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="流水提成%"
+        :label="$t('TurnoverRebate')"
         align="center"
         prop="turnoverRebate"
         sort-by="turnoverRebate"
@@ -105,7 +106,7 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="球网流水提成%"
+        :label="$t('TurnoverRebateFb')"
         align="center"
         prop="turnoverRebateFb"
         sort-by="turnoverRebateFb"
@@ -114,7 +115,7 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="利润提成%"
+        :label="$t('ProfitRebate')"
         align="center"
         prop="profitRebate"
         sort-by="profitRebate"
@@ -124,7 +125,7 @@
 
       <el-table-column
         class-name="status-col"
-        label="上线 ID"
+        :label="$t('UplineUserCode')"
         align="center"
         prop="uplineUserCode"
         sort-by="uplineUserCode"
@@ -133,7 +134,7 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="上线名"
+        :label="$t('UplineUserName')"
         align="center"
         prop="uplineUserName"
         sort-by="uplineUserName"
@@ -143,7 +144,7 @@
 
       <el-table-column
         class-name="status-col"
-        label="类型"
+        :label="$t('UserType')"
         align="center"
         prop="userType"
         sort-by="userType"

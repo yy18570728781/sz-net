@@ -7,6 +7,7 @@ import store from '@/store'
 import {
   getToken
 } from '@/utils/auth'
+import Cookies from 'js-cookie'
 
 // create an axios instance
 const service = axios.create({
@@ -28,10 +29,15 @@ service.interceptors.request.use(
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
       config.headers['token'] = getToken()
-      
 
+      if(Cookies.get('language') == 'zh'){
+        config.headers['language'] = 'CH' //语言 CH || EN
+      }else if(Cookies.get('language') == 'en'){
+        config.headers['language'] = 'CH' //语言 CH || EN
+      }
+      
     }
-    // config.headers['language'] = 'ch' //语言 ch || en
+    
     return config
   },
   error => {

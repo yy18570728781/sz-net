@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="flex-box">
       <div class="item">
-        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
+        <el-input v-model="search" :placeholder="$t('InputTip.SearchKey')" @input="searchTable"> </el-input>
       </div>
     </div>
     <el-table
@@ -30,16 +30,16 @@
       :default-sort="{ prop: '', order: '' }"
     >
       <el-table-column
-        label="会员 ID"
+        :label="$t('UserCode')"
         align="center"
         sortable
         prop="userCode"
         sort-by="userCode"
       >
       </el-table-column>
-      <el-table-column label="会员名" align="center" sortable prop="userName">
+      <el-table-column :label="$t('UserName')" align="center" sortable prop="userName">
       </el-table-column>
-      <el-table-column label="备注名" align="center" sortable prop="userRemark">
+      <el-table-column :label="$t('NoteName')" align="center" sortable prop="userRemark">
       </el-table-column>
       <!-- <el-table-column
         label="邀请码"
@@ -51,7 +51,7 @@
       </el-table-column> -->
       <el-table-column
         class-name="status-col"
-        label="信用额度"
+        :label="$t('CreditLimit')"
         align="center"
         sortable
         prop="creditLimit"
@@ -60,7 +60,7 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="流水提成%"
+        :label="$t('TurnoverRebate')"
         align="center"
         sortable
         prop="turnoverRebate"
@@ -69,7 +69,7 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="球网流水提成%"
+        :label="$t('TurnoverRebateFb')"
         align="center"
         sortable
         prop="turnoverRebateFb"
@@ -78,7 +78,7 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="利润提成%"
+        :label="$t('ProfitRebate')"
         align="center"
         sortable
         prop="profitRebate"
@@ -87,7 +87,7 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="类型"
+        :label="$t('UserType')"
         align="center"
         sortable
         prop="userType"
@@ -96,7 +96,7 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="代理网登录"
+        :label="$t('ProxyLogin')"
         align="center"
         sortable
         prop="loginInd"
@@ -105,7 +105,7 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="操作"
+        :label="$t('Operation')"
         fixed="right"
         sortable
       >
@@ -149,36 +149,36 @@
     </div>
     <!-- 修改 Edit -->
     <el-dialog
-      title="修改 Edit"
+      :title="$t('Edit')"
       :visible.sync="dialogFormVisible"
       @close="closeEdit"
     >
       <el-form :model="currentMember">
-        <el-form-item label="备注名" :label-width="formLabelWidth">
+        <el-form-item :label="$t('NoteName')" :label-width="formLabelWidth">
           <el-input
             v-model="currentMember.userRemark"
             maxlength="45"
           ></el-input>
         </el-form-item>
-        <el-form-item label="流水提成%" :label-width="formLabelWidth">
+        <el-form-item :label="$t('TurnoverRebate')" :label-width="formLabelWidth">
           <el-input
             v-model="currentMember.turnoverRebate"
             autocomplete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item label="利润提成%" :label-width="formLabelWidth">
+        <el-form-item :label="$t('ProfitRebate')" :label-width="formLabelWidth">
           <el-input
             v-model="currentMember.profitRebate"
             autocomplete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item label="球网流水提成%" :label-width="formLabelWidth">
+        <el-form-item :label="$t('TurnoverRebateFb')" :label-width="formLabelWidth">
           <el-input
             v-model="currentMember.turnoverRebateFb"
             autocomplete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item label="代理网登录" :label-width="formLabelWidth">
+        <el-form-item :label="$t('ProxyLogin')" :label-width="formLabelWidth">
           <template>
             <el-radio v-model="currentMember.loginInd" label="Yes">Yes</el-radio>
             <el-radio v-model="currentMember.loginInd" label="No">No</el-radio>
@@ -187,40 +187,40 @@
         
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="closeEdit">取 消</el-button>
-        <el-button type="primary" @click="editMember" v-loading.fullscreen.lock="butLoading">确 定</el-button>
+        <el-button @click="closeEdit">{{$t('Cancel')}}</el-button>
+        <el-button type="primary" @click="editMember" v-loading.fullscreen.lock="butLoading">{{$t('Determine')}}</el-button>
       </div>
     </el-dialog>
     <!-- 增加信用 -->
     <el-dialog
-      title="加信用额度"
+      :title="$t('AddCreditLimit')"
       :visible.sync="dialogFormVisibleAdd"
       @close="closeAddCredit"
     >
       <el-form :model="currentMember">
-        <el-form-item label="加信用额度" :label-width="formLabelWidth">
+        <el-form-item :label="$t('AddCreditLimit')" :label-width="formLabelWidth">
           <el-input v-model="credit" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="closeAddCredit">取 消</el-button>
-        <el-button type="primary" @click="addCredit" v-loading.fullscreen.lock="butLoading">确 定</el-button>
+        <el-button @click="closeAddCredit">{{$t('Cancel')}}</el-button>
+        <el-button type="primary" @click="addCredit" v-loading.fullscreen.lock="butLoading">{{$t('Determine')}}</el-button>
       </div>
     </el-dialog>
     <!-- 降低信用 -->
     <el-dialog
-      title="减信用额度"
+      :title="$t('ReductionCreditLimit')"
       :visible.sync="dialogFormVisibleMinus"
       @close="closeMinusCredit"
     >
       <el-form :model="currentMember">
-        <el-form-item label="减信用额度" :label-width="formLabelWidth">
+        <el-form-item :label="$t('ReductionCreditLimit')" label-width="140px">
           <el-input v-model="credit" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="closeMinusCredit">取 消</el-button>
-        <el-button type="primary" @click="minusCredit" v-loading.fullscreen.lock="butLoading">确 定</el-button>
+        <el-button @click="closeMinusCredit">{{$t('Cancel')}}</el-button>
+        <el-button type="primary" @click="minusCredit" v-loading.fullscreen.lock="butLoading">{{$t('Determine')}}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -258,7 +258,7 @@ export default {
       dialogFormVisible: false,
       dialogFormVisibleAdd: false,
       dialogFormVisibleMinus: false,
-      formLabelWidth: "120px",
+      formLabelWidth: "140px",
 
       // 分页
       // 总数据
@@ -385,11 +385,11 @@ export default {
           .then((res) => {
             this.butLoading = false
             if (res.data.status == 'Success' && res.data.remark == '') {
-              this.$message({ type: "success", message: "编辑成功" });
+              this.$message({ type: "success", message: "success" });
               this.closeEdit();
               
             } else {
-              this.$message({ type: "error", message: res.data.remark || "编辑失败" });
+              this.$message({ type: "error", message: res.data.remark || "error" });
               this.butLoading = false
             }
             
@@ -400,7 +400,7 @@ export default {
         this.butLoading = false
         this.$message({
           type: "info",
-          message: "流水提成、利润提成和球网利润提成皆为最多7位数整数，限2位小数",
+          message:this.$t('MessageTip.ProfitsTip'),
         });
       }
     },
@@ -425,11 +425,11 @@ export default {
           .then((res) => {
             this.butLoading = false
             if (res.data.status == 'Success' && res.data.remark == '') {
-              this.$message({ type: "success", message: "增加信用成功" });
+              this.$message({ type: "success", message: "success" });
               this.closeAddCredit();
               
             } else {
-              this.$message({ type: "info", message: res.data.remark ||"增加信用失败" });
+              this.$message({ type: "info", message: res.data.remark ||"error" });
             }
             
             
@@ -441,7 +441,7 @@ export default {
         this.butLoading = false
         this.$message({
           type: "info",
-          message: "只能填写最多7位数整数，限2位小数",
+          message:this.$t('MessageTip.CreditLimitTip'),
         });
       }
       
@@ -468,10 +468,10 @@ export default {
           .then((res) => {
             this.butLoading = false
             if (res.data.status == "Success" && res.data.remark == '') {
-              this.$message({ type: "success", message: "降低信用成功" });
+              this.$message({ type: "success", message: "success" });
               this.closeMinusCredit();
             } else {
-              this.$message({ type: "info", message: res.data.remark ||"降低信用失败" });
+              this.$message({ type: "info", message: res.data.remark ||"error" });
             }
             this.butLoading = false
             this.fetchData();
@@ -483,7 +483,7 @@ export default {
         this.butLoading = false
         this.$message({
           type: "info",
-          message: "只能填写最多7位数整数，限2位小数",
+          message:this.$t('MessageTip.CreditLimitTip'),
         });
       }
       

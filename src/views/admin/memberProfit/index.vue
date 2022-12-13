@@ -24,10 +24,10 @@
         </el-select>
       </div>
       <div class="item">
-        <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
+        <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">{{$t('Search')}}</el-button>
       </div>
        <div class="item item1">
-        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
+        <el-input v-model="search" :placeholder="$t('InputTip.SearchKey')" @input="searchTable"> </el-input>
        </div>
       
     </div>
@@ -57,27 +57,26 @@
             :default-sort="{ }"
           >
             <el-table-column
-              label="操作"
+              :label="$t('Operation')"
               align="center"
               prop=""
               sortable
             > 
               <template slot-scope="scope">
-                <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
-                <el-button v-else type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
+                <el-button type="primary" round size="small" @click="changeShow(scope.row)">{{$t('Detail')}}</el-button>
                 
               </template>
               
             </el-table-column>
             <el-table-column
-              label="代理名"
+              :label="$t('AgencyName')"
               align="center"
               prop="agentName"
               sortable
             >
             </el-table-column>
             <el-table-column
-              label="会员名"
+              :label="$t('UserName')"
               align="center"
               prop="userName"
               sortable
@@ -85,7 +84,7 @@
             </el-table-column>
 
             <el-table-column
-              label="流水"
+              :label="$t('Turnover')"
               align="center"
               prop="turnover"
               sortable
@@ -93,7 +92,7 @@
             </el-table-column>
 
             <el-table-column
-              label="流水提成"
+              :label="$t('TurnoverRebate')"
               align="center"
               prop="profitBonus"
               sort-by="profitBonus"
@@ -102,7 +101,7 @@
             </el-table-column>
 
             <el-table-column
-              label="钱包"
+              :label="$t('Wallet')"
               align="center"
               prop="wallet"
               sort-by="wallet"
@@ -110,7 +109,7 @@
             >
             </el-table-column>
             <el-table-column
-              label="积分转移"
+              :label="$t('Transfer')"
               align="center"
               prop="transfer"
               sort-by="transfer"
@@ -118,14 +117,14 @@
             >
             </el-table-column>
             <el-table-column
-              label="输赢"
+              :label="$t('WinLose')"
               align="center"
               prop="winLose"
               sortable
             >
             </el-table-column>
             <el-table-column
-              label="总结"
+              :label="$t('Profit')"
               align="center"
               prop="profit"
               sortable
@@ -134,7 +133,7 @@
             
           </el-table>
           <div class="footer_div">
-            <div>总计</div>
+            <div>{{$t('TotalOf')}}</div>
             <div v-for="(item,index) in countList" :key="index">{{item}}</div>
           </div>
         </div>
@@ -150,7 +149,7 @@
         :total="totalCount">
       </el-pagination>
     </div>
-    <p>**总结 = 输赢 + 流水提成 + 钱包 + 积分转移</p>
+    <p>**{{$t('Profit')}} = {{$t('WinLose')}} + {{$t('TurnoverRebate')}}  + {{$t('Wallet')}}+ {{$t('Transfer')}}</p>
     <!-- 总结明细 -->
     <Detail ref="detail" @changeDetDialog="changeDetDialog" :DetDialog="DetDialog"  :fromDate="searchFrom.fromDate" :toDate="searchFrom.toDate" :DetailFrom="DetailFrom"></Detail>
   </div>

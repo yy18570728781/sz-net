@@ -1,9 +1,9 @@
 <template>
   
-  <el-dialog title="会员总结明细" :visible="DetDialog_" center width="98%"  @close="closeEdit">
+  <el-dialog :title="$t('MemberProfitDetail')" :visible="DetDialog_" center width="98%"  @close="closeEdit">
    <div class="flex">
       <div class="item">
-        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
+        <el-input v-model="search" :placeholder="$t('InputTip.SearchKey')" @input="searchTable"> </el-input>
       </div>
     </div>
     <div class="Pdiv">
@@ -35,24 +35,23 @@
     >
 
       <el-table-column
-        label="游戏 1"
+        :label="$t('GameOne')"
         align="center"
         prop=""
       >
       <el-table-column
-        label="游戏"
+        :label="$t('Game')"
         align="center"
         prop="game"
         sortable
       >
         <template slot-scope="scope">
-          <span v-if="scope.row.game">{{scope.row.game}} </span>
-          <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+          <span>{{scope.row.game}} </span>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="期数"
+        :label="$t('Nper')"
         align="center"
         prop="gameNo"
          sortable
@@ -60,7 +59,7 @@
       </el-table-column>
 
       <el-table-column
-        label="类型"
+        :label="$t('Type')"
         align="center"
         prop="type"
          sortable
@@ -68,21 +67,21 @@
       </el-table-column>
 
       <el-table-column
-        label="下注"
+        :label="$t('Bet')"
         align="center"
         prop="bet"
          sortable
       >
       </el-table-column>
       <el-table-column
-        label="赔率"
+        :label="$t('Odds')"
         align="center"
         prop="odds"
          sortable
       >
       </el-table-column>
       <el-table-column
-        label="结果"
+        :label="$t('Status')"
         align="center"
         prop="status"
          sortable
@@ -90,7 +89,7 @@
       </el-table-column>
 
       <el-table-column
-        label="钱包"
+         :label="$t('Wallet')"
         align="center"
         prop="wallet"
          sortable
@@ -98,7 +97,7 @@
       </el-table-column>
 
       <el-table-column
-        label="流水"
+         :label="$t('Turnover')"
         align="center"
         prop="turnover"
         sort-by="turnover"
@@ -107,7 +106,7 @@
       </el-table-column>
       
       <el-table-column
-        label="输赢"
+        :label="$t('WinLose')"
         align="center"
         prop="winLose"
          sortable
@@ -115,7 +114,7 @@
       </el-table-column>
 
       <el-table-column
-        label="时间"
+        :label="$t('Time')"
         align="center"
         prop="time"
         sort-by="time"
@@ -125,7 +124,7 @@
       </el-table-column>  
         </el-table>
         <div class="footer_div">
-            <div>总计</div>
+            <div>{{$t('TotalOf')}}</div>
             <div v-for="(item,index) in countList" :key="index">{{item}}</div>
           </div>
       </div>
@@ -144,7 +143,7 @@
 
     <div class="flex">
       <div class="item">
-        <el-input v-model="search1" placeholder="输入关键字搜索" @input="searchTable1"> </el-input>
+        <el-input v-model="search1" :placeholder="$t('InputTip.SearchKey')"  @input="searchTable1"> </el-input>
       </div>
     </div>
     <div class="Pdiv">
@@ -176,24 +175,23 @@
     >
 
       <el-table-column
-        label="游戏 2"
+        :label="$t('GameTwo')"
         align="center"
         prop=""
       >
       <el-table-column
-        label="游戏"
+        :label="$t('Game')"
         align="center"
         prop="game"
         sortable
       >
         <template slot-scope="scope">
-          <span v-if="scope.row.time">{{scope.row.game}} </span>
-          <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+          <span>{{scope.row.game}} </span>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="场数"
+        :label="$t('Games')"
         align="center"
         prop="gameNo"
          sortable
@@ -201,14 +199,14 @@
       </el-table-column>
 
       <el-table-column
-        label="类型"
+        :label="$t('Type')"
         align="center"
         prop="type"
          sortable
       >
       </el-table-column>
       <el-table-column
-        label="球队"
+        :label="$t('Team')"
         align="center"
         prop="team"
          sortable
@@ -216,21 +214,21 @@
       </el-table-column>
 
       <el-table-column
-        label="下注"
+        :label="$t('Bet')"
         align="center"
         prop="bet"
          sortable
       >
       </el-table-column>
       <el-table-column
-        label="赔率"
+        :label="$t('Odds')"
         align="center"
         prop="odds"
          sortable
       >
       </el-table-column>
       <el-table-column
-        label="结果"
+        :label="$t('Status')"
         align="center"
         prop="status"
          sortable
@@ -238,7 +236,7 @@
       </el-table-column>
 
       <el-table-column
-        label="流水"
+        :label="$t('Turnover')"
         align="center"
         prop="turnover"
         sort-by="turnover"
@@ -247,7 +245,7 @@
       </el-table-column>
       
       <el-table-column
-        label="输赢"
+        :label="$t('WinLose')"
         align="center"
         prop="winLose"
          sortable
@@ -255,7 +253,7 @@
       </el-table-column>
 
       <el-table-column
-        label="时间"
+        :label="$t('Time')"
         align="center"
         prop="time"
         sort-by="time"
@@ -265,7 +263,7 @@
       </el-table-column>  
     </el-table>
         <div class="footer_div">
-            <div>总计</div>
+            <div>{{$t('TotalOf')}}</div>
             <div v-for="(item,index) in countList1" :key="index">{{item}}</div>
           </div>
       </div>
@@ -284,7 +282,7 @@
 
     <div class="flex">
       <div class="item">
-        <el-input v-model="search2" placeholder="输入关键字搜索" @input="searchTable2"> </el-input>
+        <el-input v-model="search2" :placeholder="$t('InputTip.SearchKey')" @input="searchTable2"> </el-input>
       </div>
     </div>
     <div class="Pdiv">
@@ -310,12 +308,12 @@
     >
 
       <el-table-column
-        label="积分转移"
+        :label="$t('Transfer')"
         align="center"
         prop=""
       >
       <el-table-column
-        label="游戏"
+        :label="$t('Game')"
         align="center"
         prop="game"
         sortable
@@ -326,7 +324,7 @@
       </el-table-column>
 
       <el-table-column
-        label="类型"
+        :label="$t('Type')"
         align="center"
         prop="transferType"
          sortable
@@ -334,7 +332,7 @@
       </el-table-column>
       
       <el-table-column
-        label="积分"
+        :label="$t('Point')"
         align="center"
         prop="point"
          sortable
@@ -342,7 +340,7 @@
       </el-table-column>
 
       <el-table-column
-        label="时间"
+        :label="$t('Time')"
         align="center"
         prop="time"
         sort-by="time"
@@ -352,7 +350,7 @@
       </el-table-column>  
     </el-table>
         <div class="footer_div">
-            <div>总计</div>
+            <div>{{$t('TotalOf')}}</div>
             <div v-for="(item,index) in countList2" :key="index">{{item}}</div>
           </div>
       </div>
@@ -606,7 +604,6 @@ export default {
             data.time.toLowerCase().includes(search1.toLowerCase()) 
 
         )
-        this.currentPage=1
         this.countDeatil1(this.searchList1)
         
       }else{
@@ -678,7 +675,6 @@ export default {
             data.point.toLowerCase().includes(search2.toLowerCase())  
 
         )
-        this.currentPage=1
         this.countDeatil1(this.searchList2)
         
       }else{
@@ -898,6 +894,7 @@ export default {
   }
 }
 @media only screen and (max-width: 1200px) {
+  // .app-container{
     ::v-deep .el-form{
       width: 320px !important;
       margin: 0 !important;
@@ -930,5 +927,7 @@ export default {
       width: 110px;
     }
     
+    
+  // }
 } 
 </style>

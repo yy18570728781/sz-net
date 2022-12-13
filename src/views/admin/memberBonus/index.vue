@@ -14,7 +14,7 @@
       </div>
 
       <div class="item">
-        <el-select  v-model="searchFrom.bonusCode"  placeholder="Please select type "  @change="$forceUpdate()">
+        <el-select  v-model="searchFrom.bonusCode"  :placeholder="$t('InputTip.SelectType')"  @change="$forceUpdate()">
           <el-option
             v-for="item in gameList"  
             :key="item.code"
@@ -24,7 +24,7 @@
         </el-select>
       </div>
       <div class="item">
-        <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
+        <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">{{$t('Search')}}</el-button>
       </div>
 
       <!-- <div class="item item1">

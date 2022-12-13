@@ -3,7 +3,7 @@
     <div class="flex-box">
 
       <div class="item">
-        <el-select class="select" v-model="searchFrom.showDate" placeholder="Please select time" @change="selectChange">
+        <el-select class="select" v-model="searchFrom.showDate" :placeholder="$t('InputTip.SelectTime')" @change="selectChange">
           <el-option
             v-for="item in dataList"
             :key="item.showDate"
@@ -37,24 +37,23 @@
         
        </el-table-column> -->
       <el-table-column
-        label="下线类别"
+        :label="$t('DownlineCategory')"
         align="center"
         prop="downlineCategory"
       >
         <template slot-scope="scope">
-          <span v-if="scope.row.downlineCategory">{{scope.row.downlineCategory}}</span>
-          <span v-else style="font-size: 20px;font-weight: bold;">总计</span>
+          <span>{{scope.row.downlineCategory}}</span>
         </template>
       </el-table-column>
       <el-table-column
-        label="流水"
+        :label="$t('Turnover')"
         align="center"
         prop="turnover"
       >
       </el-table-column>
 
       <el-table-column
-        label="下线提成"
+        :label="$t('DownlineBobus')"
         align="center"
         prop="downlineBobus"
       >
@@ -62,32 +61,32 @@
 
 
       <el-table-column
-        label="我的提成"
+        :label="$t('Bonus')"
         align="center"
         prop="bonus"
       >
       </el-table-column>
       <el-table-column
-        label="钱包"
+        :label="$t('Wallet')"
         align="center"
         prop="wallet"
       >
       </el-table-column>
       <el-table-column
-        label="积分转移"
+        :label="$t('Transfer')"
         align="center"
         prop="transfer"
       >
       </el-table-column>
       <el-table-column
-        label="输赢"
+        :label="$t('WinLose')"
         align="center"
         prop="winLose"
       >
       </el-table-column>
 
       <el-table-column
-        label="我的总结"
+        :label="$t('MyProfit')"
         align="center"
         prop="profit"
       >
@@ -95,13 +94,13 @@
       
         </el-table>
         <div class="footer_div">
-          <div>总计</div>
+          <div>{{$t('TotalOf')}}</div>
           <div v-for="(item,index) in countList" :key="index">{{item}}</div>
         </div>
       </div>
     </div>
     
-    <p>**我的总结 = 下线提成 + 我的提成 + 钱包 + 积分转移 + 输赢</p>
+    <p>**{{$t('MyProfit')}} = {{$t('downlineBobus')}}  + {{$t('Bonus')}} + {{$t('Wallet')}} + {{$t('Transfer')}} + {{$t('WinLose')}}</p>
     <!-- <div class="page">
       <el-pagination 
         @size-change="handleSizeChange" 

@@ -1,9 +1,9 @@
 <template>
   
-  <el-dialog title="总结明细" :visible="DetDialog_" center width="98%"  @close="closeEdit">
+  <el-dialog :title="title" :visible="DetDialog_" center width="98%"  @close="closeEdit">
     <div class="flex">
       <div class="item">
-        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
+        <el-input v-model="search" :placeholder="$t('InputTip.SearchKey')" @input="searchTable"> </el-input>
       </div>
     </div>
     <div class="Pdiv">
@@ -35,24 +35,23 @@
     >
 
       <el-table-column
-        label="会员总结"
+        :label="$t('MemberProfit')"
         align="center"
         sortable
       >
         
         <el-table-column
-          label="会员名"
+          :label="$t('UserName')"
           align="center"
           prop="userName"
           sortable
         >
            <template slot-scope="scope">
-            <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
-            <span v-else>{{scope.row.userName}} </span>
+            <span >{{scope.row.userName}} </span>
           </template>
         </el-table-column>
         <el-table-column
-          label="流水"
+          :label="$t('Turnover')"
           align="center"
           prop="turnover"
           sort-by="turnover"
@@ -62,7 +61,7 @@
 
 
         <el-table-column
-          label="会员提成"
+         :label="$t('MemberCommission')"
           align="center"
           prop="playerProfitBonus"
           sort-by="playerProfitBonus"
@@ -70,7 +69,7 @@
         >
         </el-table-column>
         <el-table-column
-          label="代理流水提成"
+          :label="$t('TurnoverBonus')"
           align="center"
           prop="turnoverBonus"
           sort-by="turnoverBonus"
@@ -78,7 +77,7 @@
         >
         </el-table-column>
         <el-table-column
-          label="代理利润提成"
+          :label="$t('ProfitBonus')"
           align="center"
           prop="profitBonus"
           sort-by="profitBonus"
@@ -87,7 +86,7 @@
         </el-table-column>
 
         <el-table-column
-          label="钱包"
+          :label="$t('Wallet')"
           align="center"
           prop="wallet"
           sort-by="wallet"
@@ -95,7 +94,7 @@
         >
         </el-table-column>
         <el-table-column
-          label="积分转移"
+          :label="$t('Transfer')"
           align="center"
           prop="transfer"
           sort-by="transfer"
@@ -103,7 +102,7 @@
         >
         </el-table-column>
         <el-table-column
-          label="输赢"
+         :label="$t('WinLose')"
           align="center"
           prop="winLose"
           sort-by="winLose"
@@ -111,7 +110,7 @@
         >
         </el-table-column>
         <el-table-column
-          label="玩家总结"
+          :label="$t('PlayerProfit')"
           align="center"
           prop="playerProfit"
           sort-by="playerProfit"
@@ -119,7 +118,7 @@
         >
         </el-table-column>
         <el-table-column
-          label="代理总结"
+          :label="$t('AgencyProfit')"
           align="center"
           prop="profit"
           sort-by="profit"
@@ -131,7 +130,7 @@
         
     </el-table>
         <div class="footer_div">
-            <div>总计</div>
+            <div>{{$t('TotalOf')}}</div>
             <div v-for="(item,index) in countList" :key="index">{{item}}</div>
           </div>
       </div>
@@ -151,7 +150,7 @@
 
     <div class="flex">
       <div class="item">
-        <el-input v-model="search1" placeholder="输入关键字搜索" @input="searchTable1"> </el-input>
+        <el-input v-model="search1" :placeholder="$t('InputTip.SearchKey')" @input="searchTable1"> </el-input>
       </div>
     </div>
     <div class="Pdiv">
@@ -184,23 +183,22 @@
       :default-sort="{  }"
     >
       <el-table-column
-        label="代理总结"
+        :label="$t('AgencyProfit')"
         align="center"
         sortable
       >
       <el-table-column
-        label="代理名"
+        :label="$t('AgencyName')"
         align="center"
         prop="userName"
         sortable
       >
         <template slot-scope="scope">
-          <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
-          <span v-else>{{scope.row.userName}} </span>
+          <span>{{scope.row.userName}} </span>
         </template>
       </el-table-column>
       <el-table-column
-        label="流水"
+        :label="$t('Turnover')"
         align="center"
         prop="turnover"
         sort-by="turnover"
@@ -208,7 +206,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="会员提成"
+        :label="$t('MemberCommission')"
         align="center"
         prop="playerBonus"
         sort-by="playerBonus"
@@ -218,7 +216,7 @@
 
 
       <el-table-column
-        label="代理提成"
+        :label="$t('AgencyCommission')"
         align="center"
         prop=""
         sort-by=""
@@ -226,7 +224,7 @@
       >
 
         <el-table-column
-          label="流水提成"
+          :label="$t('TurnoverRebate')"
           align="center"
           prop="agentTurnoverBonus"
           sort-by="agentTurnoverBonus"
@@ -234,7 +232,7 @@
         >
         </el-table-column>
         <el-table-column
-          label="利润提成"
+          :label="$t('ProfitRebate')"
           align="center"
           prop="agentProfitBonus"
           sort-by="agentProfitBonus"
@@ -244,7 +242,7 @@
 
       </el-table-column>
       <el-table-column
-        label="提成"
+        :label="$t('Commission')"
         align="center"
         prop=""
         sort-by=""
@@ -252,7 +250,7 @@
       >
 
         <el-table-column
-          label="流水提成"
+          :label="$t('TurnoverRebate')"
           align="center"
           prop="turnoverBonus"
           sort-by="turnoverBonus"
@@ -260,7 +258,7 @@
         >
         </el-table-column>
         <el-table-column
-          label="利润提成"
+          :label="$t('ProfitRebate')"
           align="center"
           prop="profitBonus"
           sort-by="profitBonus"
@@ -271,7 +269,7 @@
       </el-table-column>
 
       <el-table-column
-        label="钱包"
+        :label="$t('Wallet')"
         align="center"
         prop="wallet"
         sort-by="wallet"
@@ -279,7 +277,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="积分转移"
+        :label="$t('Transfer')"
         align="center"
         prop="transfer"
         sort-by="transfer"
@@ -287,7 +285,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="输赢"
+        :label="$t('WinLose')"
         align="center"
         prop="winLose"
         sort-by="winLose"
@@ -295,7 +293,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="代理总结"
+        :label="$t('AgencyProfit')"
         align="center"
         prop="agentProfit"
         sort-by="agentProfit"
@@ -303,7 +301,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="总结"
+        :label="$t('Profit')"
         align="center"
         prop="profit"
         sort-by="profit"
@@ -315,7 +313,7 @@
       
     </el-table>
         <div class="footer_div">
-            <div>总计</div>
+            <div>{{$t('TotalOf')}}</div>
             <div v-for="(item,index) in countList1" :key="index">{{item}}</div>
           </div>
       </div>
@@ -354,6 +352,7 @@ export default {
   },
   data() {
     return {
+      title:this.$t('ProfitDetail'),
       search:'',
       search1:'',
       listLoading: false,

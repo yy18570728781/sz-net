@@ -2,14 +2,14 @@
   <div class="pointDetail app-container">
     <div class="flex-box">
       <div class="item">
-        <el-input v-model="searchFrom.userCode" placeholder="请输入会员 ID">
+        <el-input v-model="searchFrom.userCode" :placeholder="$t('InputTip.SearchUsercode')">
           <!-- <el-button slot="append" icon="el-icon-search" @click="getList"
             >搜索</el-button
           > -->
         </el-input>
       </div>
       <div class="item">
-        <el-input v-model="searchFrom.userName" placeholder="请输入会员名">
+        <el-input v-model="searchFrom.userName" :placeholder="$t('InputTip.SearchUserName')">
           <!-- <el-button slot="append" icon="el-icon-search" @click="getList"
             >搜索</el-button
           > -->
@@ -19,7 +19,7 @@
         <el-date-picker
           v-model="searchFrom.fromDate"
           type="datetime"
-          placeholder="选择开始日期时间"
+          :placeholder="$t('InputTip.SelectStart')"
           format="yyyy-MM-dd HH:mm"
           value-format="yyyy-MM-dd HH:mm"
         >
@@ -28,17 +28,17 @@
         <el-date-picker
           v-model="searchFrom.toDate"
           type="datetime"
-          placeholder="选择结束日期时间"
+          :placeholder="$t('InputTip.SelectEnd')"
           format="yyyy-MM-dd HH:mm"
           value-format="yyyy-MM-dd HH:mm"
         >
         </el-date-picker>
       </div>
       <div class="item">
-        <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
+        <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">{{$t('Search')}}</el-button>
       </div>
       <div class="item item1">
-        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
+        <el-input v-model="search" :placeholder="$t('InputTip.SearchKey')" @input="searchTable"> </el-input>
       </div>
     </div>
     <div class="Pdiv">
@@ -65,7 +65,7 @@
           :default-sort="{}"
         >
           <el-table-column
-            label="会员 ID"
+            :label="$t('UserCode')"
             align="center"
             prop="userCode"
             sort-by="userCode"
@@ -73,7 +73,7 @@
           >
           </el-table-column>
           <el-table-column
-            label="会员名"
+            :label="$t('UserName')"
             align="center"
             prop="userName"
             sort-by="userName"
@@ -81,7 +81,7 @@
           >
           </el-table-column>
           <el-table-column
-            label="上下分"
+            :label="$t('UpDownPoints')"
             align="center"
             prop="topup"
             sort-by="topup"
@@ -89,7 +89,7 @@
           >
           </el-table-column>
           <el-table-column
-            label="备注"
+            :label="$t('Note')"
             align="center"
             prop="remarks"
             sort-by="remarks"
@@ -98,7 +98,7 @@
           </el-table-column>
           <el-table-column
             class-name="status-col"
-            label="创建者"
+            :label="$t('CreatedByName')"
             align="center"
             prop="createdByName"
             sort-by="createdByName"
@@ -107,7 +107,7 @@
           </el-table-column>
           <el-table-column
             class-name="status-col"
-            label="时间"
+            :label="$t('Time')"
             align="center"
             prop="createdDate"
             sort-by="createdDate"
@@ -116,7 +116,7 @@
           </el-table-column>
         </el-table>
         <div class="footer_div">
-          <div>总计</div>
+          <div>{{$t('TotalOf')}}</div>
           <div v-for="(item,index) in countList" :key="index">{{item}}</div>
         </div>
       </div>
@@ -330,7 +330,7 @@ export default {
           });
       } else {
         this.butLoading = false
-        this.$message({ type: "info", message: "请选择开始/结束时间" });
+        this.$message({ type: "info", message: "Please select a start/end time" });
       }
     },
   },

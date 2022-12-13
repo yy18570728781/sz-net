@@ -9,7 +9,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">{{$t('loginTitle')}} <lang-select class="set-language"></lang-select></h3>
       </div>
 
       <el-form-item prop="username">
@@ -54,7 +54,7 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >Login</el-button
+        >{{$t('loginButton')}}</el-button
       >
 
       <!-- <div class="tips">
@@ -67,9 +67,11 @@
 
 <script>
 import { validUsername } from "@/utils/validate";
+import LangSelect from '@/components/LangSelect'
 
 export default {
   name: "Login",
+  components:{LangSelect},
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -208,6 +210,10 @@ $cursor: #fff;
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
+.set-language {
+  left: 30px;
+  float: right;
+}
 
 .login-container {
   min-height: 100%;

@@ -9,6 +9,7 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
+      <lang-select class="set-language"></lang-select>
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img src="../../assets/navHeadImg.jpeg" class="user-avatar" />
@@ -16,19 +17,19 @@
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
-            <el-dropdown-item> <span style="display: block;width:100%;text-align:center;">首页</span> </el-dropdown-item>
+            <el-dropdown-item> <span style="display: block;width:100%;text-align:center;">{{$t('Dashboard')}}</span> </el-dropdown-item>
             <!-- home -->
           </router-link>
 
           <template v-if="role == 'admin' || role == 'staff' ">
             <el-dropdown-item  divided @click.native="changePwd" >
-              <span  style="display: block">修改密码</span>
+              <span  style="display: block">{{$t('EditPassword')}}</span>
               <!-- Change Password -->
             </el-dropdown-item>
           </template>
 
           <el-dropdown-item divided @click.native="logout">
-            <span style="display: block;width:100%;text-align:center;">退出</span>
+            <span style="display: block;width:100%;text-align:center;">{{$t('LogOut')}}</span>
             <!-- Log Out -->
           </el-dropdown-item>
 
@@ -46,7 +47,7 @@
     >
       <el-form :model="pwdRow">
         <div class="title-container">
-          <h3 class="title">修改密码</h3>
+          <h3 class="title">{{$t('EditPassword')}}</h3>
         </div>
         <el-form-item >
           <span class="svg-container">
@@ -114,7 +115,7 @@
           type="primary"
           style="width: 100%;"
           @click.native.prevent="editPwd"
-        >确 定</el-button
+        >{{$t('Determine')}}</el-button
       >
         <!-- <el-button type="primary" @click="editPwd">确 定</el-button> -->
       </div>
@@ -129,10 +130,12 @@ import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
 import { removeToken, removeRole } from "@/utils/auth";
 import { UpdatePassword } from "@/api/member";
+import LangSelect from '@/components/LangSelect'
 export default {
   components: {
     Breadcrumb,
     Hamburger,
+    LangSelect,
   },
   computed: {
     ...mapGetters(["sidebar", "avatar"]),
@@ -215,6 +218,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.set-language{
+  width: 50px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
+}
 .navbar {
   height: 50px;
   overflow: hidden;

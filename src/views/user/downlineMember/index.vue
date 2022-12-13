@@ -13,7 +13,7 @@
         </el-select>
       </div>
       <div class="item">
-        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
+        <el-input v-model="search" :placeholder="$t('InputTip.SearchKey')" @input="searchTable"> </el-input>
       </div>
     </div>
     <div class="Pdiv">
@@ -45,20 +45,19 @@
       :default-sort="{   }"
     >
        <el-table-column
-        label="操作"
+        :label="$t('Operation')"
         align="center"
         prop=""
         sortable
         
       > 
         <template slot-scope="scope">
-          <el-button v-if="scope.row.gnuserId" type="primary" round size="small" @click="changeShow(scope.row)">明细</el-button>
-          <span v-else style="font-size:20px;font-weight: bold;">总计</span>
+          <el-button type="primary" round size="small" @click="changeShow(scope.row)">{{$t('Detail')}}</el-button>
         </template>
         
        </el-table-column>
       <el-table-column
-        label="会员名"
+        :label="$t('UserName')"
         align="center"
         prop="userName"
         sortable
@@ -66,7 +65,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="备注名"
+        :label="$t('UserRemark')"
         align="center"
         prop="userRemark"
         sortable
@@ -75,7 +74,7 @@
       </el-table-column>
 
       <el-table-column
-        label="流水"
+        :label="$t('Turnover')"
         align="center"
         prop="turnover"
         sortable
@@ -85,7 +84,7 @@
 
 
       <el-table-column
-        label="会员提成"
+        :label="$t('MemberCommission')"
         align="center"
         prop="playerProfitBonus"
         sortable
@@ -93,7 +92,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="我的流水提成"
+        :label="$t('MyTurnoverBonus')"
         align="center"
         prop="turnoverBonus"
         sort-by="turnoverBonus"
@@ -102,7 +101,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="我的利润提成"
+        :label="$t('MyProfitBonus')"
         align="center"
         prop="profitBonus"
         sort-by="profitBonus"
@@ -112,7 +111,7 @@
       </el-table-column>
 
       <el-table-column
-        label="钱包"
+        :label="$t('Wallet')"
         align="center"
         prop="wallet"
         sort-by="wallet"
@@ -121,7 +120,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="积分转移"
+        :label="$t('Transfer')"
         align="center"
         prop="transfer"
         sort-by="transfer"
@@ -130,7 +129,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="输赢"
+        :label="$t('WinLose')"
         align="center"
         prop="winLose"
         sortable
@@ -138,7 +137,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="会员总结"
+        :label="$t('MemberProfit')"
         align="center"
         prop="playerProfit"
         sortable
@@ -146,7 +145,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="我的总结"
+        :label="$t('MyProfit')"
         align="center"
         prop="profit"
         sortable
@@ -156,7 +155,7 @@
       
     </el-table>
           <div class="footer_div">
-            <div>总计</div>
+            <div>{{$t('TotalOf')}}</div>
             <div v-for="(item,index) in countList" :key="index">{{item}}</div>
           </div>
         </div>
@@ -173,8 +172,8 @@
       </el-pagination>
     </div>
     <div>
-      <p>**会员总结 = 输赢 + 会员提成 + 钱包 + 积分转移</p>
-      <p>**我的总结 = 玩家总结 + 我的流水提成 + 我的利润提成</p>
+      <p>**{{$t('MemberProfit')}} = {{$t('WinLose')}} + {{$t('MemberCommission')}} + {{$t('Wallet')}} + {{$t('Transfer')}}</p>
+      <p>**{{$t('MyProfit')}} = {{$t('PlayerProfit')}} + {{$t('MyTurnoverBonus')}} + {{$t('MyProfitBonus')}}</p>
     </div>
     <!-- 总结明细 -->
     <Detail ref="detail" @changeDetDialog="changeDetDialog" :DetDialog="DetDialog"  :fromDate="searchFrom.fromDate" :toDate="searchFrom.toDate" :DetailFrom="DetailFrom"></Detail>

@@ -19,6 +19,8 @@ const getters = {
   name: state => state.user.name,
   role: state => state.user.role, //加上这个
   permission_routes: state => state.permission.routes, //别漏了这个哦
-  init: state => state.user.init //加上这个
+  init: state => state.user.init, //加上这个,
+  size: state => state.app.size,
+  language: state => state.app.language,
 }
 export default getters

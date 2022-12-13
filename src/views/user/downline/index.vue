@@ -2,7 +2,7 @@
   <div class="downline app-container">
     <div class="flex-box">
       <div class="item">
-        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
+        <el-input v-model="search" :placeholder="$t('InputTip.SearchKey')" @input="searchTable"> </el-input>
       </div>
     </div>
     <el-table
@@ -30,7 +30,7 @@
       :default-sort="{   }"
     >
       <el-table-column
-        label="下线 ID"
+        :label="$t('DownLineID')"
         align="center"
         prop="userCode"
         sort-by="userCode"
@@ -39,7 +39,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="下线名"
+        :label="$t('DownLineName')"
         align="center"
         prop="userName"
         sort-by="userName"
@@ -48,7 +48,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="备注名"
+        :label="$t('UserRemark')"
         align="center"
         prop="userRemark"
         sort-by="userRemark"
@@ -60,7 +60,7 @@
       
       <el-table-column
         class-name="status-col"
-        label="信用额度"
+        :label="$t('CreditLimit')"
         align="center"
         prop="creditLimit"
         sort-by="creditLimit"
@@ -69,7 +69,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="球网流水提成%"
+        :label="$t('TurnoverRebateFb')"
         align="center"
         prop="turnoverRebateFb"
         sort-by="turnoverRebateFb"
@@ -80,7 +80,7 @@
       
       <el-table-column
         class-name="status-col"
-        label="流水提成%"
+        :label="$t('TurnoverRebate')"
         align="center"
         prop="turnoverRebate"
         sort-by="turnoverRebate"
@@ -90,7 +90,7 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="利润提成%"
+        :label="$t('ProfitRebate')"
         align="center"
         prop="profitRebate"
         sort-by="profitRebate"
@@ -108,7 +108,7 @@
       >
       </el-table-column> -->
       <el-table-column
-        label="代理网登录"
+        :label="$t('ProxyLogin')"
         align="center"
         prop="loginInd"
         sort-by="loginInd"
@@ -118,7 +118,7 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="操作"
+        :label="$t('Operation')"
         
         fixed="right"
       >
@@ -155,50 +155,50 @@
     </div>
 
     <!-- 更多信息 -->
-    <el-dialog title="上下分/加减信用额度" :visible.sync="dialogMoreVisible" width="40%">
+    <el-dialog :title="$t('UpDownTitle')" :visible.sync="dialogMoreVisible" width="40%">
       <el-form label-position="left" label-width="120px">
 
-        <el-form-item label="下线名:">
+        <el-form-item :label="$t('DownLineName')">
           <el-input v-model="userName" disabled></el-input>
         </el-form-item>
 
-        <el-form-item label="当前会员积分:">
+        <el-form-item :label="$t('CurrentPoints')">
           <el-input v-model="nowPoint" disabled></el-input>
         </el-form-item>
 
-        <el-form-item label="上分:">
+        <el-form-item :label="$t('UpPoints')">
           <el-input v-model="addPoint" maxlength="11" :disabled="userInfo.cashInd !== 'N'">
             <el-button slot="append" type="primary" @click="topupPoint"
-              >确定</el-button
+              >{{$t('Determine')}}</el-button
             >
           </el-input>
         </el-form-item>
 
-        <el-form-item label="下分:">
+        <el-form-item :label="$t('DownPoints')">
           <el-input v-model="minusPoint" maxlength="11" :disabled="userInfo.cashInd !== 'N'">
             <el-button slot="append" type="primary" @click="withdrawPoint"
-              >确定</el-button
+              >{{$t('Determine')}}</el-button
             >
           </el-input>
         </el-form-item>
 
-        <el-form-item label="当前信用额度:">
+        <el-form-item :label="$t('NowCreditLimit')">
           <el-input v-model=" nowCredit" maxlength="11" disabled>
           </el-input>
         </el-form-item>
 
-        <el-form-item label="加信用额度:">
+        <el-form-item :label="$t('AddCreditLimit')">
           <el-input v-model="addCreditValue" maxlength="11" :disabled="userInfo.cashInd !== 'N'">
             <el-button slot="append" type="primary" @click="addCredit"
-              >确定</el-button
+              >{{$t('Determine')}}</el-button
             >
           </el-input>
         </el-form-item>
 
-        <el-form-item label="减信用额度:">
+        <el-form-item :label="$t('ReductionCreditLimit')">
           <el-input v-model="minusCreditValue" maxlength="11" :disabled="userInfo.cashInd !== 'N'">
             <el-button slot="append" type="primary" @click="minusCredit"
-              >确定</el-button
+              >{{$t('Determine')}}</el-button
             >
           </el-input>
         </el-form-item>
@@ -206,20 +206,20 @@
     </el-dialog>
     <!-- 修改 -->
     <el-dialog
-      title="修改"
+      :title="$t('Edit')"
       :visible.sync="dialogEditVisible"
       @close="closeEdit"
       width="40%"
     >
       <el-form :model="currentDown">
-        <el-form-item label="备注名" :label-width="formLabelWidth">
+        <el-form-item :label="$t('UserRemark')" :label-width="formLabelWidth">
           <el-input
             v-model="currentDown.userRemark"
             autocomplete="off"
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="流水提成 %" :label-width="formLabelWidth">
+        <el-form-item :label="$t('TurnoverRebate')" :label-width="formLabelWidth">
           <!-- /^\d+\.?\d{0,2}%$/ -->
           <!-- /^([0-9]{1,2}$)|(^[0-9]{1,2}\.[0-9]{1,2}$)|100$/ -->
           <el-input
@@ -228,19 +228,19 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="利润提成 %" :label-width="formLabelWidth">
+        <el-form-item :label="$t('ProfitRebate')" :label-width="formLabelWidth">
           <el-input
             v-model="currentDown.profitRebate"
             autocomplete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item label="球网流水佣金 %" :label-width="formLabelWidth">
+        <el-form-item :label="$t('TurnoverRebateFbb')" :label-width="formLabelWidth">
           <el-input
             v-model="currentDown.turnoverRebateFb"
             autocomplete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item label="代理网登录" :label-width="formLabelWidth">
+        <el-form-item :label="$t('ProxyLogin')" :label-width="formLabelWidth">
           <template>
             <el-radio v-model="currentDown.loginInd" label="Yes">Yes</el-radio>
             <el-radio v-model="currentDown.loginInd" label="No">No</el-radio>
@@ -249,8 +249,8 @@
         
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="closeEdit">取 消</el-button>
-        <el-button type="primary" @click="editRebate">确 定</el-button>
+        <el-button @click="closeEdit">{{$t('Cancel')}}</el-button>
+        <el-button type="primary" @click="editRebate">{{$t('Determine')}}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -435,7 +435,7 @@ export default {
       } else {
         this.$message({
           type: "info",
-          message: "流水提成、球网流水佣金与利润提成皆为0到100之间最多允许包含2位小数",
+          message: this.$t('MessageTip.CommissionTip'),
         });
       }
     },
@@ -470,7 +470,7 @@ export default {
       }else{
         this.$message({
           type: "info",
-          message: "最多七位数,允许包含2位小数",
+          message: this.$t('MessageTip.CreditLimitTip'),
         });
       }
       
@@ -501,7 +501,7 @@ export default {
       }else{
         this.$message({
           type: "info",
-          message: "最多七位数,允许包含2位小数",
+          message: this.$t('MessageTip.CreditLimitTip'),
         });
       }
       
@@ -532,7 +532,7 @@ export default {
       }else{
         this.$message({
           type: "info",
-          message: "最多七位数,允许包含2位小数",
+          message: this.$t('MessageTip.CreditLimitTip'),
         });
       }
       
@@ -564,7 +564,7 @@ export default {
       }else{
         this.$message({
           type: "info",
-          message: "最多七位数,允许包含2位小数",
+          message: this.$t('MessageTip.CreditLimitTip'),
         });
       }
       

@@ -3,7 +3,7 @@
     <div class="flex-box">
 
       <div class="item">
-        <el-select class="select" v-model="searchFrom.showDate" placeholder="Please select time" @change="selectChange">
+        <el-select class="select" v-model="searchFrom.showDate" :placeholder="$t('SelectTime')" @change="selectChange">
           <el-option
             v-for="item in dataList"
             :key="item.showDate"
@@ -14,7 +14,7 @@
       </div>
 
       <div class="item">
-        <el-select  v-model="searchFrom.gameCode"  placeholder="Please select type "  @change="$forceUpdate()">
+        <el-select  v-model="searchFrom.gameCode"  :placeholder="$t('SelectType')"  @change="$forceUpdate()">
           <el-option
             v-for="item in gameList"  
             :key="item.code"
@@ -24,11 +24,11 @@
         </el-select>
       </div>
       <div class="item">
-        <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">搜索</el-button>
+        <el-button type="primary" @click="getList" v-loading.fullscreen.lock="butLoading">{{$t('Search')}}</el-button>
       </div>
 
       <div class="item item1">
-        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
+        <el-input v-model="search" :placeholder="$t('InputTip.SearchKey')" @input="searchTable"> </el-input>
       </div>
       
     </div>
@@ -55,18 +55,17 @@
           :default-sort="{ }"
         >
           <el-table-column
-            label="会员ID"
+            :label="$t('UserCode')"
             align="center"
             prop="userCode"
             sortable
           >
             <template slot-scope="scope">
-              <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
-              <span v-else>{{scope.row.userCode}} </span>
+              <span>{{scope.row.userCode}} </span>
             </template>
           </el-table-column>
           <el-table-column
-            label="会员名 "
+            :label="$t('UserName')"
             align="center"
             prop="userName"
             sort-by="userName"
@@ -74,7 +73,7 @@
           >
           </el-table-column>
           <el-table-column
-            label="积分"
+            :label="$t('Point')"
             align="center"
             prop="point"
             sortable
@@ -82,7 +81,7 @@
           </el-table-column>
 
           <el-table-column
-            label="备注"
+            :label="$t('Note')"
             align="center"
             prop="remarks"
             sortable
@@ -90,7 +89,7 @@
           </el-table-column>
 
           <el-table-column
-            label="时间"
+            :label="$t('Time')"
             align="center"
             prop="createdDate"
             sortable
@@ -99,7 +98,7 @@
           
         </el-table>
         <div class="footer_div">
-          <div>总计</div>
+          <div>{{$t('TotalOf')}}</div>
           <div v-for="(item,index) in countList" :key="index">{{item}}</div>
         </div>
       </div>

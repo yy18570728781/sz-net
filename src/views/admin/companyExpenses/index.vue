@@ -3,7 +3,7 @@
     <div class="flex-box">
 
       <div class="item">
-        <el-select class="select" v-model="searchFrom.showDate" placeholder="Please select time" @change="selectChange">
+        <el-select class="select" v-model="searchFrom.showDate" :placeholder="$t('InputTip.SelectTime')" @change="selectChange">
           <el-option
             v-for="item in dataList"
             :key="item.showDate"
@@ -24,11 +24,11 @@
         </el-select>
       </div> -->
       <div class="item">
-        <el-button type="primary" @click="addCom" >添加</el-button>
+        <el-button type="primary" @click="addCom" >{{$t('Add')}}</el-button>
       </div>
 
       <div class="item item1">
-        <el-input v-model="search" placeholder="输入关键字搜索"
+        <el-input v-model="search" :placeholder="$t('InputTip.SearchKey')"
         @input="searchTable"> </el-input>
       </div>
       
@@ -55,18 +55,17 @@
         :default-sort="{ }"
       >
         <el-table-column
-          label="备注"
+          :label="$t('Note')"
           align="center"
           prop="note"
           sortable
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.tag" style="font-size:20px;font-weight: bold;">总计</span>
-            <span v-else>{{scope.row.note}} </span>
+            <span>{{scope.row.note}} </span>
           </template>
         </el-table-column>
         <el-table-column
-          label="金额 "
+          :label="$t('Amount')"
           align="center"
           prop="amount"
           sort-by="amount"
@@ -75,7 +74,7 @@
         </el-table-column>
 
         <el-table-column
-          label="时间"
+          :label="$t('Time')"
           align="center"
           prop="createdDate"
           sortable
@@ -83,7 +82,7 @@
         </el-table-column>
 
         <el-table-column
-          label="操作"
+          :label="$t('Operation')"
           align="center"
           prop=""
           sortable
@@ -103,7 +102,7 @@
         
       </el-table>
           <div class="footer_div">
-            <div>总计</div>
+            <div>{{$t('TotalOf')}}</div>
             <div v-for="(item,index) in countList" :key="index">{{item}}</div>
           </div>
         </div>
@@ -115,7 +114,7 @@
       width="40%"
     >
       <el-form :model="searchFrom">
-        <el-form-item label="备注" label-width="120px">
+        <el-form-item :label="$t('Note')" label-width="120px">
           <el-input
             v-model="searchFrom.note"
             type="textarea"
@@ -124,7 +123,7 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="金额" label-width="120px">
+        <el-form-item :label="$t('Amount')" label-width="120px">
           <el-input
             v-model="searchFrom.amount"
             autocomplete="off"
@@ -134,7 +133,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <!-- <el-button @click="closeEdit">取 消</el-button> -->
-        <el-button type="primary" @click="Rebate" v-loading.fullscreen.lock="butLoading">确 定</el-button>
+        <el-button type="primary" @click="Rebate" v-loading.fullscreen.lock="butLoading">{{$t('Determine')}}</el-button>
       </div>
     </el-dialog>
     </div>
@@ -214,7 +213,7 @@ export default {
   },
   methods: {
     addCom(){
-      this.companyTitle = '新增'
+      this.companyTitle = this.$t('Add')
       this.searchFrom.note = ''
       this.searchFrom.amount = ''
       this.dialogComVisible  = true
@@ -243,16 +242,17 @@ export default {
       }else{
         this.$message({
           type: "info",
-          message: "备注必填最多500 字节，金额最多七位数,允许包含2位小数",
+          message: this.$t('MessageTip.NoteTip'),
         });
       }
     },
 
     // 删除费用
     delCompany(row){
-      this.$confirm('确认删除吗', '删除确认', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      let _this = this
+      this.$confirm(_this.$t('MessageTip.ConfirmationDelete'),_this.$t('MessageTip.DeleteConfirmation'), {
+        confirmButtonText: _this.$t('Determine'),
+        cancelButtonText: _this.$t('Cancel'),
         type: 'warning'
       }).then(() => {
         deleteCompanyExpenses({expensestxnId:row.expensestxnId}).then(res=>{

@@ -2,7 +2,7 @@
   <div class="robot app-container">
     <div class="flex-box">
       <div class="item">
-        <el-input v-model="search" placeholder="输入关键字搜索" @input="searchTable"> </el-input>
+        <el-input v-model="search" :placeholder="$t('SearchKey')" @input="searchTable"> </el-input>
       </div>
     </div>
     <el-table
@@ -25,7 +25,7 @@
       @sort-change="pointSort"
     >
       <el-table-column
-        label="机器人 ID"
+        :label="$t('RobotID')"
         align="center"
         fixed="left"
         sortable
@@ -34,7 +34,7 @@
       >
       </el-table-column>
       <el-table-column
-        label="机器人名"
+        :label="$t('RobotName')"
         align="center"
         sortable
         prop="userName"
@@ -43,7 +43,7 @@
       </el-table-column>
       <el-table-column
         class-name="status-col"
-        label="积分"
+        :label="$t('Point')"
         align="center"
         prop="point"
         sort-by="point"
@@ -52,7 +52,7 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="操作"
+        :label="$t('Operation')"
         
         fixed="right"
       >
@@ -83,29 +83,29 @@
     </div>
 
     <!-- 更多信息 -->
-    <el-dialog title="上下分" :visible.sync="dialogMoreVisible" width="40%" @close="closeEdit">
-      <el-form label-position="left" label-width="120px">
+    <el-dialog :title="$t('UpDownPoints')" :visible.sync="dialogMoreVisible" width="40%" @close="closeEdit">
+      <el-form label-position="left" label-width="110px">
 
-        <el-form-item label="下线名:">
+        <el-form-item :label="$t('DownLineName')">
           <el-input v-model="userName" disabled></el-input>
         </el-form-item>
 
-        <el-form-item label="当前会员积分:">
+        <el-form-item :label="$t('CurrentPoints')">
           <el-input v-model="nowPoint" disabled></el-input>
         </el-form-item>
 
-        <el-form-item label="上分:">
+        <el-form-item :label="$t('UpPoints')">
           <el-input v-model="addPoint" maxlength="11" :disabled="userInfo.cashInd !== 'N'">
             <el-button slot="append" type="primary" @click="topupPoint"
-              >确定</el-button
+              >{{$t('Determine')}}</el-button
             >
           </el-input>
         </el-form-item>
 
-        <el-form-item label="下分:">
+        <el-form-item :label="$t('DownPoints')">
           <el-input v-model="minusPoint" maxlength="11" :disabled="userInfo.cashInd !== 'N'">
             <el-button slot="append" type="primary" @click="withdrawPoint"
-              >确定</el-button
+              >{{$t('Determine')}}</el-button
             >
           </el-input>
         </el-form-item>
@@ -398,7 +398,7 @@ export default {
       width: 320px !important;
       margin: 0 !important;
       .el-button{
-      
+        margin: -10px -30px;
       }
     }
     ::v-deep .el-dialog{

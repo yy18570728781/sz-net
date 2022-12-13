@@ -5,7 +5,11 @@ const state = {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     withoutAnimation: false
   },
-  device: 'desktop'
+  device: 'desktop',
+  size: Cookies.get('size') || 'medium',
+
+  // set locale 设置默认初始化的语言 i18n
+  language: Cookies.get('language') || 'zh'
 }
 
 const mutations = {
@@ -25,6 +29,15 @@ const mutations = {
   },
   TOGGLE_DEVICE: (state, device) => {
     state.device = device
+  },
+  SET_SIZE: (state, size) => {
+    state.size = size
+    Cookies.set('size', size)
+  },
+
+  SET_LANGUAGE: (state, language) => {
+    state.language = language
+    Cookies.set('language', language)
   }
 }
 
@@ -37,6 +50,12 @@ const actions = {
   },
   toggleDevice({ commit }, device) {
     commit('TOGGLE_DEVICE', device)
+  },
+  setSize({ commit }, size) {
+    commit('SET_SIZE', size)
+  },
+  setLanguage({ commit }, language) {
+    commit('SET_LANGUAGE', language)
   }
 }
 

@@ -1,8 +1,64 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Cookies from 'js-cookie' 
 Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
+
+// let lang = localStorage.getItem('language') || 'zh'
+let lang = Cookies.get('language') || 'zh'
+let routesName = {} 
+if(lang == 'zh'){
+    routesName = {
+      Dashboard: "首页",
+      Member: "会员",
+      SeniorMember: "高级会员",
+      Robot: "机器人",
+      CompanyProfit: "公司利润",
+      AgentProfit: "代理总结",
+      MemberProfit: "会员总结",
+      Game: "游戏",
+      TopupWithdraw: "上下分明细",
+      PointTransfer: "积分转移明细",
+      CreditLimit: "信用额度明细",
+      MemberBonus: "会员奖励",
+      CompanyExpenses: "公司费用",
+      MyProfile: "我的信息",
+      MyProfit: "我的总结",
+      DownlineAgent: "下线代理总结",
+      DownlineMember: "下线会员总结",
+      Downline: "下线",
+      TopupWithdraw: "上下分明细",
+      PointTransfer: "积分转移明细",
+      CreditLimit: "信用额度明细",
+   }
+}
+if(lang == 'en'){
+    routesName = {
+      Dashboard: "Dashboard",
+      Member: "Member",
+      SeniorMember: "SeniorMember",
+      Robot: "Robot",
+      CompanyProfit: "CompanyProfit",
+      AgentProfit: "AgentProfit",
+      MemberProfit: "MemberProfit",
+      Game: "Game",
+      TopupWithdraw: "TopupWithdraw",
+      PointTransfer: "PointTransfer",
+      CreditLimit: "CreditLimit",
+      MemberBonus: "MemberBonus",
+      CompanyExpenses: "CompanyExpenses",
+      MyProfile: "MyProfile",
+      MyProfit: "MyProfit",
+      DownlineAgent: "DownlineAgent",
+      DownlineMember: "DownlineMember",
+      Downline: "Downline",
+      TopupWithdraw: "TopupWithdraw",
+      PointTransfer: "PointTransfer",
+      CreditLimit: "CreditLimit",
+
+   }
+}
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -43,7 +99,8 @@ export const constantRoutes = [
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: {
-        title: '首页',
+        // title: '首页',
+        title: routesName.Dashboard,
         icon: 'dashboard',
       }
     }]
@@ -68,9 +125,9 @@ export const asyncRoutes = [
       name: 'member',
       component: () => import('@/views/admin/member/index'),
       meta: {
-        title: '会员',
+        title: routesName.Member,
         icon: 'hy',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -88,9 +145,10 @@ export const asyncRoutes = [
         name: 'seniorMemberList',
         component: () => import('@/views/admin/seniorMember/index'),
         meta: {
-          title: '高级会员',
+          // title: '高级会员',
+          title:routesName.SeniorMember,
           icon: 'suser',
-          roles: ["admin", "staff",]
+          roles: ["admin", "staff","user"]
         }
       },
 
@@ -104,9 +162,10 @@ export const asyncRoutes = [
       name: 'robot',
       component: () => import('@/views/admin/robot/index'),
       meta: {
-        title: '机器人',
+        // title: '机器人',
+        title:routesName.Robot,
         icon: 'credit',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -118,9 +177,10 @@ export const asyncRoutes = [
       name: 'companyProfit',
       component: () => import('@/views/admin/companyProfit/index'),
       meta: {
-        title: '公司利润',
+        // title: '公司利润',
+        title:routesName.CompanyProfit,
         icon: 'companyProfit',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -132,9 +192,10 @@ export const asyncRoutes = [
       name: 'seniorMemberProfit',
       component: () => import('@/views/admin/seniorMemberProfit/index'),
       meta: {
-        title: '代理总结',
+        // title: '代理总结',
+        title:routesName.AgentProfit,
         icon: 'zj',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -146,9 +207,10 @@ export const asyncRoutes = [
       name: 'memberProfit',
       component: () => import('@/views/admin/memberProfit/index'),
       meta: {
-        title: '会员总结',
+        // title: '会员总结',
+        title:routesName.MemberProfit,
         icon: 'zj',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -160,9 +222,10 @@ export const asyncRoutes = [
       name: 'game',
       component: () => import('@/views/admin/game/index'),
       meta: {
-        title: '游戏',
+        // title: '游戏',
+        title:routesName.Game,
         icon: 'game',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -176,9 +239,10 @@ export const asyncRoutes = [
       name: 'adminPointDetail',
       component: () => import('@/views/admin/pointDetail/index'),
       meta: {
-        title: '上下分明细',
+        // title: '上下分明细',
+        title:routesName.TopupWithdraw,
         icon: 'point',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -190,9 +254,10 @@ export const asyncRoutes = [
       name: 'pointTransferDetail',
       component: () => import('@/views/admin/pointTransferDetail/index'),
       meta: {
-        title: '积分转移明细',
+        // title: '积分转移明细',
+        title:routesName.PointTransfer,
         icon: 'pointTransferDetail',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -204,9 +269,10 @@ export const asyncRoutes = [
       name: 'adminCreditDetail',
       component: () => import('@/views/admin/creditDetail/index'),
       meta: {
-        title: '信用额度明细',
+        // title: '信用额度明细',
+        title:routesName.CreditLimit,
         icon: 'credit',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -223,9 +289,10 @@ export const asyncRoutes = [
       name: 'memberBonus',
       component: () => import('@/views/admin/memberBonus/index'),
       meta: {
-        title: '会员奖励',
+        // title: '会员奖励',
+        title:routesName.MemberBonus,
         icon: 'memberBonus',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -237,9 +304,10 @@ export const asyncRoutes = [
       name: 'companyExpenses',
       component: () => import('@/views/admin/companyExpenses/index'),
       meta: {
-        title: '公司费用',
+        // title: '公司费用',
+        title:routesName.CompanyExpenses,
         icon: 'companyExpenses',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -252,7 +320,8 @@ export const asyncRoutes = [
       name: 'profile',
       component: () => import('@/views/user/profile/index'),
       meta: {
-        title: '我的信息',
+        // title: '我的信息',
+        title:routesName.MyProfile,
         icon: 'user',
         roles: ["user",]
       }
@@ -266,7 +335,8 @@ export const asyncRoutes = [
       name: 'home',
       component: () => import('@/views/user/home/index'),
       meta: {
-        title: '我的总结',
+        // title: '我的总结',
+        title:routesName.MyProfit,
         icon: 'home',
         roles: ["user",]
       }
@@ -280,7 +350,8 @@ export const asyncRoutes = [
       name: 'downlineAgent',
       component: () => import('@/views/user/downlineAgent/index'),
       meta: {
-        title: '下线代理总结',
+        // title: '下线代理总结',
+        title:routesName.DownlineAgent,
         icon: 'zj',
         roles: ["user",]
       }
@@ -294,7 +365,8 @@ export const asyncRoutes = [
       name: 'downlineMember',
       component: () => import('@/views/user/downlineMember/index'),
       meta: {
-        title: '下线会员总结',
+        // title: '下线会员总结',
+        title:routesName.DownlineMember,
         icon: 'zj',
         roles: ["user",]
       }
@@ -308,7 +380,8 @@ export const asyncRoutes = [
       name: 'downline',
       component: () => import('@/views/user/downline/index'),
       meta: {
-        title: '下线',
+        // title: '下线',
+        title:routesName.Downline,
         icon: 'downline',
         roles: ["user",]
       }
@@ -322,7 +395,8 @@ export const asyncRoutes = [
       name: 'userPointDetail',
       component: () => import('@/views/user/pointDetail/index'),
       meta: {
-        title: '上下分明细',
+        // title: '上下分明细',
+        title:routesName.TopupWithdraw,
         icon: 'point',
         roles: ["user",]
       }
@@ -336,7 +410,8 @@ export const asyncRoutes = [
       name: 'pointTransferDetail',
       component: () => import('@/views/user/pointTransferDetail/index'),
       meta: {
-        title: '积分转移明细',
+        // title: '积分转移明细',
+        title:routesName.PointTransfer,
         icon: 'pointTransferDetail',
         roles: ["user"]
       }
@@ -350,7 +425,8 @@ export const asyncRoutes = [
       name: 'userCreditDetail',
       component: () => import('@/views/user/creditDetail/index'),
       meta: {
-        title: '信用额度明细',
+        // title: '信用额度明细',
+        title:routesName.CreditLimit,
         icon: 'credit',
         roles: ["user",]
       }

@@ -5,6 +5,7 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
+// import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 
 import '@/styles/index.scss' // global css
 
@@ -15,6 +16,15 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import i18n from "@/lang/index";
+import Cookies from 'js-cookie'
+
+
+
+Vue.use(ElementUI, {
+  size: 'medium', // set element-ui default size设置元素默认大小
+  i18n: (key, value) => i18n.t(key, value)// 在注册Element时设置i18n的处理方法
+})
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -29,14 +39,19 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // set ElementUI lang to EN
-Vue.use(ElementUI, { locale })
+// Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
+
+
+
+
 
 Vue.config.productionTip = false
 
 new Vue({
   el: '#app',
+  i18n,
   router,
   store,
   render: h => h(App)

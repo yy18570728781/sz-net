@@ -4,31 +4,31 @@
       <el-form-item label="ID:">
         <el-input v-model="userInfo.userCode" disabled></el-input>
       </el-form-item>
-      <el-form-item label="名字:">
+      <el-form-item :label="$t('Name')">
         <el-input v-model="userInfo.userName" disabled></el-input>
       </el-form-item>
       <!-- <el-form-item label="邀请码:">
         <el-input v-model="userInfo.inviteCode" disabled></el-input>
       </el-form-item> -->
-      <el-form-item label="信用额度:">
+      <el-form-item :label="$t('CreditLimit')">
         <el-input v-model="userInfo.creditLimit" disabled></el-input>
       </el-form-item>
-      <el-form-item label="球网流水提成 %">
+      <el-form-item :label="$t('TurnoverRebateFb')">
         <el-input v-model="userInfo.turnoverRebateFb" disabled></el-input>
       </el-form-item>
-      <el-form-item label="流水提成 %:">
+      <el-form-item :label="$t('TurnoverRebate')">
         <el-input v-model="userInfo.turnoverRebate" disabled></el-input>
       </el-form-item>
-      <el-form-item label="利润提成 %:">
+      <el-form-item :label="$t('ProfitRebate')">
         <el-input v-model="userInfo.profitRebate" disabled></el-input>
       </el-form-item>
-      <el-form-item label="类别:">
+      <el-form-item :label="$t('userCategory')">
         <el-input v-model="userInfo.userCategory" disabled></el-input>
       </el-form-item>
-      <el-form-item label="类型:">
+      <el-form-item :label="$t('userType')">
         <el-input v-model="userInfo.userType" disabled></el-input>
       </el-form-item>
-      <el-form-item label="上线名:">
+      <el-form-item :label="$t('UplineUserName')">
         <el-input v-model="userInfo.uplineUserName" disabled></el-input>
       </el-form-item>
     </el-form>
