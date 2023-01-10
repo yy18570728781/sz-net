@@ -29,34 +29,29 @@ if(lang == 'zh'){
       DownlineMember: "下线会员总结",
       Downline: "下线",
       TopupWithdraw: "上下分明细",
-      PointTransfer: "积分转移明细",
-      CreditLimit: "信用额度明细",
    }
 }
 if(lang == 'en'){
     routesName = {
       Dashboard: "Dashboard",
       Member: "Member",
-      SeniorMember: "SeniorMember",
+      SeniorMember: "Senior Member",
       Robot: "Robot",
-      CompanyProfit: "CompanyProfit",
-      AgentProfit: "AgentProfit",
-      MemberProfit: "MemberProfit",
+      CompanyProfit: "Company Profit",
+      AgentProfit: "Agent Profit",
+      MemberProfit: "Member Profit",
       Game: "Game",
-      TopupWithdraw: "TopupWithdraw",
-      PointTransfer: "PointTransfer",
-      CreditLimit: "CreditLimit",
-      MemberBonus: "MemberBonus",
-      CompanyExpenses: "CompanyExpenses",
-      MyProfile: "MyProfile",
-      MyProfit: "MyProfit",
-      DownlineAgent: "DownlineAgent",
-      DownlineMember: "DownlineMember",
+      TopupWithdraw: "Point Details",
+      PointTransfer: "Transfer Details",
+      CreditLimit: "Credit Details",
+      MemberBonus: "Member Bonus",
+      CompanyExpenses: "Company Expenses",
+      MyProfile: "My Profile",
+      MyProfit: "My Profit",
+      DownlineAgent: "Downline Agent",
+      DownlineMember: "Downline Member",
       Downline: "Downline",
-      TopupWithdraw: "TopupWithdraw",
-      PointTransfer: "PointTransfer",
-      CreditLimit: "CreditLimit",
-
+      // TopupWithdraw: "Topup Withdraw",
    }
 }
 
@@ -127,7 +122,7 @@ export const asyncRoutes = [
       meta: {
         title: routesName.Member,
         icon: 'hy',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -148,7 +143,7 @@ export const asyncRoutes = [
           // title: '高级会员',
           title:routesName.SeniorMember,
           icon: 'suser',
-          roles: ["admin", "staff",]
+          roles: ["admin", "staff","user"]
         }
       },
 
@@ -165,7 +160,7 @@ export const asyncRoutes = [
         // title: '机器人',
         title:routesName.Robot,
         icon: 'credit',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -180,7 +175,7 @@ export const asyncRoutes = [
         // title: '公司利润',
         title:routesName.CompanyProfit,
         icon: 'companyProfit',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -195,7 +190,7 @@ export const asyncRoutes = [
         // title: '代理总结',
         title:routesName.AgentProfit,
         icon: 'zj',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -210,7 +205,7 @@ export const asyncRoutes = [
         // title: '会员总结',
         title:routesName.MemberProfit,
         icon: 'zj',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -225,7 +220,7 @@ export const asyncRoutes = [
         // title: '游戏',
         title:routesName.Game,
         icon: 'game',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -242,7 +237,7 @@ export const asyncRoutes = [
         // title: '上下分明细',
         title:routesName.TopupWithdraw,
         icon: 'point',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -257,7 +252,7 @@ export const asyncRoutes = [
         // title: '积分转移明细',
         title:routesName.PointTransfer,
         icon: 'pointTransferDetail',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -272,7 +267,7 @@ export const asyncRoutes = [
         // title: '信用额度明细',
         title:routesName.CreditLimit,
         icon: 'credit',
-        roles: ["admin", "staff",]
+        roles: ["admin", "staff","user"]
       }
     }]
   },
@@ -292,7 +287,7 @@ export const asyncRoutes = [
         // title: '会员奖励',
         title:routesName.MemberBonus,
         icon: 'memberBonus',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -307,7 +302,7 @@ export const asyncRoutes = [
         // title: '公司费用',
         title:routesName.CompanyExpenses,
         icon: 'companyExpenses',
-        roles: ["admin","staff",]
+        roles: ["admin","staff","user"]
       }
     }]
   },
@@ -323,7 +318,7 @@ export const asyncRoutes = [
         // title: '我的信息',
         title:routesName.MyProfile,
         icon: 'user',
-        roles: ["user",]
+        roles: ["user","admin",]
       }
     }]
   },
@@ -338,7 +333,7 @@ export const asyncRoutes = [
         // title: '我的总结',
         title:routesName.MyProfit,
         icon: 'home',
-        roles: ["user",]
+        roles: ["user","admin",]
       }
     }]
   },
@@ -353,7 +348,7 @@ export const asyncRoutes = [
         // title: '下线代理总结',
         title:routesName.DownlineAgent,
         icon: 'zj',
-        roles: ["user",]
+        roles: ["user","admin",]
       }
     }]
   },
@@ -368,7 +363,7 @@ export const asyncRoutes = [
         // title: '下线会员总结',
         title:routesName.DownlineMember,
         icon: 'zj',
-        roles: ["user",]
+        roles: ["user","admin",]
       }
     }]
   },
@@ -383,7 +378,7 @@ export const asyncRoutes = [
         // title: '下线',
         title:routesName.Downline,
         icon: 'downline',
-        roles: ["user",]
+        roles: ["user","admin",]
       }
     }]
   },
@@ -398,7 +393,7 @@ export const asyncRoutes = [
         // title: '上下分明细',
         title:routesName.TopupWithdraw,
         icon: 'point',
-        roles: ["user",]
+        roles: ["user","admin",]
       }
     }]
   },
@@ -413,7 +408,7 @@ export const asyncRoutes = [
         // title: '积分转移明细',
         title:routesName.PointTransfer,
         icon: 'pointTransferDetail',
-        roles: ["user"]
+        roles: ["user","admin",]
       }
     }]
   },
@@ -428,7 +423,7 @@ export const asyncRoutes = [
         // title: '信用额度明细',
         title:routesName.CreditLimit,
         icon: 'credit',
-        roles: ["user",]
+        roles: ["user","admin",]
       }
     }]
   },

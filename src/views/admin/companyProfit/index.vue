@@ -93,7 +93,7 @@
       width="40%"
     >
       <el-form :model="searchFrom">
-        <el-form-item :label="$t('DividedAmount')" label-width="100px">
+        <el-form-item :label="$t('Amount')" label-width="100px">
           <el-input
             v-model="FTValue"
             autocomplete="off"

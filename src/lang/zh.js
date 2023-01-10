@@ -1,5 +1,5 @@
 export default {
-  loginTitle:'算账网管理后台',
+  loginTitle:'News Club',
   loginButton:'登录',
   Dashboard: "首页",
   EditPassword: "修改密码",
@@ -39,6 +39,7 @@ export default {
   DownPoints:'下分：',
 
   DividedAmount:'分桶额',
+  Amount:'分桶额',
   Project:'项目',
   CashAmount:'现金',
   CreditAmount:'信用',
@@ -58,6 +59,7 @@ export default {
   MemberProfit:'会员总结',
   AgencyProfit:'代理总结',
   MemberCommission:'会员提成',
+  MemberRebate:'会员提成',
   AgencyCommission:'代理提成',
   PlayerProfit:'玩家总结',
   Commission:'提成',
@@ -115,6 +117,7 @@ export default {
   MyProfitBonus:'我的利润提成',
 
   DownLineID:'下线ID',
+  DownLineName:'下线名',
   UpDownTitle:'上下分/加减信用额度',
   NowCreditLimit:'当前信用额度',
 

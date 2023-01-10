@@ -84,7 +84,7 @@
 
 
       <el-table-column
-        :label="$t('MemberCommission')"
+        :label="$t('MemberRebate')"
         align="center"
         prop="playerProfitBonus"
         sortable
@@ -172,8 +172,8 @@
       </el-pagination>
     </div>
     <div>
-      <p>**{{$t('MemberProfit')}} = {{$t('WinLose')}} + {{$t('MemberCommission')}} + {{$t('Wallet')}} + {{$t('Transfer')}}</p>
-      <p>**{{$t('MyProfit')}} = {{$t('PlayerProfit')}} + {{$t('MyTurnoverBonus')}} + {{$t('MyProfitBonus')}}</p>
+      <p>**{{$t('MemberProfit')}} = {{$t('WinLose')}} + {{$t('MemberRebate')}} + {{$t('Wallet')}} + {{$t('Transfer')}}</p>
+      <p>**{{$t('MyProfit')}} = {{$t('MemberProfit')}} + {{$t('MyTurnoverBonus')}} + {{$t('MyProfitBonus')}}</p>
     </div>
     <!-- 总结明细 -->
     <Detail ref="detail" @changeDetDialog="changeDetDialog" :DetDialog="DetDialog"  :fromDate="searchFrom.fromDate" :toDate="searchFrom.toDate" :DetailFrom="DetailFrom"></Detail>

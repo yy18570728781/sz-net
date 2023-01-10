@@ -71,7 +71,7 @@
       >
       </el-table-column>
       <el-table-column
-        :label="$t('MemberCommission')"
+        :label="$t('MemberRebate')"
         align="center"
         prop="playerBonus"
         sort-by="playerBonus"
@@ -207,7 +207,7 @@
       </el-pagination>
     </div>
     <div>
-      <p>**{{$t('AgencyProfit')}} = {{$t('WinLose')}} + {{$t('MemberCommission')}} + {{$t('AgencyCommission')}} + {{$t('Wallet')}} + {{$t('Transfer')}}</p>
+      <p>**{{$t('AgencyProfit')}} = {{$t('WinLose')}} + {{$t('MemberRebate')}} + {{$t('AgencyCommission')}} + {{$t('Wallet')}} + {{$t('Transfer')}}</p>
       <p>**{{$t('MyProfit')}} = {{$t('AgencyProfit')}}+ {{$t('Bonus')}}</p>
     </div>
     <!-- 总结明细 -->

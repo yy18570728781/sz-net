@@ -62,7 +62,7 @@
       :default-sort="{   }"
     >
       <el-table-column
-        :label="$t('UserCode')"
+        :label="$t('DownLineID')"
         align="center"
         prop="userCode"
         sort-by="userCode"
@@ -71,7 +71,7 @@
       >
       </el-table-column>
       <el-table-column
-        :label="$t('UserName')"
+        :label="$t('DownLineName')"
         align="center"
         prop="userName"
         sort-by="userName"

@@ -100,7 +100,7 @@
       </div>
     </div>
     
-    <p>**{{$t('MyProfit')}} = {{$t('downlineBobus')}}  + {{$t('Bonus')}} + {{$t('Wallet')}} + {{$t('Transfer')}} + {{$t('WinLose')}}</p>
+    <p>**{{$t('MyProfit')}} = {{$t('DownlineBobus')}}  + {{$t('Bonus')}} + {{$t('Wallet')}} + {{$t('Transfer')}} + {{$t('WinLose')}}</p>
     <!-- <div class="page">
       <el-pagination 
         @size-change="handleSizeChange" 

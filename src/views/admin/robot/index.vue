@@ -2,7 +2,7 @@
   <div class="robot app-container">
     <div class="flex-box">
       <div class="item">
-        <el-input v-model="search" :placeholder="$t('SearchKey')" @input="searchTable"> </el-input>
+        <el-input v-model="search" :placeholder="$t('InputTip.SearchKey')" @input="searchTable"> </el-input>
       </div>
     </div>
     <el-table
