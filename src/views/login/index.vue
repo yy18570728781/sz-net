@@ -9,13 +9,15 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">{{$t('loginTitle')}} <lang-select class="set-language"></lang-select></h3>
+        <h3 class="title">{{ $t('loginTitle') }} <lang-select class="set-language" /></h3>
       </div>
 
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
+      <el-form-item>
+        <el-select v-model="loginForm.prefix" placeholder="请选择">
+          <el-option v-for="item in selectPre" :key="item" :label="item" :value="item" />
+        </el-select>
+      </el-form-item>
+      <el-form-item prop="username" class="useNameline">
         <el-input
           ref="username"
           v-model="loginForm.userCode"
@@ -24,13 +26,16 @@
           type="text"
           tabindex="1"
           auto-complete="on"
-        />
+        >
+          <i slot="prefix" class="el-input__icon el-icon-user" />
+
+        </el-input>
       </el-form-item>
 
       <el-form-item prop="password">
-        <span class="svg-container">
+        <!-- <span class="svg-container">
           <svg-icon icon-class="password" />
-        </span>
+        </span> -->
         <el-input
           :key="passwordType"
           ref="password"
@@ -41,7 +46,9 @@
           tabindex="2"
           auto-complete="on"
           @keyup.enter.native="handleLogin"
-        />
+        >
+          <i slot="prefix" class="el-input__icon el-icon-lock" />
+        </el-input>
         <span class="show-pwd" @click="showPwd">
           <svg-icon
             :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
@@ -54,8 +61,7 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >{{$t('loginButton')}}</el-button
-      >
+      >{{ $t('loginButton') }}</el-button>
 
       <!-- <div class="tips">
         <span style="margin-right: 20px">username: admin</span>
@@ -66,27 +72,27 @@
 </template>
 
 <script>
-import { validUsername } from "@/utils/validate";
+import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 
 export default {
-  name: "Login",
-  components:{LangSelect},
+  name: 'Login',
+  components: { LangSelect },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error("Please enter the correct user name"));
+        callback(new Error('Please enter the correct user name'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
+        callback(new Error('The password can not be less than 6 digits'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       loginForm: {
         // userCode: "KT778",
@@ -95,68 +101,83 @@ export default {
         // userCode: "18975808652",
         // password: "q123456",
 
-        userCode: "",
-        password: "",
+        userCode: '',
+        password: '',
         // userCode: "13611111111",
         // password: "q12345678",
-        prefix:'+60',
-        dassd:'+60',
+        prefix: '+60'
       },
+      selectPre: ['+60', '+65', '+64'],
       loginRules: {
         userCode: [
-          { required: true, trigger: "blur", validator: validateUsername },
+          { required: true, trigger: 'blur', validator: validateUsername }
         ],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword },
-        ],
+          { required: true, trigger: 'blur', validator: validatePassword }
+        ]
       },
       loading: false,
-      passwordType: "password",
+      passwordType: 'password',
       redirect: undefined,
-    };
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value: ''
+
+    }
   },
   watch: {
     $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect;
+      handler: function(route) {
+        this.redirect = route.query && route.query.redirect
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     showPwd() {
-      if (this.passwordType === "password") {
-        this.passwordType = "";
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
       } else {
-        this.passwordType = "password";
+        this.passwordType = 'password'
       }
       this.$nextTick(() => {
-        this.$refs.password.focus();
-      });
+        this.$refs.password.focus()
+      })
     },
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          this.loading = true;
+          this.loading = true
           this.$store
-            .dispatch("user/login", this.loginForm)
+            .dispatch('user/login', this.loginForm)
             .then((res) => {
-              this.$router.push({ path: this.redirect || "/" });
-              
-              this.loading = false;
+              this.$router.push({ path: this.redirect || '/' })
+
+              this.loading = false
             })
-            .catch((err) => {
-              this.loading = false;
-            });
+            .catch(() => this.loading = false)
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
-      
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss">
@@ -174,35 +195,32 @@ $cursor: #fff;
 }
 
 /* reset element-ui css */
+
 .login-container {
+  .el-input-group__append, .el-input-group__prepend {
+    background: transparent;
+    color: #fff;
+  }
   .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
+    // display: inline-block;
+    // height: 47px;
+    // width: 85%;
 
     input {
       background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
+      // &:-webkit-autofill {
+      //   box-shadow: 0 0 0px 1000px $bg inset !important;
+      //   -webkit-text-fill-color: $cursor !important;
+      // }
     }
   }
 
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
+  // .el-form-item {
+  //   // border: 1px solid rgba(255, 255, 255, 0.1);
+  //   // background: rgba(0, 0, 0, 0.1);
+  //   border-radius: 5px;
+  //   color: #454545;
+  // }
 }
 </style>
 
